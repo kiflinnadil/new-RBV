@@ -1,0 +1,24 @@
+#fasilitasSection .swiper-slide {
+    transform: scale(0.8);
+    opacity: 0.5;
+    filter: blur(2px);
+    transition: all 0.5s ease;
+}
+
+#fasilitasSection .swiper-slide-prev,
+#fasilitasSection .swiper-slide-next {
+    transform: scale(0.9);
+    opacity: 0.8;
+    filter: blur(1px);
+}
+
+#fasilitasSection .swiper-slide-active {
+    transform: scale(1.0);
+    opacity: 1;
+    filter: blur(0);
+    z-index: 2;
+}
+
+#fasilitasSection:not(.active-section) .swiper-slide {
+    transform: scale(0.75);
+}
