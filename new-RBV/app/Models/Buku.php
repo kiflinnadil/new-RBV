@@ -3,14 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Buku extends Model
 {
     use HasFactory;
 
-    protected $table = 'buku';
+    protected $table = 'bukus';
 
     protected $primaryKey = 'id_buku';
 
-    public $timestamps = false;
+    protected $fillable = [
+        'judul',
+        'konten_image',
+        'kategori',
+        'deskripsi',
+        'penulis',
+        'tahun'
+    ];
 }
