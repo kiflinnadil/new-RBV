@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ruang Baca Virtual</title>
 </head>
-<body>
+<body class="overflow-y-scroll">
     @include('components.navbar')
 
     @yield('content')

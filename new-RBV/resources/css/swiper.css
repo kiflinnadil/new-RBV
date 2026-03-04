@@ -1,24 +1,52 @@
+#fasilitasSection .max-w-7xl {
+    overflow: hidden !important;
+    padding: 0 20px;
+}
+
+#fasilitasSection .swiper-fasilitas {
+    overflow: visible !important;
+    padding-top: 60px !important;
+    padding-bottom: 100px !important;
+    position: relative;
+}
+
+#fasilitasSection .swiper-wrapper {
+    overflow: visible !important;
+    display: flex;
+    align-items: center;
+}
+
 #fasilitasSection .swiper-slide {
-    transform: scale(0.8);
+    transform: scale(0.85);
     opacity: 0.5;
     filter: blur(2px);
-    transition: all 0.5s ease;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
 }
 
 #fasilitasSection .swiper-slide-prev,
 #fasilitasSection .swiper-slide-next {
-    transform: scale(0.9);
+    transform: scale(0.95);
     opacity: 0.8;
     filter: blur(1px);
+    z-index: 10;
 }
 
 #fasilitasSection .swiper-slide-active {
-    transform: scale(1.0);
-    opacity: 1;
-    filter: blur(0);
-    z-index: 2;
+    transform: scale(1.15) !important;
+    opacity: 1 !important;
+    filter: blur(0) !important;
+    z-index: 50 !important;
 }
 
-#fasilitasSection:not(.active-section) .swiper-slide {
-    transform: scale(0.75);
+
+
+#fasilitasSection .swiper-pagination {
+    bottom: 30px !important;
+}
+
+#fasilitasSection .swiper-pagination-bullet-active {
+    background: #2B3A8C !important;
+    width: 25px;
+    border-radius: 5px;
 }

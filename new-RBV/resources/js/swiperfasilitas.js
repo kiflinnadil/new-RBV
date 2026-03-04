@@ -10,8 +10,8 @@ export function initSwiperFasilitas() {
 
     new Swiper(el, {
         modules: [Pagination],
-        slidesPerView: 3,
-        spaceBetween: 40,
+        slidesPerView: 1,
+        spaceBetween: 30,
         centeredSlides: true,
         loop: true,
         grabCursor: true,
@@ -20,9 +20,8 @@ export function initSwiperFasilitas() {
             clickable: true,
         },
         breakpoints: {
-            0: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 }
+            768: { slidesPerView: 2, spaceBetween: 40 },
+            1024: { slidesPerView: 3, spaceBetween: 50 }
         }
     });
 }

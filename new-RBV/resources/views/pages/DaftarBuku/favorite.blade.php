@@ -6,29 +6,20 @@
 
         <div class="flex flex-col md:flex-row items-center justify-between mb-10 gap-4">
             <h1 class="text-5xl font-extrabold text-[#2B3A8C] [text-shadow:_0px_4px_5px_rgb(0_0_0_/_20%)]">
-                Daftar Buku
+                Buku Favorit
             </h1>
-
-            <div class="flex items-center gap-4">
-                <a href="{{ route('berita.create') }}" 
-                    class="flex items-center justify-center w-10 h-10 rounded-md border border-gray-300 bg-white text-gray-800 transition hover:bg-gray-100 shadow-sm"
-                    title="Tambah Data"> 
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4" />
-                    </svg>
-                </a>
-            </div>
         </div>
 
+        @if(!empty($books))
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            @forelse ($books as $buku)
+            @foreach ($books as $buku)
             <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden flex flex-col border border-gray-100 relative">
-                
+
                 <form action="{{ route('books.favorite', $buku->id_buku) }}" method="POST" class="absolute top-3 right-3 z-10">
                     @csrf
                     <button type="submit" class="bg-white/80 p-2 rounded-full shadow-sm hover:scale-110 transition">
                         <svg xmlns="http://www.w3.org/2000/svg" 
-                            class="h-6 w-6 {{ $buku->is_favorite ? 'text-yellow-400 fill-current' : 'text-gray-400' }}" 
+                            class="h-6 w-6 text-yellow-400 fill-current" 
                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
                         </svg>
@@ -53,9 +44,23 @@
                     </div>
                 </div>
             </div>
-        @empty
-            @endforelse
+            @endforeach
         </div>
+
+        @else
+        <div class="flex flex-col items-center justify-center py-32 text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-gray-300 mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+            </svg>
+            <p class="text-2xl font-bold text-gray-400 mb-2">Belum ada buku favorit</p>
+            <p class="text-gray-400 text-sm mb-8">Tambahkan buku ke favorit dengan menekan ikon bintang</p>
+            <a href="{{ route('books.index') }}" 
+               class="px-6 py-3 bg-[#00A14C] text-white font-bold rounded-xl hover:bg-emerald-700 transition">
+                Jelajahi Buku
+            </a>
+        </div>
+        @endif
+
     </div>
 </div>
 @endsection

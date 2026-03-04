@@ -29,16 +29,22 @@
 
     </div>
 
-    <div class="h-16 bg-blue-900"></div>
 
-        <div class="px-16 py-30 bg-white bg-gradient-to-br from-blue-200 via-white to-pink-200 relative overflow-hidden">
-        
+
+     <div class="relative overflow-hidden py-16">
+        <div 
+            class="absolute inset-0 bg-cover bg-center"
+            style="background-image: url('{{ asset('images/Beranda2.png') }}');"
+        ></div>
+
+        <div class="absolute inset-0 bg-gradient-to-r from-indigo-300/80 via-white/70 to-white/90"></div>
+
+        <div class="relative z-10 px-16"></div>
             <div class="flex justify-center items-center mb-12 relative z-10">
-                <h1 class="text-5xl font-extrabold text-blue-900 [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)] tracking-tight">
+                <h1 class="text-5xl font-extrabold text-[#272E84] [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)] tracking-tight">
                     Rekomendasi Buku
                 </h1>
             </div>
-
             <div class="swiper mySwiper px-10 relative z-10">
                 <div class="swiper-wrapper">
                     @foreach ($books as $buku)
@@ -59,7 +65,7 @@
                                         {{ $buku->penulis ?? 'Author Name' }}
                                     </p>
                                     
-                                    <button class="w-full py-2 bg-emerald-500 text-white text-sm font-bold rounded-lg hover:bg-emerald-600 transition">
+                                    <button class="w-full py-2 bg-[#00A14C] text-white text-sm font-bold rounded-lg hover:bg-emerald-600 transition">
                                         Baca Sekarang
                                     </button>
                                 </div>
@@ -71,14 +77,15 @@
             
             <div class="swiper-pagination !-bottom-2"></div>
         </div>
+
     </div>
 
 
-    
-    <div id="fasilitasSection" class="py-16"style="background: linear-gradient(180deg, #E8EAFF 0%, #D6D9F7 100%);">
+
+    <div id="fasilitasSection" class="bg-white py-16">
         
         <div class="max-w-6xl mx-auto px-8 text-center mb-12">
-            <h2 class="text-4xl font-extrabold text-[#2B3A8C] [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)] tracking-tight mb-4">
+            <h2 class="text-5xl font-extrabold text-[#272E84] [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)] tracking-tight mb-4">
                 Fasilitas Yang Tersedia
             </h2>
             <p class="text-gray-500 max-w-2xl mx-auto">
@@ -86,7 +93,7 @@
             </p>
         </div>
         
-        <div class="max-w-6xl mx-auto px-4">
+        <div class="max-w-7xl mx-auto px-4 overflow-hidden">
             <div class="swiper swiper-fasilitas">
                 <div class="swiper-wrapper">
 
@@ -97,8 +104,13 @@
                         ['img' => 'igd.png', 'title' => 'Instalasi Gawat Darurat'],
                         ] as $item)
 
-                    <div class="swiper-slide flex justify-center">
-                        <div class="card-fasilitas bg-white rounded-3xl shadow-md p-6 text-center">
+                    <div class="swiper-slide flex justify-center item-center">
+                        <div class="card-fasilitas rounded-3xl shadow-xl p-8 text-center mx-auto max-w-[340px]"
+                            style="background: linear-gradient(
+                                to bottom,
+                                #E0EDFF 0%,
+                                #FFFFFF 100%
+                            );">
                             <div class="flex justify-center mb-4">
                                 <img src="{{ asset('images/' . $item['img']) }}"
                                 class="w-28 h-28 object-contain">
@@ -121,42 +133,57 @@
         </div>
     </div>
     
-    <div class="px-16 py-30 bg-white bg-gradient-to-br from-blue-200 via-white to-pink-200 relative overflow-hidden">
-    
-        <div class="max-w-6xl mx-auto px-8 text-center mb-12">
-            <h2 class="text-4xl font-extrabold text-[#2B3A8C] [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)] tracking-tight mb-4">
-                Statistik Pengunjung 
-            </h2>
-            <p class="text-gray-500 max-w-2xl mx-auto">
-                Pantau Statistik Pengunjung Ruang Baca Virtual 
-            </p>
-        </div>
-    
-        <div class="px-10 mt-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    
-                <div class="bg-gray-100 rounded-xl shadow-md p-4 h-64">
-                    <h5 class="font-bold text-blue-900 mb-2">
-                        Statistik Pengunjung
-                    </h5>
-                    <div class="relative h-48">
-                        <canvas id="chartKunjungan"></canvas>
-                    </div>
-                </div>
-    
-                <div class="bg-gray-100 rounded-xl shadow-md p-4 h-64">
+
+
+
+    <div class="relative overflow-hidden py-16">
+        <div 
+            class="absolute inset-0 bg-cover bg-center"
+            style="background-image: url('{{ asset('images/Beranda1.png') }}');"
+        ></div>
+
+        <div class="absolute inset-0 bg-gradient-to-r from-indigo-300/80 via-white/70 to-white/90"></div>
+
+        <div class="relative z-10 px-16">
+
+            <div class="max-w-6xl mx-auto px-8 text-center mb-12">
+                <h2 class="text-5xl font-extrabold text-[#272E84] tracking-tight mb-4 [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)]">
+                    Statistik Pengunjung 
+                </h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Pantau Statistik Pengunjung Ruang Baca Virtual 
+                </p>
+            </div>
+
+            <div class="px-10 mt-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+                    <div class="bg-gray-100 rounded-xl shadow-md p-4 h-64">
                         <h5 class="font-bold text-blue-900 mb-2">
-                            Trend Buku
+                            Statistik Pengunjung
                         </h5>
                         <div class="relative h-48">
-                            <canvas id="trendChart"></canvas>
+                            <canvas id="chartKunjungan"></canvas>
                         </div>
                     </div>
-    
+        
+                    <div class="bg-gray-100 rounded-xl shadow-md p-4 h-64">
+                            <h5 class="font-bold text-blue-900 mb-2">
+                                Trend Buku
+                            </h5>
+                            <div class="relative h-48">
+                                <canvas id="trendChart"></canvas>
+                            </div>
+                        </div>
+        
+                    </div>
                 </div>
             </div>
+
+
         </div>
     </div>
+   
 </div>
 
 <script>

@@ -62,7 +62,8 @@ class BukuController extends Controller
 
     public function index()
     {
-        // $books = Buku::all();
+        $favorites = session('favorites', []);
+
         $books = [
             (object) [
                 'id_buku' => 1,
@@ -71,8 +72,9 @@ class BukuController extends Controller
                 'tahun' => 2020,
                 'kategori' => 'Fiksi',
                 'file_pdf' => 'https://drive.google.com/file/d/1fUVVVK1mx-YH3HcN_J_iDnQMcYGC2uWz/view?usp=drive_link',
-                'cover' => 'images/image1.jpg',
+                'cover' => 'cover.png',
                 'deskripsi' => 'Deskripsi lengkap buku 1',
+                'is_favorite' => in_array(1, $favorites),
             ],
             (object) [
                 'id_buku' => 2,
@@ -81,8 +83,9 @@ class BukuController extends Controller
                 'tahun' => 2021,
                 'kategori' => 'Non-Fiksi',
                 'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=drive_link',
-                'cover' => 'images/image2.png',
+                'cover' => 'cover.png',
                 'deskripsi' => 'Deskripsi lengkap buku 2',
+                'is_favorite' => in_array(2, $favorites),
             ],
         ];
 
@@ -91,7 +94,8 @@ class BukuController extends Controller
 
     public function show($id)
     {
-        // $book = Buku::findOrFail($id);
+        $favorites = session('favorites', []);
+
         $book = (object) [
             'id_buku' => $id,
             'judul' => 'Buku '.$id,
@@ -99,11 +103,28 @@ class BukuController extends Controller
             'tahun' => 2020 + $id,
             'kategori' => 'Kategori '.$id,
             'file_pdf' => 'path/to/file'.$id.'.pdf',
-            'cover' => 'images/image'.$id.'.jpg',
+            'cover' => 'images/cover'.$id.'.jpg',
             'deskripsi' => 'Deskripsi buku '.$id,
+            'is_favorite' => in_array((int) $id, $favorites),
         ];
 
         return view('pages.DaftarBuku.detaildaftarbuku', compact('book'));
+    }
+
+    public function toggleFavorite(Request $request, $id)
+    {
+        $favorites = session('favorites', []);
+        $id = (int) $id;
+
+        if (in_array($id, $favorites)) {
+            $favorites = array_values(array_filter($favorites, fn ($f) => $f !== $id));
+        } else {
+            $favorites[] = $id;
+        }
+
+        session(['favorites' => $favorites]);
+
+        return redirect()->back();
     }
 
     public function read($id)
@@ -115,6 +136,20 @@ class BukuController extends Controller
         ];
 
         return redirect($book->file_pdf);
+    }
+
+    public function favorit()
+    {
+        $favorites = session('favorites', []);
+
+        $allBooks = [
+            (object) ['id_buku' => 1, 'judul' => 'Buku 1', 'penulis' => 'Pengarang 1', 'tahun' => 2020, 'kategori' => 'Fiksi', 'cover' => 'cover.png', 'deskripsi' => 'Deskripsi buku 1', 'is_favorite' => true],
+            (object) ['id_buku' => 2, 'judul' => 'Buku 2', 'penulis' => 'Pengarang 2', 'tahun' => 2021, 'kategori' => 'Non-Fiksi', 'cover' => 'cover.png', 'deskripsi' => 'Deskripsi buku 2', 'is_favorite' => true],
+        ];
+
+        $books = array_values(array_filter($allBooks, fn ($b) => in_array($b->id_buku, $favorites)));
+
+        return view('pages.DaftarBuku.favorite', compact('books'));
     }
 
     public function create()
