@@ -2,23 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Berita extends Model
+class Artikel extends Model
 {
     use HasFactory;
 
-    protected $table = 'beritas';
+    protected $table = 'artikels';
 
-    protected $primaryKey = 'id_berita';
+    protected $primaryKey = 'id_artikel';
 
     protected $fillable = [
         'judul',
-        'kategori',
         'tanggal',
         'deskripsi',
-        'file_url'
+        'konten_image'
     ];
-
 }

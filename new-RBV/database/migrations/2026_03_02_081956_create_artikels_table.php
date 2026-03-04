@@ -8,13 +8,13 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('videos', function (Blueprint $table) {
-            $table->id('id_video');
+        Schema::create('artikels', function (Blueprint $table) {
+            $table->id('id_artikel'); 
 
             $table->string('judul');
             $table->date('tanggal');
             $table->text('deskripsi');
-            $table->string('file_url');
+            $table->string('konten_image'); 
 
             $table->timestamps();
         });
@@ -22,6 +22,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('video');
+        Schema::dropIfExists('artikel');
     }
 };
