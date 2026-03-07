@@ -266,18 +266,67 @@ class BukuController extends Controller
         return redirect()->route('books.index');
     }
 
-    public function edit(Buku $buku)
+    public function edit($id)
     {
-        //
+        // $book = Buku::findOrFail($id);
+
+        $book = (object) [
+            'id' => $id,
+            'judul' => 'Contoh Judul '.$id,
+            'penulis' => 'Contoh Penulis '.$id,
+            'tahun' => 2023,
+            'deskripsi' => 'Contoh Deskripsi',
+            'cover' => 'cover.png',
+            'file_pdf' => 'file.pdf',
+        ];
+
+        return view('pages.DaftarBuku.editbuku', compact('book'));
     }
 
-    public function update(Request $request, Buku $buku)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'pengarang' => 'required|string|max:255',
+            'tahun_terbit' => 'required|numeric',
+            'deskripsi' => 'required',
+            'file_buku' => 'nullable|file|mimes:pdf|max:20480',
+            'cover' => 'nullable|image|max:20480',
+        ]);
+
+        $buku = Buku::findOrFail($id);
+
+        $buku->judul = $request->judul;
+        $buku->penulis = $request->pengarang;
+        $buku->tahun = $request->tahun_terbit;
+        $buku->deskripsi = $request->deskripsi;
+
+        if ($request->hasFile('file_buku')) {
+            $buku->file_pdf = $request->file('file_buku')->store('books', 'public');
+        }
+
+        if ($request->hasFile('cover')) {
+            $buku->cover = $request->file('cover')->store('covers', 'public');
+        }
+
+        $buku->save();
+
+        return redirect()->route('books.index')->with('success', 'Buku berhasil diperbarui!');
     }
 
-    public function destroy(Buku $buku)
+    public function delete(Buku $buku)
     {
-        //
+        $buku = Buku::findOrFail($id);
+
+        if ($buku->cover) {
+            Storage::disk('public')->delete($buku->cover);
+        }
+        if ($buku->file_pdf) {
+            Storage::disk('public')->delete($buku->file_pdf);
+        }
+
+        $buku->delete();
+
+        return redirect()->route('books.index')->with('success', 'Buku berhasil dihapus!');
     }
 }

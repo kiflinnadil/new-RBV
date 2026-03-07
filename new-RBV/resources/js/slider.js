@@ -7,10 +7,13 @@ export function initSlider() {
     let direction = 1;
 
     setInterval(() => {
+
         index += direction;
 
-        if (index === totalSlides - 1 || index === 0) {
-            direction *= -1;
+        if (index >= totalSlides - 1) {
+            direction = -1;
+        } else if (index <= 0) {
+            direction = 1;
         }
 
         slider.style.transform = `translateX(-${index * 100}%)`;

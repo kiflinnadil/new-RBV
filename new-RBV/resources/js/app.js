@@ -1,8 +1,9 @@
 import './bootstrap';
-import { initSlider } from './slider';
+import { initSlider } from './slider.js';
 import { initSwiper } from './swiper-init';
 import { initChart } from './chart';
 import { initSwiperFasilitas } from './swiperfasilitas';
+
 
 document.addEventListener('DOMContentLoaded', () => {
     initSlider();

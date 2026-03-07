@@ -88,7 +88,7 @@ class BeritaController extends Controller
             'link' => 'required|url',
         ]);
 
-        // kalo pakek Database
+        //  Database
         /*
         VideoBerita::create([
             'judul'     => $request->judul,
@@ -153,12 +153,38 @@ class BeritaController extends Controller
 
     public function edit(Berita $berita)
     {
-        //
+        $video = (object) [
+            'id' => $berita->id,
+            'judul' => $berita->judul,
+            'link' => $berita->link,
+            'tanggal' => $berita->tanggal,
+            'deskripsi' => $berita->deskripsi,
+            'kategori' => $berita->kategori,
+        ];
+
+        return view('pages.Berita.editberita', compact('video'));
     }
 
     public function update(Request $request, Berita $berita)
     {
-        //
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'kategori' => 'required',
+            'deskripsi' => 'required',
+            'link' => 'required|url',
+        ]);
+
+        // Update Database
+        /*
+        $berita->update([
+            'judul'     => $request->judul,
+            'kategori'  => $request->kategori,
+            'deskripsi' => $request->deskripsi,
+            'link'      => $request->link,
+        ]);
+        */
+
+        return redirect()->route('berita.berita')->with('success', 'Berita berhasil diperbarui!');
     }
 
     public function destroy(Berita $berita)

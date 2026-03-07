@@ -5,11 +5,11 @@
         <div class="max-w-4xl mx-auto px-6">
             
             <h1 class="text-5xl font-extrabold text-[#272E84] text-center mb-10 [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)]">
-                Upload Buku
+                Edit Buku
             </h1>
 
             <div class="bg-white rounded-[30px] shadow-xl p-10 md:p-14 border border-gray-100">
-                <form action="{{ route('books.store') }}" method="POST">
+                <form action="{{ route('books.update', $book->id) }}" method="POST">
                     @csrf
                     
                     <div class="space-y-6">
@@ -28,7 +28,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-gray-400 text-sm mb-2 ml-1">kategori</label>
+                            <label class="block text-gray-400 text-sm mb-2 ml-1">Kategori</label>
                             <input type="text" name="kategori" 
                                 class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 focus:ring-2 focus:ring-[#2B3A8C] outline-none"
                                 placeholder="Masukkan kategori">

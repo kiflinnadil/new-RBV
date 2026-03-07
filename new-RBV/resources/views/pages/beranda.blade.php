@@ -1,15 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="relative w-full h-[681px] overflow-hidden">
+    {{-- <div class="relative w-full h-[681px] overflow-hidden"> --}}
+    <div class="relative w-full h-screen overflow-hidden">
 
-        <div id="slider" class="flex transition-transform duration-700 ease-in-out h-full">
+        <div id="slider" class="relative z-0 flex transition-transform duration-700 ease-in-out h-full">
             <img src="{{ asset('images/image0.jpg') }}" class="w-full h-full object-cover flex-shrink-0">
             <img src="{{ asset('images/beranda.jpg') }}" class="w-full h-full object-cover flex-shrink-0">
             <img src="{{ asset('images/image2.jpg') }}" class="w-full h-full object-cover flex-shrink-0">
         </div>
 
-        <div class="absolute inset-0 flex items-center">
+        <div class="blue-overlay"></div>
+
+        <div class="absolute inset-0 flex items-center z-20">
             <div class="max-w-10xl mx-auto w-full px-10">
                 <div class="max-w-xl text-white">
                     <h1 class="text-5xl font-base leading-tight mb-0">

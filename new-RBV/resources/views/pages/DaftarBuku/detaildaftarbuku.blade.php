@@ -36,20 +36,53 @@
 
             <div class="flex flex-col gap-3">
 
-                <form action="{{ route('books.favorite', $book->id_buku) }}" method="POST">
+                <form action="{{ route('books.update', $book->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <button type="submit" class="flex items-center gap-2 group w-full">
-                        <div class="p-2 rounded-full bg-gray-100 group-hover:bg-yellow-50 transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" 
-                                class="h-6 w-6 {{ $book->is_favorite ? 'text-yellow-400 fill-current' : 'text-gray-400' }}" 
-                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                            </svg>
+                    @method('PUT') <div class="space-y-6">
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2 ml-1">Judul Buku</label>
+                            <input type="text" name="judul" value="{{ $book->judul }}"
+                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 focus:ring-2 focus:ring-[#2B3A8C] outline-none">
                         </div>
-                        <span class="text-sm font-medium {{ $book->is_favorite ? 'text-yellow-600' : 'text-gray-500' }}">
-                            {{ $book->is_favorite ? 'Tersimpan di Favorit' : 'Tambah ke Favorit' }}
-                        </span>
-                    </button>
+                        
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2 ml-1">Pengarang</label>
+                            <input type="text" name="pengarang" value="{{ $book->penulis }}"
+                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 focus:ring-2 focus:ring-[#2B3A8C] outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2 ml-1">Tahun Terbit</label>
+                            <input type="text" name="tahun_terbit" value="{{ $book->tahun }}"
+                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 focus:ring-2 focus:ring-[#2B3A8C] outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2 ml-1">Deskripsi</label>
+                            <textarea name="deskripsi" rows="4"
+                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 focus:ring-2 focus:ring-[#2B3A8C] outline-none">{{ $book->deskripsi }}</textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2 ml-1">File Buku (Biarkan kosong jika tidak ingin ganti)</label>
+                            <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
+                                <input type="file" name="file_buku" class="w-full text-sm text-gray-400 italic">
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2 ml-1">Cover Photo (Biarkan kosong jika tidak ingin ganti)</label>
+                            <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
+                                <input type="file" name="cover" class="w-full text-sm text-gray-400 italic">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center mt-10">
+                        <button type="submit" class="bg-[#2B3A8C] text-white font-bold py-3 px-12 rounded-lg hover:bg-blue-800 transition">
+                            Simpan Perubahan
+                        </button>
+                    </div>
                 </form>
 
                 <a href="{{ route('books.read', $book->id_buku) }}" target="_blank"
