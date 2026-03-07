@@ -11,6 +11,7 @@
     @include('components.navbar')
 
     @yield('content')
+    @include('components.footer')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

@@ -11,10 +11,14 @@ Route::get('/koleksi', [BukuController::class, 'index'])->name('books.index');
 Route::get('/koleksi/{id}', [BukuController::class, 'show'])->name('books.show');
 Route::get('/books/{id}/read', [BukuController::class, 'read'])->name('books.read');
 Route::post('/koleksi/{id}/favorite', [BukuController::class, 'toggleFavorite'])->name('books.favorite');
+Route::get('/books/{id}/edit', [BukuController::class, 'edit'])->name('books.edit');
+Route::put('/books/{id}', [BukuController::class, 'update'])->name('books.update');
+Route::delete('/books/{id}', [BukuController::class, 'delete'])->name('books.delete');
+Route::get('/books/create', [BukuController::class, 'create'])->name('books.create');
+Route::post('/books', [BukuController::class, 'store'])->name('books.store');
 
 Route::get('/berita', [BeritaController::class, 'berita']);
 Route::get('/berita{id}', [BeritaController::class, 'show'])->name('berita.show');
-Route::get('/berita/create', [BeritaController::class, 'create'])->name('berita.create');
 Route::get('/berita/create', [BeritaController::class, 'create'])->name('berita.create');
 Route::post('/berita/store', [BeritaController::class, 'store'])->name('berita.store');
 

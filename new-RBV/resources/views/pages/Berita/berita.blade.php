@@ -3,14 +3,12 @@
 @section('content')
     <div class="bg-[#F5F7FB] min-h-screen">
 
-        
-        <div class="max-full mx-auto px-8 py-12">
-
-            <div class="flex flex-col md:flex-row items-center justify-between mb-10 gap-4">
-                <h1 class="text-4xl font-extrabold text-blue-900 [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)]">
+        <div class="max-full mx-auto px-2 py-0 pt-10 pr-16 pl-16">
+            <div class="flex flex-col md:flex-row items-center justify-between mb-0 gap-4">
+                <h1 class="text-5xl font-extrabold text-[#2B3A8C] [text-shadow:_0px_4px_5px_rgb(0_0_0_/_20%)]">
                     {{ $kategori ?? 'Berita Terkini' }}
                 </h1>
-
+    
                 <div class="flex items-center gap-4">
                     <form method="GET" action="{{ URL::current() }}">
                         <select name="kategori"
@@ -34,12 +32,15 @@
                         </svg>
                     </a>
                 </div>
-                
             </div>
 
+        </div>        
 
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div class="max-full mx-auto px-16 py-10">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20">
                 @forelse ($videoberita as $video)
                     <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden flex flex-col">
                         
@@ -61,7 +62,7 @@
                                 {{ $video->judul }}
                             </h2>
 
-                            <p class="text-sm text-gray-500 mb-2 italic">
+                            <p class="text-sm text-gray-500 mb-2">
                                 {{ \Carbon\Carbon::parse($video->tanggal)->translatedFormat('d F Y') }}
                             </p>
 

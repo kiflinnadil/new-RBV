@@ -1,17 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="bg-[#F5F7FB] min-h-screen">
-    <div class="max-full mx-auto px-8 py-12">
+<div class="min-h-screen" style="background: linear-gradient(to bottom,#E0EDFF 0%,#FFFFFF 100%);">
 
-        <div class="flex flex-col md:flex-row items-center justify-between mb-10 gap-4">
-            <h1 class="text-5xl font-extrabold text-[#2B3A8C] [text-shadow:_0px_4px_5px_rgb(0_0_0_/_20%)]">
-                Buku Favorit
-            </h1>
+    <div class="min-h-screen" style="background: linear-gradient(to bottom,#E0EDFF 0%,#FFFFFF 100%);">
+        <div class="max-full mx-auto px-2 py-0 pt-10 pr-8 pl-8">
+            <div class="flex flex-col md:flex-row items-center justify-between mb-0 gap-4">
+                <h1 class="text-4xl font-extrabold text-[#2B3A8C] [text-shadow:_0px_4px_5px_rgb(0_0_0_/_20%)]">
+                    Buku Favorit
+                </h1>
+    
+                
+            </div>
+
         </div>
-
+    
+    <div class="max-full mx-auto px-16 py-10">
         @if(!empty($books))
-        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-12 px-24">
             @foreach ($books as $buku)
             <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden flex flex-col border border-gray-100 relative">
 

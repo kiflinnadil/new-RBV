@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="px-16 py-16">
+<div class="px-16 py-16" >
 
     <div class="bg-white rounded-2xl shadow-lg p-10 grid md:grid-cols-2 gap-12">
 

@@ -52,6 +52,16 @@ class BukuController extends Controller
                 'cover' => 'cover.png',
                 'deskripsi' => 'Deskripsi buku 4',
             ],
+            (object) [
+                'id_buku' => 5,
+                'judul' => 'Sang Alkemis',
+                'penulis' => 'Pengarang 5',
+                'tahun' => 2024,
+                'kategori' => 'Non-Fiksi',
+                'file_pdf' => 'https://drive.google.com/file/d/1fUVVVK1mx-YH3HcN_J_iDnQMcYGC2uWz/view?usp=drive_link',
+                'cover' => 'cover.png',
+                'deskripsi' => 'Deskripsi buku 5',
+            ],
         ];
 
         $labels = ['2025-09', '2025-10', '2025-11', '2025-12', '2026-01'];
@@ -67,26 +77,93 @@ class BukuController extends Controller
         $books = [
             (object) [
                 'id_buku' => 1,
-                'judul' => 'Buku 1',
-                'penulis' => 'Pengarang 1',
+                'judul' => 'Dunia Kafka',
+                'penulis' => 'Haruki Murakami',
                 'tahun' => 2020,
                 'kategori' => 'Fiksi',
                 'file_pdf' => 'https://drive.google.com/file/d/1fUVVVK1mx-YH3HcN_J_iDnQMcYGC2uWz/view?usp=drive_link',
                 'cover' => 'cover.png',
-                'deskripsi' => 'Deskripsi lengkap buku 1',
+                'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'is_favorite' => in_array(1, $favorites),
             ],
             (object) [
                 'id_buku' => 2,
-                'judul' => 'Buku 2',
-                'penulis' => 'Pengarang 2',
+                'judul' => 'Laskar Pelangi',
+                'penulis' => 'Andrea Hirata',
                 'tahun' => 2021,
                 'kategori' => 'Non-Fiksi',
                 'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=drive_link',
                 'cover' => 'cover.png',
-                'deskripsi' => 'Deskripsi lengkap buku 2',
+                'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'is_favorite' => in_array(2, $favorites),
             ],
+            (object) [
+                'id_buku' => 3,
+                'judul' => 'Filosofi Teras',
+                'penulis' => 'Henry Manampiring',
+                'tahun' => 2022,
+                'kategori' => 'Fiksi',
+                'file_pdf' => 'https://drive.google.com/file/d/1fUVVVK1mx-YH3HcN_J_iDnQMcYGC2uWz/view?usp=drive_link',
+                'cover' => 'cover.png',
+                'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'is_favorite' => in_array(3, $favorites),
+            ],
+            (object) [
+                'id_buku' => 4,
+                'judul' => 'Sang Alkemis',
+                'penulis' => 'Paulo Coelho',
+                'tahun' => 2023,
+                'kategori' => 'Non-Fiksi',
+                'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=drive_link',
+                'cover' => 'cover.png',
+                'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'is_favorite' => in_array(4, $favorites),
+            ],
+            (object) [
+                'id_buku' => 5,
+                'judul' => 'Atomic Habits',
+                'penulis' => 'James Clear',
+                'tahun' => 2022,
+                'kategori' => 'Non-Fiksi',
+                'file_pdf' => 'https://drive.google.com/file/d/1fUVVVK1mx-YH3HcN_J_iDnQMcYGC2uWz/view?usp=drive_link',
+                'cover' => 'cover.png',
+                'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'is_favorite' => in_array(5, $favorites),
+            ],
+            (object) [
+                'id_buku' => 6,
+                'judul' => 'The Power of Now',
+                'penulis' => 'Eckhart Tolle',
+                'tahun' => 2020,
+                'kategori' => 'Non-Fiksi',
+                'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=drive_link',
+                'cover' => 'cover.png',
+                'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'is_favorite' => in_array(6, $favorites),
+            ],
+            (object) [
+                'id_buku' => 7,
+                'judul' => 'Sapiens: A Brief History of Humankind',
+                'penulis' => 'Yuval Noah Harari',
+                'tahun' => 2018,
+                'kategori' => 'Non-Fiksi',
+                'file_pdf' => 'https://drive.google.com/file/d/1fUVVVK1mx-YH3HcN_J_iDnQMcYGC2uWz/view?usp=drive_link',
+                'cover' => 'cover.png',
+                'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'is_favorite' => in_array(7, $favorites),
+            ],
+            (object) [
+                'id_buku' => 8,
+                'judul' => 'Madilog',
+                'penulis' => 'Tan Malaka',
+                'tahun' => 2023,
+                'kategori' => 'Non-Fiksi',
+                'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=drive_link',
+                'cover' => 'cover.png',
+                'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'is_favorite' => in_array(8, $favorites),
+            ],
+
         ];
 
         return view('pages.DaftarBuku.daftarbuku', compact('books'));
@@ -143,8 +220,14 @@ class BukuController extends Controller
         $favorites = session('favorites', []);
 
         $allBooks = [
-            (object) ['id_buku' => 1, 'judul' => 'Buku 1', 'penulis' => 'Pengarang 1', 'tahun' => 2020, 'kategori' => 'Fiksi', 'cover' => 'cover.png', 'deskripsi' => 'Deskripsi buku 1', 'is_favorite' => true],
-            (object) ['id_buku' => 2, 'judul' => 'Buku 2', 'penulis' => 'Pengarang 2', 'tahun' => 2021, 'kategori' => 'Non-Fiksi', 'cover' => 'cover.png', 'deskripsi' => 'Deskripsi buku 2', 'is_favorite' => true],
+            (object) ['id_buku' => 1, 'judul' => 'Dunia Kafka', 'penulis' => 'Haruki Murakami', 'tahun' => 2020, 'kategori' => 'Fiksi', 'cover' => 'cover.png', 'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'is_favorite' => true],
+            (object) ['id_buku' => 2, 'judul' => 'Laskar Pelangi', 'penulis' => 'Andrea Hirata', 'tahun' => 2021, 'kategori' => 'Non-Fiksi', 'cover' => 'cover.png', 'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'is_favorite' => true],
+            (object) ['id_buku' => 3, 'judul' => 'Filosofi Teras', 'penulis' => 'Henry Manampiring', 'tahun' => 2022, 'kategori' => 'Fiksi', 'cover' => 'cover.png', 'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'is_favorite' => true],
+            (object) ['id_buku' => 4, 'judul' => 'Sang Alkemis', 'penulis' => 'paulo coelho', 'tahun' => 2023, 'kategori' => 'Non-Fiksi', 'cover' => 'cover.png', 'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'is_favorite' => true],
+            (object) ['id_buku' => 5, 'judul' => 'Atomic Habits', 'penulis' => 'James Clear', 'tahun' => 2022, 'kategori' => 'Non-Fiksi', 'cover' => 'cover.png', 'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'is_favorite' => true],
+            (object) ['id_buku' => 6, 'judul' => 'The Power of Now', 'penulis' => 'Eckhart Tolle', 'tahun' => 2020, 'kategori' => 'Non-Fiksi', 'cover' => 'cover.png', 'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'is_favorite' => true],
+            (object) ['id_buku' => 7, 'judul' => 'Sapiens: A Brief History of Humankind', 'penulis' => 'Yuval Noah Harari', 'tahun' => 2018, 'kategori' => 'Non-Fiksi', 'cover' => 'cover.png', 'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'is_favorite' => true],
+            (object) ['id_buku' => 8, 'judul' => 'Madilog', 'penulis' => 'Tan Malaka', 'tahun' => 2023, 'kategori' => 'Non-Fiksi', 'cover' => 'cover.png', 'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'is_favorite' => true],
         ];
 
         $books = array_values(array_filter($allBooks, fn ($b) => in_array($b->id_buku, $favorites)));
@@ -154,12 +237,33 @@ class BukuController extends Controller
 
     public function create()
     {
-        //
+        return view('pages.DaftarBuku.createbuku');
     }
 
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'judul' => 'required',
+            'pengarang' => 'required',
+            'tahun_terbit' => 'required',
+            'deskripsi' => 'required',
+            'file_buku' => 'required|file|mimes:pdf',
+            'cover' => 'required|image',
+        ]);
+
+        $filePdf = $request->file('file_buku')->store('books', 'public');
+        $cover = $request->file('cover')->store('covers', 'public');
+
+        Buku::create([
+            'judul' => $request->judul,
+            'penulis' => $request->pengarang,
+            'tahun' => $request->tahun_terbit,
+            'deskripsi' => $request->deskripsi,
+            'file_pdf' => $filePdf,
+            'cover' => $cover,
+        ]);
+
+        return redirect()->route('books.index');
     }
 
     public function edit(Buku $buku)
