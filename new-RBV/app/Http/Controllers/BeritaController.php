@@ -151,18 +151,54 @@ class BeritaController extends Controller
         return view('pages.Berita.show', compact('video'));
     }
 
-    public function edit(Berita $berita)
+    public function edit($id)
     {
-        $video = (object) [
-            'id' => $berita->id,
-            'judul' => $berita->judul,
-            'link' => $berita->link,
-            'tanggal' => $berita->tanggal,
-            'deskripsi' => $berita->deskripsi,
-            'kategori' => $berita->kategori,
+        $all_video = [
+            (object) [
+                'id' => '1',
+                'judul' => 'Cara Menjaga Kesehatan di Era Modern',
+                'link' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+                'tanggal' => '2025-09-01',
+                'deskripsi' => 'Video ini membahas tips dan trik untuk menjaga kesehatan di era modern secara mendalam.',
+                'kategori' => 'Kesehatan',
+                'cover' => 'cover.png',
+            ],
+            (object) [
+                'id' => '2',
+                'judul' => 'Teknologi Terbaru di Tahun 2025',
+                'link' => 'https://www.youtube.com/embed/3JluqTojuME',
+                'tanggal' => '2025-09-01',
+                'deskripsi' => 'Video ini membahas teknologi terbaru yang akan hadir di tahun 2025 dan dampaknya bagi kita.',
+                'kategori' => 'Teknologi',
+                'cover' => 'cover.png',
+            ],
+            (object) [
+                'id' => '3',
+                'judul' => 'Pentingnya Pendidikan Karakter',
+                'link' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+                'tanggal' => '2025-09-01',
+                'deskripsi' => 'Video ini membahas pentingnya pendidikan karakter untuk generasi muda di masa depan.',
+                'kategori' => 'Pendidikan',
+                'cover' => 'cover.png',
+            ],
+            (object) [
+                'id' => '4',
+                'judul' => 'Dampak Perubahan Iklim Global',
+                'link' => 'https://www.youtube.com/embed/3JluqTojuME',
+                'tanggal' => '2025-09-01',
+                'deskripsi' => 'Video ini membahas dampak perubahan iklim global dan upaya nyata yang dapat dilakukan.',
+                'kategori' => 'Lingkungan',
+                'cover' => 'cover.png',
+            ],
         ];
 
-        return view('pages.Berita.editberita', compact('video'));
+        $berita = collect($all_video)->where('id', $id)->first();
+
+        if (! $berita) {
+            abort(404);
+        }
+
+        return view('pages.Berita.editberita', compact('berita'));
     }
 
     public function update(Request $request, Berita $berita)
@@ -174,17 +210,25 @@ class BeritaController extends Controller
             'link' => 'required|url',
         ]);
 
-        // Update Database
-        /*
-        $berita->update([
-            'judul'     => $request->judul,
-            'kategori'  => $request->kategori,
-            'deskripsi' => $request->deskripsi,
-            'link'      => $request->link,
-        ]);
-        */
+        $berita = Buku::findOrFail($id);
 
-        return redirect()->route('berita.berita')->with('success', 'Berita berhasil diperbarui!');
+        $berita->judul = $request->judul;
+        $berita->kategori = $request->kategori;
+        $berita->deskripsi = $request->deskripsi;
+        $berita->link = $request->link;
+
+        if ($request->hasFile('file_buku')) {
+            $berita->file_pdf = $request->file('file_buku')->store('books', 'public');
+        }
+
+        if ($request->hasFile('cover')) {
+            $berita->cover = $request->file('cover')->store('covers', 'public');
+        }
+
+        $berita->save();
+
+        return redirect()->route('berita.index')->with('success', 'Berita berhasil diperbarui!');
+
     }
 
     public function destroy(Berita $berita)

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\VideoController;
@@ -17,20 +18,28 @@ Route::get('/books/create', [BukuController::class, 'create'])->name('books.crea
 Route::post('/books', [BukuController::class, 'store'])->name('books.store');
 Route::post('/koleksi/{id}/favorite', [BukuController::class, 'toggleFavorite'])->name('books.favorite');
 
-Route::get('/berita', [BeritaController::class, 'berita']);
-Route::get('/berita{id}', [BeritaController::class, 'show'])->name('berita.show');
+Route::get('/berita', [BeritaController::class, 'berita'])->name('berita.index');
 Route::get('/berita/create', [BeritaController::class, 'create'])->name('berita.create');
-Route::get('//berita/edit/{id}',[BeritaController::class,'edit'])->name('berita.edit');
-Route::put('/berita/update/{id}', [BeritaController::class, 'update'])->name('berita.update');
-Route::delete('/berita/delete/{id}', [BeritaController::class, 'delete'])->name('berita.delete');
-Route::post('/berita/store', [BeritaController::class, 'store'])->name('berita.store');
+Route::post('/berita', [BeritaController::class, 'store'])->name('berita.store');
+Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show');
+Route::get('/berita/{id}/edit', [BeritaController::class, 'edit'])->name('berita.edit');
+Route::put('/berita/{id}', [BeritaController::class, 'update'])->name('berita.update');
+Route::delete('/berita/{id}', [BeritaController::class, 'delete'])->name('berita.delete');
 
+Route::resource('video', VideoController::class);
 Route::get('video', [VideoController::class, 'index'])->name('video.index');
+Route::get('/video/create', [VideoController::class, 'create'])->name('video.create');
+Route::get('/video', [VideoController::class, 'store'])->name('video.store');
 Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
+Route::get('/video/{id}/edit', [VideoController::class, 'edit'])->name('video.edit');
+Route::get('/video/{id}', [VideoController::class, 'delete'])->name('video.destroy');
 
-Route::get('/artikel', function () {
-    return view('pages.Artikel.artikel');
-});
+Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
+Route::get('/artikel/create', [ArtikelController::class, 'create'])->name('artikel.create');
+Route::get('/artikel/{id}', [ArtikelController::class, 'show'])->name('artikel.show');
+Route::get('/artikel/{id}/edit', [ArtikelController::class, 'edit'])->name('artikel.edit');
+Route::put('/artikel/{id}', [ArtikelController::class, 'update'])->name('artikel.update');
+Route::delete('/artikel/{id}', [ArtikelController::class, 'destroy'])->name('artikel.delete');
 
 Route::get('/video', function () {
     return view('pages.Video.video');
