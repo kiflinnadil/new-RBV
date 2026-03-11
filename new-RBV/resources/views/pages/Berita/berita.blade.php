@@ -34,19 +34,20 @@
             @forelse ($videoberita as $video)
 
             <div class="relative aspect-square bg-[#EFF4FF] rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden border border-white flex flex-col">
-                
+    
                 <div class="relative h-2/5 w-full">
-                    <img src="https://img.youtube.com/vi/{$id}/hqdefault.jpg" 
+                    <img src="{{ asset('images/' . $video->cover) }}" 
                         class="w-full h-full object-cover" 
-                        alt="Thumbnail {{ $video->judul }}">
+                        alt="Cover {{ $video->judul }}"
+                        onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
                     
                     <div class="absolute top-3 right-3 z-20 flex flex-col gap-2">
-                        <a href="{{ route('berita.edit',$video->id) }}" class="p-1.5 bg-[#00A14C] text-white rounded-lg shadow hover:scale-110 transition">
+                        <a href="{{ route('berita.edit', $video->id) }}" class="p-1.5 bg-[#00A14C] text-white rounded-lg shadow hover:scale-110 transition">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
                             </svg>
                         </a>
-                        <form action="{{ route('books.delete', $video->id) }}" method="POST">
+                        <form action="{{ route('berita.destroy', $video->id) }}" method="POST">
                             @csrf @method('DELETE')
                             <button onclick="return confirm('Hapus?')" type="submit" class="p-1.5 bg-red-500 text-white rounded-lg shadow hover:scale-110 transition">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -75,14 +76,13 @@
                     </p>
 
                     <div class="flex justify-center mt-auto">
-                        <a href="{{ route('berita.show', $video->id) }}"
-                           class="px-6 py-1.5 bg-[#00A14C] text-white text-[11px] font-bold rounded-lg hover:bg-emerald-600 transition shadow-md">
+                        <a href="{{ $video->link }}" target="_blank"
+                        class="px-6 py-1.5 bg-[#00A14C] text-white text-[11px] font-bold rounded-lg hover:bg-emerald-600 transition shadow-md">
                             Baca Selengkapnya
                         </a>
                     </div>
                 </div>
             </div>
-
             @empty
             <div class="col-span-full text-center py-20">
                 <p class="text-gray-500 italic">Data tidak ada.</p>

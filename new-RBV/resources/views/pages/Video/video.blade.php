@@ -25,8 +25,13 @@
                 <div class="relative aspect-square bg-[#EFF4FF] rounded-[2rem] shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden border border-white flex flex-col">
                     
                     <div class="relative h-2/5 w-full overflow-hidden">
-                        <img src="{{ $video->thumbnail ?? 'https://via.placeholder.com/400x300' }}" 
-                             class="w-full h-full object-cover" alt="Thumbnail Video">
+                        <iframe 
+                            src="{{ $video->link }}"
+                            class="w-full h-full"
+                            frameborder="0"
+                            allowfullscreen>
+                        </iframe>
+
                         
                         <div class="absolute top-3 right-3 z-20 flex flex-col gap-2">
                             <a href="{{ route('video.edit', $video->id) }}" 

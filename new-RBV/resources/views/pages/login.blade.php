@@ -21,15 +21,22 @@
                 Gunakan akun anda untuk masuk.
             </p>
 
-            <form method="POST" action="/login" class="space-y-4">
+            <form method="POST" action="{{ route('login.post') }}" class="space-y-4">
                 @csrf
+
+                @if(session('error'))
+                    <div class="bg-red-500/20 border border-red-500/50 text-white text-xs p-3 rounded-lg text-center">
+                        {{ session('error') }}
+                    </div>
+                @endif
 
                 <div>
                     <label class="block text-white text-sm font-medium mb-1">NIK</label>
                     <input 
                         type="text" 
                         name="nik" 
-                        autocomplete="off"
+                        value="{{ old('nik') }}"
+                        required
                         class="w-full px-4 py-2.5 rounded-lg bg-white/90 text-gray-800 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-white/60 transition">
                 </div>
 
@@ -38,6 +45,7 @@
                     <input 
                         type="password" 
                         name="password"
+                        required
                         class="w-full px-4 py-2.5 rounded-lg bg-white/90 text-gray-800 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-white/60 transition">
                 </div>
 
@@ -48,7 +56,6 @@
                         Login
                     </button>
                 </div>
-
             </form>
 
         </div>

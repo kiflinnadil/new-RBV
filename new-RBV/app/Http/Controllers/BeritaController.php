@@ -16,7 +16,7 @@ class BeritaController extends Controller
             (object) [
                 'id' => '1',
                 'judul' => 'Cara Menjaga Kesehatan di Era Modern',
-                'link' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+                'link' => 'https://health.detik.com/',
                 'tanggal' => '2025-09-01',
                 'deskripsi' => 'Video ini membahas tips dan trik untuk menjaga kesehatan di era modern',
                 'kategori' => 'Kesehatan',
@@ -25,7 +25,7 @@ class BeritaController extends Controller
             (object) [
                 'id' => '2',
                 'judul' => 'Teknologi Terbaru di Tahun 2025',
-                'link' => 'https://www.youtube.com/embed/3JluqTojuME',
+                'link' => 'https://tekno.kompas.com/',
                 'tanggal' => '2025-09-01',
                 'deskripsi' => 'Video ini membahas teknologi terbaru yang akan hadir di tahun 2025',
                 'kategori' => 'Teknologi',
@@ -34,7 +34,7 @@ class BeritaController extends Controller
             (object) [
                 'id' => '3',
                 'judul' => 'Pentingnya Pendidikan Karakter',
-                'link' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+                'link' => 'https://www.kemendikdasmen.go.id/berita/13655-pendidikan-bermutu-dimulai-dari-pendidikan-karakter-sejak-di',
                 'tanggal' => '2025-09-01',
                 'deskripsi' => 'Video ini membahas pentingnya pendidikan karakter untuk generasi muda',
                 'kategori' => 'Pendidikan',
@@ -43,7 +43,7 @@ class BeritaController extends Controller
             (object) [
                 'id' => '4',
                 'judul' => 'Dampak Perubahan Iklim Global',
-                'link' => 'https://www.youtube.com/embed/3JluqTojuME',
+                'link' => 'https://www.detik.com/tag/lingkungan',
                 'tanggal' => '2025-09-01',
                 'deskripsi' => 'Video ini membahas dampak perubahan iklim global dan upaya yang dapat dilakukan untuk mengatasinya',
                 'kategori' => 'Lingkungan',
@@ -107,7 +107,7 @@ class BeritaController extends Controller
             (object) [
                 'id' => '1',
                 'judul' => 'Cara Menjaga Kesehatan di Era Modern',
-                'link' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+                'link' => 'https://health.detik.com/',
                 'tanggal' => '2025-09-01',
                 'deskripsi' => 'Video ini membahas tips dan trik untuk menjaga kesehatan di era modern secara mendalam.',
                 'kategori' => 'Kesehatan',
@@ -116,7 +116,7 @@ class BeritaController extends Controller
             (object) [
                 'id' => '2',
                 'judul' => 'Teknologi Terbaru di Tahun 2025',
-                'link' => 'https://www.youtube.com/embed/3JluqTojuME',
+                'link' => 'https://tekno.kompas.com/',
                 'tanggal' => '2025-09-01',
                 'deskripsi' => 'Video ini membahas teknologi terbaru yang akan hadir di tahun 2025 dan dampaknya bagi kita.',
                 'kategori' => 'Teknologi',
@@ -125,7 +125,7 @@ class BeritaController extends Controller
             (object) [
                 'id' => '3',
                 'judul' => 'Pentingnya Pendidikan Karakter',
-                'link' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+                'link' => 'https://www.kemendikdasmen.go.id/berita/13655-pendidikan-bermutu-dimulai-dari-pendidikan-karakter-sejak-di',
                 'tanggal' => '2025-09-01',
                 'deskripsi' => 'Video ini membahas pentingnya pendidikan karakter untuk generasi muda di masa depan.',
                 'kategori' => 'Pendidikan',
@@ -134,7 +134,7 @@ class BeritaController extends Controller
             (object) [
                 'id' => '4',
                 'judul' => 'Dampak Perubahan Iklim Global',
-                'link' => 'https://www.youtube.com/embed/3JluqTojuME',
+                'link' => 'https://www.detik.com/tag/lingkungan',
                 'tanggal' => '2025-09-01',
                 'deskripsi' => 'Video ini membahas dampak perubahan iklim global dan upaya nyata yang dapat dilakukan.',
                 'kategori' => 'Lingkungan',
@@ -157,7 +157,7 @@ class BeritaController extends Controller
             (object) [
                 'id' => '1',
                 'judul' => 'Cara Menjaga Kesehatan di Era Modern',
-                'link' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+                'link' => 'https://health.detik.com/',
                 'tanggal' => '2025-09-01',
                 'deskripsi' => 'Video ini membahas tips dan trik untuk menjaga kesehatan di era modern secara mendalam.',
                 'kategori' => 'Kesehatan',
@@ -166,7 +166,7 @@ class BeritaController extends Controller
             (object) [
                 'id' => '2',
                 'judul' => 'Teknologi Terbaru di Tahun 2025',
-                'link' => 'https://www.youtube.com/embed/3JluqTojuME',
+                'link' => 'https://tekno.kompas.com/',
                 'tanggal' => '2025-09-01',
                 'deskripsi' => 'Video ini membahas teknologi terbaru yang akan hadir di tahun 2025 dan dampaknya bagi kita.',
                 'kategori' => 'Teknologi',
@@ -175,7 +175,7 @@ class BeritaController extends Controller
             (object) [
                 'id' => '3',
                 'judul' => 'Pentingnya Pendidikan Karakter',
-                'link' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+                'link' => 'https://www.kemendikdasmen.go.id/berita/13655-pendidikan-bermutu-dimulai-dari-pendidikan-karakter-sejak-di',
                 'tanggal' => '2025-09-01',
                 'deskripsi' => 'Video ini membahas pentingnya pendidikan karakter untuk generasi muda di masa depan.',
                 'kategori' => 'Pendidikan',
@@ -184,7 +184,7 @@ class BeritaController extends Controller
             (object) [
                 'id' => '4',
                 'judul' => 'Dampak Perubahan Iklim Global',
-                'link' => 'https://www.youtube.com/embed/3JluqTojuME',
+                'link' => 'https://www.detik.com/tag/lingkungan',
                 'tanggal' => '2025-09-01',
                 'deskripsi' => 'Video ini membahas dampak perubahan iklim global dan upaya nyata yang dapat dilakukan.',
                 'kategori' => 'Lingkungan',
@@ -233,6 +233,6 @@ class BeritaController extends Controller
 
     public function destroy(Berita $berita)
     {
-        //
+        return redirect()->back()->with('success', 'Berita berhasil dihapus!');
     }
 }
