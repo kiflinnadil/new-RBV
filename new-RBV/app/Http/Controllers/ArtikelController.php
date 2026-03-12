@@ -11,6 +11,7 @@ class ArtikelController extends Controller
                 'id' => '1',
                 'judul' => 'Kesehatan',
                 'deskripsi' => 'lorem ipsum',
+                'tanggal' => '2025-09-01',
                 'cover' => 'cover.png',
                 'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=sharing',
             ],
@@ -19,6 +20,7 @@ class ArtikelController extends Controller
                 'id' => '2',
                 'judul' => 'Lorem',
                 'deskripsi' => 'lorem ipsum',
+                'tanggal' => '2025-09-01',
                 'cover' => 'cover.png',
                 'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=sharing',
             ],
@@ -38,6 +40,7 @@ class ArtikelController extends Controller
         $artikel = (object) [
             'id' => $id,
             'judul' => 'kesehatan'.$id,
+            'tanggal' => '2025-09-01'.$id,
             'deskripsi' => 'Lorem Ipsum'.$id,
             'cover' => 'cover.png'.$id,
             'file_pdf' => 'path/to/file'.$id.'.pdf',
@@ -52,6 +55,7 @@ class ArtikelController extends Controller
             (object) [
                 'id' => '1',
                 'judul' => 'Cara Menjaga Kesehatan di Era Modern',
+                'tanggal' => '2025-09-01',
                 'deskripsi' => 'Video ini membahas tips dan trik untuk menjaga kesehatan di era modern secara mendalam.',
                 'cover' => 'cover.png',
                 'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=sharing',
@@ -59,6 +63,7 @@ class ArtikelController extends Controller
             (object) [
                 'id' => '2',
                 'judul' => 'Teknologi Terbaru di Tahun 2025',
+                'tanggal' => '2025-09-01',
                 'deskripsi' => 'Video ini membahas teknologi terbaru yang akan hadir di tahun 2025 dan dampaknya bagi kita.',
                 'cover' => 'cover.png',
                 'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=sharing',
@@ -66,6 +71,7 @@ class ArtikelController extends Controller
             (object) [
                 'id' => '3',
                 'judul' => 'Pentingnya Pendidikan Karakter',
+                'tanggal' => '2025-09-01',
                 'deskripsi' => 'Video ini membahas pentingnya pendidikan karakter untuk generasi muda di masa depan.',
                 'cover' => 'cover.png',
                 'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=sharing',
@@ -73,6 +79,7 @@ class ArtikelController extends Controller
             (object) [
                 'id' => '4',
                 'judul' => 'Dampak Perubahan Iklim Global',
+                'tanggal' => '2025-09-01',
                 'deskripsi' => 'Video ini membahas dampak perubahan iklim global dan upaya nyata yang dapat dilakukan.',
                 'cover' => 'cover.png',
                 'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=sharing',

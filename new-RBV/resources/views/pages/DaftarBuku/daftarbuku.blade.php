@@ -3,17 +3,17 @@
 @section('content')
     <div class="min-h-screen" style="background: linear-gradient(to bottom, #E0EDFF 0%, #FFFFFF 100%);">
         
-        <div class="max-w-7xl mx-auto px-8 pt-12 pb-6">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="max-w-7xl mx-auto px-16 pt-10">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
 
-                <h1 class="text-5xl font-extrabold text-[#2B3A8C] [text-shadow:_0px_4px_5px_rgb(0_0_0_/_20%)]">
+                <h1 class="font-poppins text-4xl font-extrabold text-[#2B3A8C] [text-shadow:_0px_4px_5px_rgb(0_0_0_/_20%)]">
                     Daftar Buku
                 </h1>
     
                 <div class="flex items-center gap-4">
                     <div class="relative group">
                         <input type="text" placeholder="Cari buku" 
-                               class="pl-5 pr-12 py-2.5 rounded-xl border border-gray-200 bg-white w-72 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition-all">
+                               class="pl-5 pr-12 py-2.5 rounded-xl border border-gray-200 bg-white w-72 font-montserrat focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition-all">
                         <div class="absolute right-0 top-0 h-full w-12 flex items-center justify-center bg-gray-100 rounded-r-xl text-gray-400 group-focus-within:bg-[#2B3A8C] group-focus-within:text-white transition">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -32,11 +32,11 @@
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-8 py-10">
+        <div class="max-w-7xl mx-auto px-16 py-10">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
                 
                 @forelse ($books as $buku)
-                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden flex flex-col border border-white p-5 group">   
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden flex flex-col border border-white p-5 pt-0.5 group">   
                     
                     <div class="relative aspect-[3/4] w-full rounded-2xl overflow-hidden shadow-inner bg-gray-50">
                         <img src="{{ asset('images/'.$buku->cover) }}" 
@@ -46,16 +46,16 @@
 
                     <div class="pt-6 pb-2 flex flex-col flex-grow text-center">
 
-                        <h2 class="text-xl font-extrabold text-[#2B3A8C] leading-tight mb-1 line-clamp-2">
+                        <h2 class="font-poppins text-xl font-extrabold text-[#2B3A8C] leading-tight mb-1 line-clamp-2">
                             {{ $buku->judul }}
                         </h2>
-                        <p class="text-sm font-bold text-black opacity-80 mb-6">
+                        <p class="font-poppins text-sm font-bold text-black opacity-80 mb-6">
                             {{ $buku->penulis }}
                         </p>
 
                         <div class="mt-auto px-2">
                             <button onclick="document.getElementById('modal-{{ $buku->id_buku }}').showModal()" 
-                                    class="block w-full py-2.5 bg-[#00A14C] text-white text-[13px] font-bold rounded-xl hover:bg-[#008a41] transition shadow-md">
+                                    class="block w-full py-2.5 bg-[#00A14C] font-poppins text-white text-[13px] font-bold rounded-lg hover:bg-[#008a41] transition shadow-md">
                                 Detail Buku
                             </button>
                         </div>
@@ -78,7 +78,7 @@
 
                                 <div class="w-full text-left">
                                     <div class="flex justify-between items-start mb-1">
-                                        <h1 class="text-2xl font-bold text-black">{{ $buku->judul }}</h1>
+                                        <h1 class="font-poppins text-2xl font-bold text-black">{{ $buku->judul }}</h1>
                                         
                                         <div class="flex gap-2">
                                             <a href="{{ route('books.edit', $buku->id_buku) }}" class="p-2 bg-[#00A14C] text-white rounded-md">
@@ -105,15 +105,15 @@
                                         </div>
                                     </div>
 
-                                    <p class="text-sm font-bold text-black">{{ $buku->penulis }}</p>
-                                    <p class="text-xs text-gray-400 mb-4">{{ $buku->tahun }}</p>
+                                    <p class="font-poppins text-sm font-bold text-black">{{ $buku->penulis }}</p>
+                                    <p class="font-poppins text-xs text-gray-400 mb-4">{{ $buku->tahun }}</p>
 
-                                    <p class="text-[13px] text-gray-500 leading-relaxed mb-10 text-justify">
+                                    <p class="font-poppins text-[13px] text-gray-500 leading-relaxed mb-10 text-justify">
                                         {{ $buku->deskripsi }}
                                     </p>
 
                                     <div class="flex justify-center">
-                                        <a href="{{ route('books.read', $buku->id_buku) }}" class="px-10 py-2.5 bg-[#00A14C] text-white font-bold rounded-lg text-sm">
+                                        <a href="{{ route('books.read', $buku->id_buku) }}" class="px-10 py-2.5 bg-[#00A14C] font-poppins text-white font-bold rounded-lg text-sm">
                                             Baca Buku
                                         </a>
                                     </div>

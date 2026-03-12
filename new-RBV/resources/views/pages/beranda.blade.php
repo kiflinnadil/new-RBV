@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    {{-- <div class="relative w-full h-[681px] overflow-hidden"> --}}
-    <div class="relative w-full h-screen overflow-hidden">
 
+    <div class="relative w-full h-[calc(95vh-100px)] overflow-hidden">
+        
         <div id="slider" class="relative z-0 flex transition-transform duration-700 ease-in-out h-full">
             <img src="{{ asset('images/image0.jpg') }}" class="w-full h-full object-cover flex-shrink-0">
             <img src="{{ asset('images/beranda.jpg') }}" class="w-full h-full object-cover flex-shrink-0">
@@ -15,15 +15,15 @@
         <div class="absolute inset-0 flex items-center z-20">
             <div class="max-w-10xl mx-auto w-full px-10">
                 <div class="max-w-xl text-white">
-                    <h1 class="text-5xl font-base leading-tight mb-0">
+                    <h1 class="text-5xl font-montserrat text-[40px] font-base leading-tight mb-0">
                         Selamat Datang di,
                         <br>
                     </h1>
-                    <h1 class="text-6xl font-extrabold leading-tight mb-4">
+                    <h1 class="text-6xl font-montserrat text-[55px] font-extrabold leading-tight mb-4">
                         <span class="italic">Ruang Baca <br>Virtual</span>
                     </h1>
 
-                    <p class="text-2xl text-gray-200 mb-6">
+                    <p class="text-2xl font-montserrat text-[22px] text-gray-200 mb-6">
                         Discover knowledge without limit.
                     </p>
                 </div>
@@ -32,8 +32,8 @@
 
     </div>
 
-
     <div class="h-16 bg-blue-900"></div>
+
      <div class="relative overflow-hidden py-16">
         <div 
             class="absolute inset-0 bg-cover bg-center"
@@ -48,7 +48,7 @@
 
                 
                 <div class="flex justify-center items-center mb-12">
-                    <h1 class="text-5xl font-extrabold text-[#272E84] 
+                    <h1 class="font-poppins text-[55px] font-extrabold text-[#272E84] 
                     [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)] tracking-tight">
                         Rekomendasi Buku
                     </h1>
@@ -69,18 +69,18 @@
                                             group-hover:scale-105 transition duration-300">
                                         </div>
     
-                                        <h3 class="font-bold text-lg text-blue-950 leading-tight mb-1 
+                                        <h3 class="font-poppins font-bold text-[20px] text-blue-950 leading-tight mb-1 
                                         line-clamp-2 min-h-[3.5rem]">
                                             {{ $buku->judul }}
                                         </h3>
     
-                                        <p class="text-xs font-semibold text-gray-400 mb-4 uppercase 
+                                        <p class="font-poppins text-[14px] font-semibold text-gray-400 mb-4 uppercase 
                                         tracking-wider line-clamp-1">
                                             {{ $buku->penulis ?? 'Author Name' }}
                                         </p>
                                         
                                         <button class="w-full py-2 bg-[#00A14C] text-white 
-                                        text-sm font-bold rounded-lg hover:bg-emerald-600 transition">
+                                        font-poppins text-[15px] font-bold rounded-lg hover:bg-emerald-600 transition">
                                             Baca Sekarang
                                         </button>
                                     </div>
@@ -104,10 +104,10 @@
     <div id="fasilitasSection" class="bg-white py-16">
         
         <div class="max-w-6xl mx-auto px-8 text-center mb-12">
-            <h2 class="text-5xl font-extrabold text-[#272E84] [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)] tracking-tight mb-4">
+            <h2 class="font-poppins text-[55px] font-extrabold text-[#272E84] [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)] tracking-tight mb-2">
                 Fasilitas Yang Tersedia
             </h2>
-            <p class="text-gray-500 max-w-2xl mx-auto">
+            <p class="font-montserrat text-22px text-black max-w-2xl mx-auto">
                 Kami menyediakan berbagai Fasilitas Unggulan untuk kenyamanan dan keamanan pasien.
             </p>
         </div>
@@ -132,12 +132,12 @@
                             );">
                             <div class="flex justify-center mb-4">
                                 <img src="{{ asset('images/' . $item['img']) }}"
-                                class="w-30 h-30 object-contain">
+                                class="w-30 h-30 font-poppins object-contain">
                             </div>
                             <h3 class="font-bold text-base text-gray-800 mb-2">
                                 {{ $item['title'] }}
                             </h3>
-                            <p class="text-sm text-gray-500">
+                            <p class="font-montserrat text-sm text-gray-500">
                                 Dilengkapi peralatan pemeriksaan terbaru
                             </p>
                         </div>
@@ -166,10 +166,10 @@
         <div class="relative z-10 px-16">
 
             <div class="max-w-6xl mx-auto px-8 text-center mb-12">
-                <h2 class="text-5xl font-extrabold text-[#272E84] tracking-tight mb-4 [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)]">
+                <h2 class="font-poppins text-[55px] font-extrabold text-[#272E84] tracking-tight mb-4 [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)]">
                     Statistik Pengunjung 
                 </h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">
+                <p class="font-poppins text-[22px] text-black max-w-2xl mx-auto">
                     Pantau Statistik Pengunjung Ruang Baca Virtual 
                 </p>
             </div>

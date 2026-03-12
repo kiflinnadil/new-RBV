@@ -7,24 +7,24 @@
                     <img src="{{ asset('images/logo.png') }}" alt="Logo Citra Husada" class="h-14 w-auto object-contain">
                 </div>
 
-                <div class="hidden lg:flex items-center gap-8 text-[15px] font-semibold text-[#2A318A]">
-                    <a href="/" class="hover:text-blue-700 transition">Beranda</a>
-                    <a href="/berita" class="hover:text-blue-700 transition">Berita</a>
-                    <a href="/koleksi" class="hover:text-blue-700 transition">Buku</a>
-                    <a href="/favorite" class="hover:text-blue-700 transition">Favorit</a>
-                    <a href="/e-office" class="hover:text-blue-700 transition">E-Office</a>
-                    <a href="/artikel" class="hover:text-blue-700 transition">Artikel</a>
-                    <a href="/video" class="hover:text-blue-700 transition">Video</a>
+                <div class="hidden lg:flex items-center gap-8 text-[15px] text-[#2A318A]">
+                    <a href="/" class="font-poppins font-normal hover:text-blue-700 transition">Beranda</a>
+                    <a href="/berita" class="font-poppins font-normal hover:text-blue-700 transition">Berita</a>
+                    <a href="/koleksi" class="font-poppins font-normal hover:text-blue-700 transition">Buku</a>
+                    <a href="/favorite" class="font-poppins font-normal hover:text-blue-700 transition">Favorit</a>
+                    <a href="/e-office" class="font-poppins font-normal hover:text-blue-700 transition">E-Office</a>
+                    <a href="/artikel" class="font-poppins font-normal hover:text-blue-700 transition">Artikel</a>
+                    <a href="/video" class="font-poppins font-normal hover:text-blue-700 transition">Video</a>
                 </div>
             </div>
 
             <div class="hidden md:flex items-center gap-4">
-                <a href="#" class="px-6 py-2 border-2 border-blue-900 text-blue-900 rounded-lg font-bold hover:bg-blue-50 transition">
+                <a href="#" class="font-poppins px-6 py-2 border-2 border-blue-900 text-blue-900 rounded-lg font-bold hover:bg-blue-50 transition">
                     Layanan
                 </a>
 
                 @if(!session('is_logged_in'))
-                    <a href="/login" class="px-6 py-2 bg-blue-900 text-white rounded-lg font-bold hover:bg-blue-800 transition">
+                    <a href="/login" class="font-poppins px-6 py-2 bg-blue-900 text-white rounded-lg font-bold hover:bg-blue-800 transition">
                         Login
                     </a>
                 @endif

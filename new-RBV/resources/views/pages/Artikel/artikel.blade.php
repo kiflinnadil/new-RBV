@@ -5,7 +5,7 @@
 
     <div class="max-w-7xl mx-auto px-16 pt-10">
         <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-            <h1 class="text-5xl font-extrabold text-[#2B3A8C] [text-shadow:_0px_4px_5px_rgb(0_0_0_/_20%)]">
+            <h1 class="font-poppins text-4xl font-extrabold text-[#2B3A8C] [text-shadow:_0px_4px_5px_rgb(0_0_0_/_20%)]">
                 Artikel
             </h1>
             
@@ -49,18 +49,21 @@
 
                     <div class="p-6 flex flex-col justify-between flex-grow">
                         <div>
-                            <h2 class="text-xl font-extrabold text-[#2B3A8C] leading-tight line-clamp-2">
+                            <h2 class="font-poppins text-xl font-extrabold text-[#2B3A8C] leading-tight line-clamp-2">
                                 {{ $artikel->judul }}
                             </h2>
+                            <p class="font-montserrat text-xs text-gray-400 mt-1">
+                                {{ \Carbon\Carbon::parse($artikel->tanggal)->translatedFormat('d F Y') }}
+                            </p>
 
-                            <p class="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+                            <p class="font-montserrat text-sm text-gray-600 line-clamp-2 leading-relaxed">
                                 {{ $artikel->deskripsi }}
                             </p>
                         </div>
 
                         <div class="flex justify-center mt-auto">
                             <a href="{{ route('artikel.show', $artikel->id) }}"
-                               class="px-10 py-2 bg-[#00A14C] text-white text-sm font-bold rounded-lg hover:bg-emerald-600 transition shadow-md">
+                               class="px-20 py-2 bg-[#00A14C] font-poppins text-white text-sm font-bold rounded-lg hover:bg-emerald-600 transition shadow-md">
                                 Lihat
                             </a>
                         </div>

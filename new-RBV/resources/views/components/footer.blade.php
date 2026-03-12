@@ -30,10 +30,10 @@
         <div>
             <h3 class="font-bold text-lg mb-4">Media Sosial</h3>
             <div class="flex gap-3 mb-6">
-                <a href="#" class="hover:opacity-80 transition"><i class="fab fa-youtube text-xl"><image src="{{ asset('images/youtube.png') }}" alt="YouTube" class="h-6 w-6"></i></a>
-                <a href="#" class="hover:opacity-80 transition"><i class="fab fa-instagram text-xl"><image src="{{ asset('images/instagram.png') }}" alt="Instagram" class="h-6 w-6"></i></a>
-                <a href="#" class="hover:opacity-80 transition"><i class="fab fa-facebook text-xl"><image src="{{ asset('images/facebook.png') }}" alt="Facebook" class="h-6 w-6"></i></a>
-                <a href="#" class="hover:opacity-80 transition"><i class="fab fa-tiktok text-xl"><image src="{{ asset('images/tiktok.png') }}" alt="TikTok" class="h-6 w-6"></i></a>
+                <a href="https://www.youtube.com/c/RSCITRAHUSADAJEMBER/videos" class="hover:opacity-80 transition"><i class="fab fa-youtube text-xl"><image src="{{ asset('images/youtube.png') }}" alt="YouTube" class="h-6 w-6"></i></a>
+                <a href="https://www.instagram.com/rscitrahusadajember/" class="hover:opacity-80 transition"><i class="fab fa-instagram text-xl"><image src="{{ asset('images/instagram.png') }}" alt="Instagram" class="h-6 w-6"></i></a>
+                <a href="https://www.facebook.com/rscitrahusadajember/?locale=id_ID" class="hover:opacity-80 transition"><i class="fab fa-facebook text-xl"><image src="{{ asset('images/facebook.png') }}" alt="Facebook" class="h-6 w-6"></i></a>
+                <a href="https://www.tiktok.com/@rscitrahusadajember" class="hover:opacity-80 transition"><i class="fab fa-tiktok text-xl"><image src="{{ asset('images/tiktok.png') }}" alt="TikTok" class="h-6 w-6"></i></a>
             </div>
             <div class="rounded-sm overflow-hidden h-25 w-full shadow-inner">
                 <div class="w-full h-[400px] rounded-sm overflow-hidden">

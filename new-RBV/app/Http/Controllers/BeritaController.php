@@ -52,14 +52,14 @@ class BeritaController extends Controller
         ];
 
         if ($kategori) {
-            $videoberita = array_filter($all_video, function ($v) use ($kategori) {
+            $berita = array_filter($all_video, function ($v) use ($kategori) {
                 return $v->kategori == $kategori;
             });
         } else {
-            $videoberita = $all_video;
+            $berita = $all_video;
         }
 
-        return view('pages.Berita.berita', compact('videoberita', 'kategori', 'kategoris'));
+        return view('pages.Berita.berita', compact('berita', 'kategori', 'kategoris'));
     }
 
     public function index(Request $request)
@@ -67,11 +67,11 @@ class BeritaController extends Controller
         $kategori = $request->get('kategori');
         $kategoris = ['Kesehatan', 'Kegiatan', 'Inovasi'];
 
-        $videoberita = VideoBerita::when($kategori, function ($query, $kategori) {
+        $berita = berita::when($kategori, function ($query, $kategori) {
             return $query->where('kategori', $kategori);
         })->get();
 
-        return view('pages.berita.index', compact('videoberita', 'kategori', 'kategoris'));
+        return view('pages.berita.index', compact('berita', 'kategori', 'kategoris'));
     }
 
     public function create()
