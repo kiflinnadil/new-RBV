@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-    
+
     protected $table = 'users';
 
     protected $primaryKey = 'id_user';
@@ -29,9 +29,15 @@ class User extends Authenticatable
 
     protected $hidden = [
         'password',
+        'remember_token'
     ];
 
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    public function getAuthIdentifierName()
+    {
+        return 'NIK';
+    }
 }

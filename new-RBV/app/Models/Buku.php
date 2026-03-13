@@ -15,10 +15,11 @@ class Buku extends Model
 
     protected $fillable = [
         'judul',
-        'konten_image',
-        'kategori',
-        'deskripsi',
         'penulis',
-        'tahun'
+        'kategori',
+        'tahun',
+        'deskripsi',
+        'file_pdf',
+        'cover'
     ];
 }

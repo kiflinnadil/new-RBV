@@ -11,8 +11,12 @@
                     <a href="/" class="font-poppins font-normal hover:text-blue-700 transition">Beranda</a>
                     <a href="/berita" class="font-poppins font-normal hover:text-blue-700 transition">Berita</a>
                     <a href="/koleksi" class="font-poppins font-normal hover:text-blue-700 transition">Buku</a>
+                    @auth
+                        @if(auth()->user()->role == 'super_admin')
                     <a href="/favorite" class="font-poppins font-normal hover:text-blue-700 transition">Favorit</a>
                     <a href="/e-office" class="font-poppins font-normal hover:text-blue-700 transition">E-Office</a>
+                        @endif
+                    @endauth
                     <a href="/artikel" class="font-poppins font-normal hover:text-blue-700 transition">Artikel</a>
                     <a href="/video" class="font-poppins font-normal hover:text-blue-700 transition">Video</a>
                 </div>
@@ -23,22 +27,39 @@
                     Layanan
                 </a>
 
-                @if(!session('is_logged_in'))
-                    <a href="/login" class="font-poppins px-6 py-2 bg-blue-900 text-white rounded-lg font-bold hover:bg-blue-800 transition">
+                @guest
+                    <a href="{{ route('login') }}"
+                    class="px-6 py-2 bg-blue-900 text-white rounded-lg font-bold hover:bg-blue-800 transition">
                         Login
                     </a>
-                @endif
+                    @endguest
 
-                @if(session('is_logged_in'))
-                    <a href="{{ route('profil.index') }}" class="flex items-center group">
-                        <div class="w-12 h-12 bg-[#2A318A] rounded-full flex items-center justify-center text-white shadow-md transition hover:bg-blue-800">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
+
+                    {{-- Jika sudah login --}}
+                    @auth
+                    <div class="relative group">
+
+                        <img src="{{ asset('images/profile.png') }}"
+                        class="w-10 h-10 rounded-full cursor-pointer border-2 border-blue-900">
+
+                        <div class="absolute right-0 top-full pt-2 w-40 bg-white shadow-lg rounded-lg hidden group-hover:block">
+
+                            <div class="px-4 py-2 text-sm text-gray-700 border-b">
+                                {{ auth()->user()->name }}
+                            </div>
+
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button
+                                class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                    Logout
+                                </button>
+                            </form>
+
                         </div>
-                    </a>
-                @endif
+
+                    </div>
+                    @endauth
             </div>
 
         </div>

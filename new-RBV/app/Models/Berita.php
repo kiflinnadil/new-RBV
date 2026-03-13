@@ -18,7 +18,8 @@ class Berita extends Model
         'kategori',
         'tanggal',
         'deskripsi',
-        'file_url'
+        'file_url',
+        'cover'
     ];
 
 }

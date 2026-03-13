@@ -13,7 +13,7 @@
         <div>
 
             <a href="{{ route('books.index') }}"
-               class="inline-block mt-8 bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-900 transition">
+                class="inline-block mt-8 bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-900 transition">
                 ← Kembali
             </a>
 

@@ -9,13 +9,17 @@
             </h1>
 
             <div class="bg-white rounded-[30px] shadow-xl p-10 md:p-14 border border-gray-100">
-                <form action="{{ route('books.update', $book->id) }}" method="POST">
+                
+                <form action="{{ route('books.update', $book->id_buku) }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     
                     <div class="space-y-6">
+
                         <div>
                             <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Judul Buku</label>
                             <input type="text" name="judul" 
+                                value="{{ $book->judul }}"
                                 class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
                                 placeholder="Masukkan judul buku">
                         </div>
@@ -23,6 +27,7 @@
                         <div>
                             <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Pengarang</label>
                             <input type="text" name="pengarang" 
+                                value="{{ $book->penulis }}"
                                 class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
                                 placeholder="Masukkan nama pengarang">
                         </div>
@@ -30,6 +35,7 @@
                         <div>
                             <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Kategori</label>
                             <input type="text" name="kategori" 
+                                value="{{ $book->kategori }}"
                                 class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
                                 placeholder="Masukkan kategori">
                         </div>
@@ -37,6 +43,7 @@
                         <div>
                             <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Tahun Terbit</label>
                             <input type="text" name="tahun_terbit" 
+                                value="{{ $book->tahun }}"
                                 class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
                                 placeholder="Masukkan tahun terbit">
                         </div>
@@ -44,8 +51,8 @@
                         <div>
                             <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Deskripsi</label>
                             <textarea name="deskripsi" rows="4"
-                            class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
-                            placeholder="Masukkan deskripsi buku"></textarea>
+                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
+                                placeholder="Masukkan deskripsi buku">{{ $book->deskripsi }}</textarea>
                         </div>
                         
                         <div>
@@ -57,7 +64,7 @@
                                 <span class="block font-montserrat text-gray-400 text-sm ml-1 italic">
                                     File maksimal 20 MB
                                 </span>
-                                <input type="file" class="hidden">
+                                <input type="file" name="file_pdf" class="hidden">
                             </label>
                         </div>
 
@@ -70,7 +77,7 @@
                                 <span class="block font-montserrat text-gray-400 text-sm ml-1 italic">
                                     File maksimal 20 MB
                                 </span>
-                                <input type="file" class="hidden">
+                                <input type="file" name="cover" class="hidden">
                             </label>
                         </div>
 
@@ -79,10 +86,12 @@
                     <div class="flex justify-center mt-10">
                         <button type="submit" 
                                 class="bg-[#2B3A8C] font-poppins text-white font-bold py-3 px-12 rounded-lg hover:bg-blue-800 transition shadow-md">
-                            Upload
+                            Update
                         </button>
                     </div>
+
                 </form>
+
             </div>
         </div>
     </div>

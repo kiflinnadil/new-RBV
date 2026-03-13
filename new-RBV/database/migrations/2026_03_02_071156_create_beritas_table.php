@@ -16,6 +16,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->text('deskripsi');
             $table->string('file_url'); 
+            $table->string('cover');
 
             $table->timestamps();
         });
