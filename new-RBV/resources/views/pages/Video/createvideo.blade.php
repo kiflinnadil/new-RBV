@@ -9,7 +9,7 @@
         </h1>
 
         <div class="bg-white rounded-[30px] shadow-xl p-10 md:p-14 border border-gray-100">
-            <form action="{{ route('berita.store') }}" method="POST">
+            <form action="{{ route('video.store') }}" method="POST">
                 @csrf
                 
                 <div class="space-y-6">

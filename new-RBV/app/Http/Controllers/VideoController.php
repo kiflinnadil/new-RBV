@@ -2,39 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class VideoController extends Controller
 {
     public function index()
     {
-        $videos = collect([
-            (object) [
-                'id' => 1,
-                'judul' => 'Lowongan Kerja Sekretaris',
-                'link' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-                'tanggal' => '2026-02-02',
-                'kategori' => 'Kesehatan',
-                'deskripsi' => 'Deskripsi isi berita ini adalah bla blabalba lalbalbalblaa.',
-            ],
-            (object) [
-                'id' => 2,
-                'judul' => 'Tips Menjaga Kesehatan Jantung',
-                'link' => 'https://www.youtube.com/embed/3JluqTojuME',
-                'tanggal' => '2026-03-01',
-                'kategori' => 'Edukasi',
-                'deskripsi' => 'Edukasi mengenai pentingnya menjaga pola makan dan olahraga rutin.',
-            ],
-            (object) [
-                'id' => 3,
-                'judul' => 'Prosedur Layanan IGD',
-                'link' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-                'tanggal' => '2026-03-05',
-                'kategori' => 'Layanan',
-                'deskripsi' => 'Informasi mengenai alur penanganan pasien gawat darurat.',
-            ],
-        ]);
-
+        $videos = Video::latest()->get();
         return view('pages.Video.video', compact('videos'));
     }
 
@@ -45,49 +20,60 @@ class VideoController extends Controller
 
     public function store(Request $request)
     {
-        return redirect()->route('video.index')->with('success', 'Video berhasil ditambah!');
+        $request->validate([
+            'judul' => 'required',
+            'deskripsi' => 'required',
+            'link' => 'required|url'
+        ]);
+
+        Video::create([
+            'judul' => $request->judul,
+            'tanggal' => now(),
+            'deskripsi' => $request->deskripsi,
+            'file_url' => $request->link
+        ]);
+
+        return redirect()->route('video.index')
+            ->with('success', 'Video berhasil ditambah');
     }
 
     public function show($id)
     {
-        $videos = $this->getRawData();
-        $video = $videos->firstWhere('id', (int) $id);
-
-        if (! $video) {
-            abort(404);
-        }
-
+        $video = Video::findOrFail($id);
         return view('pages.Video.detailvideo', compact('video'));
     }
 
     public function edit($id)
     {
-        $videos = $this->getRawData();
-        $video = $videos->firstWhere('id', (int) $id);
-
-        if (! $video) {
-            abort(404);
-        }
-
+        $video = Video::findOrFail($id);
         return view('pages.Video.editvideo', compact('video'));
     }
 
     public function update(Request $request, $id)
     {
-        return redirect()->route('video.index')->with('success', 'Video diperbarui!');
+        $request->validate([
+            'judul' => 'required',
+            'deskripsi' => 'required',
+            'link' => 'required|url'
+        ]);
+
+        $video = Video::findOrFail($id);
+
+        $video->update([
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'file_url' => $request->link
+        ]);
+
+        return redirect()->route('video.index')
+            ->with('success', 'Video berhasil diupdate');
     }
 
     public function destroy($id)
     {
-        return redirect()->route('video.index')->with('success', 'Video dihapus!');
-    }
+        Video::findOrFail($id)->delete();
 
-    private function getRawData()
-    {
-        return collect([
-            (object) ['id' => 1, 'judul' => 'Lowongan Kerja Sekretaris', 'link' => 'https://www.youtube.com/embed/dQw4w9WgXcQ', 'tanggal' => '2026-02-02', 'deskripsi' => 'Deskripsi isi berita.'],
-            (object) ['id' => 2, 'judul' => 'Tips Menjaga Kesehatan Jantung', 'link' => 'https://www.youtube.com/embed/3JluqTojuME', 'tanggal' => '2026-03-01', 'deskripsi' => 'Edukasi kesehatan.'],
-            (object) ['id' => 3, 'judul' => 'Prosedur Layanan IGD', 'link' => 'https://www.youtube.com/embed/dQw4w9WgXcQ', 'tanggal' => '2026-03-05', 'deskripsi' => 'Informasi layanan.'],
-        ]);
+        return redirect()->route('video.index')
+            ->with('success', 'Video berhasil dihapus');
     }
 }

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\BukuApiController;
 use App\Http\Controllers\Api\BeritaApiController;
+use App\Http\Controllers\Api\VideoApiController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +21,5 @@ Route::apiResource('books', BukuApiController::class);
 */
 
 Route::apiResource('berita', BeritaApiController::class);
+
+Route::apiResource('berita', VideoApiController::class);

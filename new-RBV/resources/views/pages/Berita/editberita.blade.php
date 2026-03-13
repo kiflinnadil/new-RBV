@@ -72,7 +72,6 @@
                             placeholder="https://youtube.com/...">
                     </div>
 
-                    {{-- COVER --}}
                     <div>
                         <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
                             Cover Berita

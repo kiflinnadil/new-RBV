@@ -13,16 +13,9 @@ Route::get('/koleksi', [BukuController::class,'index'])->name('books.index');
 Route::get('/koleksi/{id}',[BukuController::class,'show'])->name('books.show');
 Route::get('/books/{id}/read',[BukuController::class,'read'])->name('books.read');
 
-
-Route::get('/login', function () {
-    return view('pages.login');
-})->name('login');
-
+Route::get('/login', function () {return view('pages.login');})->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-
 
 Route::middleware(['auth','superadmin'])->group(function(){
 
@@ -38,17 +31,15 @@ Route::middleware(['auth','superadmin'])->group(function(){
     Route::put('/berita/{id}',[BeritaController::class,'update'])->name('berita.update');
     Route::delete('/berita/{id}',[BeritaController::class,'destroy'])->name('berita.destroy');
 
+    Route::get('/video/create',[VideoController::class,'create'])->name('video.create');
+    Route::post('/video',[VideoController::class,'store'])->name('video.store');
+    Route::get('/video/{id}/edit',[VideoController::class,'edit'])->name('video.edit');
+    Route::put('/video/{id}',[VideoController::class,'update'])->name('video.update');
+    Route::delete('/video/{id}',[VideoController::class,'destroy'])->name('video.destroy');
+
 });
 
 Route::get('/berita',[BeritaController::class,'index'])->name('berita.index');
-// Route::get('/berita/{id}',[BeritaController::class,'show'])->name('berita.show');
-// Route::get('/berita', [BeritaController::class, 'berita']);
-// Route::get('/berita{id}', [BeritaController::class, 'show'])->name('berita.show');
-// Route::get('/berita/create', [BeritaController::class, 'create'])->name('berita.create');
-// Route::get('//berita/edit/{id}',[BeritaController::class,'edit'])->name('berita.edit');
-// Route::put('/berita/update/{id}', [BeritaController::class, 'update'])->name('berita.update');
-// Route::delete('/berita/delete/{id}', [BeritaController::class, 'delete'])->name('berita.delete');
-// Route::post('/berita/store', [BeritaController::class, 'store'])->name('berita.store');
 
 Route::get('video', [VideoController::class, 'index'])->name('video.index');
 Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');

@@ -25,26 +25,42 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
 
             @foreach ($videos as $video)
+
+                @php
+                    preg_match('/(youtube\.com\/embed\/|youtube\.com\/watch\?v=|youtu\.be\/)([^\&\?\/]+)/', $video->file_url, $matches);
+                    $youtubeId = $matches[2] ?? null;
+                @endphp
+
                 <div class="relative aspect-square bg-[#EFF4FF] rounded-[2rem] shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden border border-white flex flex-col">
                     
-                    <div class="relative h-2/5 w-full overflow-hidden">
-                        <iframe 
-                            src="{{ $video->link }}"
-                            class="w-full h-full"
-                            frameborder="0"
-                            allowfullscreen>
-                        </iframe>
+                    <div class="relative h-[180px] w-full overflow-hidden">
+
+                        @if($youtubeId)
+                            <img 
+                                src="https://img.youtube.com/vi/{{ $youtubeId }}/hqdefault.jpg"
+                                class="w-full h-full object-cover"
+                            >
+
+                            <a href="{{ route('video.show', $video->id_video) }}"
+                                class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition">
+
+                                <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M6 4l10 6-10 6V4z"/>
+                                </svg>
+
+                            </a>
+                        @endif
 
                         @auth
                             @if(auth()->user()->role == 'super_admin')
                                 <div class="absolute top-3 right-3 z-20 flex flex-col gap-2">
-                                    <a href="{{ route('video.edit', $video->id) }}" 
+                                    <a href="{{ route('video.edit', $video->id_video) }}" 
                                         class="p-1.5 bg-[#00A14C] text-white rounded-lg shadow hover:scale-110 transition">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
                                             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
                                         </svg>
                                     </a>
-                                    <form action="{{ route('video.destroy', $video->id) }}" method="POST">
+                                    <form action="{{ route('video.destroy', $video->id_video) }}" method="POST">
                                         @csrf @method('DELETE')
                                         <button onclick="return confirm('Yakin Hapus?')" type="submit" 
                                                 class="p-1.5 bg-red-500 text-white rounded-lg shadow hover:scale-110 transition">
@@ -56,27 +72,34 @@
                                 </div>
                             @endif
                         @endauth
+
                     </div>
 
-                    <div class="p-6 flex flex-col justify-between flex-grow">
+                    <div class="p-5 flex flex-col justify-between flex-grow">
+
                         <div>
-                            <h2 class="font-poppins text-xl font-extrabold text-[#2B3A8C] leading-tight line-clamp-2">
+                            <h2 class="font-poppins text-xl font-bold text-[#2B3A8C] leading-tight">
                                 {{ $video->judul }}
                             </h2>
-
-                            <p class="font-montserrat  text-sm text-gray-600 line-clamp-2 leading-relaxed">
-                                {{ $video->deskripsi }}
+                            <p class="font-montserrat text-xs text-gray-400 mt-1">
+                                {{ \Carbon\Carbon::parse($video->tanggal)->translatedFormat('d F Y') }}
                             </p>
                         </div>
+                            <p class="font-montserrat text-sm text-gray-600 line-clamp-2 leading-relaxed my-2">
+                                {{ $video->deskripsi }}
+                            </p>
 
-                        <div class="flex justify-center mt-auto">
-                            <a href="{{ route('video.show', $video->id) }}"
-                                class="px-20 py-2 bg-[#00A14C] font-poppins  text-white text-sm font-bold rounded-lg hover:bg-emerald-600 transition shadow-md">
+                        <div class="flex justify-center mt-4">
+                            <a href="{{ route('video.show', $video->id_video) }}"
+                                class="px-10 py-2 bg-[#00A14C] font-poppins text-white text-sm font-bold rounded-lg hover:bg-emerald-600 transition shadow-md">
                                 Lihat
                             </a>
                         </div>
+
                     </div>
+
                 </div>
+
             @endforeach
 
         </div>

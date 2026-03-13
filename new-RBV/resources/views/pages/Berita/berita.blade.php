@@ -70,7 +70,7 @@
                         <p class="font-montserrat text-[10px] text-[#00A14C] font-bold uppercase mb-1">
                             {{ $berita->kategori }}
                         </p>
-                        <h2 class="font-poppins text-xl font-extrabold text-[#2B3A8C] leading-tight line-clamp-2">
+                        <h2 class="font-poppins text-xl font-bold text-[#2B3A8C] leading-tight line-clamp-2">
                             {{ $berita->judul }}
                         </h2>
                         <p class="font-montserrat text-xs text-gray-400 mt-1">

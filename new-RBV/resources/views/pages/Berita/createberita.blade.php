@@ -14,12 +14,10 @@
                 @csrf
                 
                 <div class="space-y-6">
-
                     <div>
                         <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
                             Judul Berita
                         </label>
-
                         <input 
                             type="text" 
                             name="judul" 
@@ -31,15 +29,12 @@
                         <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
                             Kategori
                         </label>
-
                         <select name="kategori"
                             class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none">
-
                             <option value="">Pilih kategori</option>
                             <option value="Kesehatan">Kesehatan</option>
                             <option value="Kegiatan">Kegiatan</option>
                             <option value="Inovasi">Inovasi</option>
-
                         </select>
                     </div>
 
@@ -47,7 +42,6 @@
                         <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
                             Deskripsi
                         </label>
-
                         <textarea 
                             name="deskripsi" 
                             rows="4"
@@ -59,7 +53,6 @@
                         <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
                             Link Berita
                         </label>
-
                         <input 
                             type="url" 
                             name="link"
@@ -71,31 +64,21 @@
                         <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
                             Cover Berita
                         </label>
-
                         <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 font-montserrat cursor-pointer hover:bg-gray-200">
-
                             <span class="block text-gray-400 text-sm ml-1 italic">
                                 Upload cover berita
                             </span>
-
                             <input type="file" name="cover" class="hidden">
-
                         </label>
                     </div>
-
                 </div>
 
                 <div class="flex justify-center mt-10">
-
                     <button type="submit"
                         class="bg-[#2B3A8C] text-white font-bold py-3 px-12 font-poppins rounded-lg hover:bg-blue-800 transition shadow-md">
-
                         Upload
-
                     </button>
-
                 </div>
-
             </form>
 
         </div>

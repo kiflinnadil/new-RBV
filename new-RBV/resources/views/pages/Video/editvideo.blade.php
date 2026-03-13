@@ -10,7 +10,7 @@
 
         <div class="bg-white rounded-[30px] shadow-xl p-10 md:p-14 border border-gray-100">
 
-            <form action="{{ route('video.update', $video->id) }}" method="POST">
+            <form action="{{ route('video.update', $video->id_video) }}" method="POST">
                 @csrf
                 @method('PUT')
                 
@@ -34,7 +34,7 @@
                     <div>
                         <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Link Video</label>
                         <input type="url" name="link" 
-                                value="{{ old('link', $video->link) }}"
+                                value="{{ old('link', $video->file_url) }}"
                                 class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 focus:ring-2 focus:ring-[#2B3A8C] outline-none"
                                 placeholder="https://youtube.com/embed/...">
                         </div>
