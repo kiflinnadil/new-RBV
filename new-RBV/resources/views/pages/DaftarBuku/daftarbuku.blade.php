@@ -118,7 +118,9 @@
                                     </p>
 
                                     <div class="flex justify-center">
-                                        <a href="{{ route('books.read', $buku->id_buku) }}" class="px-10 py-2.5 bg-[#00A14C] font-poppins text-white font-bold rounded-lg text-sm">
+                                        <a href="{{ route('books.read', $buku->id_buku) }}" 
+                                        target="_blank"
+                                        class="px-10 py-2.5 bg-[#00A14C] font-poppins text-white font-bold rounded-lg text-sm hover:bg-[#008a41] transition">
                                             Baca Buku
                                         </a>
                                     </div>

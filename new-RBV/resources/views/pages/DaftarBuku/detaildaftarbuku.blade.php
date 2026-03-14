@@ -85,10 +85,10 @@
                     </div>
                 </form>
 
-<a href="{{ route('books.read', $book->id_buku) }}"
-class="px-10 py-2.5 bg-[#00A14C] font-poppins text-white font-bold rounded-lg text-sm
-focus:outline-none focus:ring-0 active:ring-0"
-style="outline:none; box-shadow:none;">
+                <a href="{{ route('books.read', $book->id_buku) }}"
+                class="px-10 py-2.5 bg-[#00A14C] font-poppins text-white font-bold rounded-lg text-sm
+                focus:outline-none focus:ring-0 active:ring-0"
+                style="outline:none; box-shadow:none;">
 
                 <a href="{{ route('books.index') }}"
                     class="flex items-center justify-center gap-2 w-full py-3 bg-gray-800 text-white font-bold rounded-xl hover:bg-gray-900 transition text-sm">

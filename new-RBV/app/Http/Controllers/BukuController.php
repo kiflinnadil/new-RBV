@@ -44,42 +44,40 @@ class BukuController extends Controller
     public function read($id)
     {
         $buku = Buku::findOrFail($id);
-
-        return redirect(asset('storage/'.$buku->file_pdf));
+        return response()->file(storage_path('app/public/'.$buku->file_pdf));
     }
-
     public function create()
     {
         return view('pages.DaftarBuku.createbuku');
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'judul'=>'required',
-            'pengarang'=>'required',
-            'kategori'=>'required',
-            'tahun_terbit'=>'required',
-            'deskripsi'=>'required',
-            'file_pdf'=>'required|file|mimes:pdf|max:20480',
-            'cover'=>'required|image|max:20480'
-        ]);
+{
+    $request->validate([
+        'judul'=>'required',
+        'pengarang'=>'required',
+        'kategori'=>'required',
+        'tahun_terbit'=>'required',
+        'deskripsi'=>'required',
+        'file_pdf'=>'required|file|mimes:pdf|max:20480',
+        'cover'=>'required|file|max:20480'
+    ]);
 
-        $pdf = $request->file('file_pdf')->store('books','public');
-        $cover = $request->file('cover')->store('covers','public');
+    $pdf = $request->file('file_pdf')->store('books','public');
+    $cover = $request->file('cover')->store('covers','public');
 
-        Buku::create([
-            'judul'=>$request->judul,
-            'penulis'=>$request->pengarang,
-            'kategori'=>$request->kategori,
-            'tahun'=>$request->tahun_terbit,
-            'deskripsi'=>$request->deskripsi,
-            'file_pdf'=>$pdf,
-            'cover'=>$cover
-        ]);
+    Buku::create([
+        'judul'=>$request->judul,
+        'penulis'=>$request->pengarang,
+        'kategori'=>$request->kategori,
+        'tahun'=>$request->tahun_terbit,
+        'deskripsi'=>$request->deskripsi,
+        'file_pdf'=>$pdf,
+        'cover'=>$cover
+    ]);
 
-        return redirect()->route('books.index')->with('success','Buku berhasil ditambahkan');
-    }
+    return redirect()->route('books.index')->with('success','Buku berhasil ditambahkan');
+}
 
     public function edit($id)
     {

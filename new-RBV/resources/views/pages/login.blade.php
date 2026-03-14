@@ -6,8 +6,8 @@
 
     <div class="absolute inset-0 z-0">
         <img src="{{ asset('images/image0.jpg') }}" 
-             alt="background" 
-             class="w-full h-full object-cover">
+            alt="background" 
+            class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-black/30"></div>
     </div>
 

@@ -12,6 +12,7 @@ Route::get('/', [BukuController::class,'beranda']);
 Route::get('/koleksi', [BukuController::class,'index'])->name('books.index');
 Route::get('/koleksi/{id}',[BukuController::class,'show'])->name('books.show');
 Route::get('/books/{id}/read',[BukuController::class,'read'])->name('books.read');
+Route::get('/books/read/{id}', [BukuController::class, 'read'])->name('books.read');
 
 Route::get('/login', function () {return view('pages.login');})->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
@@ -52,6 +53,7 @@ Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
 
 Route::get('/artikel',[ArtikelController::class,'index'])->name('artikel.index');
 Route::get('/artikel/{id}',[ArtikelController::class,'show'])->name('artikel.show');
+Route::get('/artikel/{id}/read', [ArtikelController::class, 'read'])->name('artikel.read');
 
 // -------------- //
 // Route::get('/', [BukuController::class, 'beranda']);

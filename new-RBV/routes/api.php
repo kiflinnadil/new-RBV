@@ -9,5 +9,5 @@ use App\Http\Controllers\Api\ArtikelApiController;
 
 Route::apiResource('books', BukuApiController::class);
 Route::apiResource('berita', BeritaApiController::class);
-Route::apiResource('berita', VideoApiController::class);
-Route::apiResource('berita', ArtikelApiController::class);
+Route::apiResource('video', VideoApiController::class);
+Route::apiResource('artikel', ArtikelApiController::class);

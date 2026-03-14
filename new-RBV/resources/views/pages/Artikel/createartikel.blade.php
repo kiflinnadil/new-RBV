@@ -33,32 +33,32 @@
                     </div>
 
                     <div>
-                        <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
-                            Cover Artikel
-                        </label>
+                        <div>
+                            <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
+                                File Artikel (PDF)
+                            </label>
 
-                        <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
-                            <span class="block font-montserrat text-gray-400 text-sm ml-1 italic">
-                                Upload Cover
-                            </span>
-                            <input type="file" name="cover" class="hidden">
-                        </label>
+                            <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
+                                <span class="block font-montserrat text-gray-400 text-sm ml-1 italic">
+                                    Upload File PDF
+                                </span>
+                                <input type="file" name="file_pdf" class="hidden">
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
+                                Cover Artikel
+                            </label>
+
+                            <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
+                                <span class="block font-montserrat text-gray-400 text-sm ml-1 italic">
+                                    Upload Cover
+                                </span>
+                                <input type="file" name="cover" class="hidden">
+                            </label>
+                        </div>
                     </div>
-
-                    <div>
-                        <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
-                            File Artikel (PDF)
-                        </label>
-
-                        <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
-                            <span class="block font-montserrat text-gray-400 text-sm ml-1 italic">
-                                Upload File PDF
-                            </span>
-                            <input type="file" name="file_pdf" class="hidden">
-                        </label>
-                    </div>
-
-                </div>
 
                 <div class="flex justify-center mt-10">
                     <button type="submit" 

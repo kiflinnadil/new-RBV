@@ -84,8 +84,8 @@
                     </p>
 
                     <div class="flex justify-center mt-auto">
-                        <a href="{{ route('artikel.show', $artikel->id_artikel) }}"
-                            class="px-6 py-1.5 bg-[#00A14C] font-poppins text-white text-[14px] font-bold rounded-lg hover:bg-emerald-600 transition shadow-md">
+                        <a href="{{ route('artikel.read', $artikel->id_artikel) }}" target="_blank"
+                        class="px-4 py-1.5 bg-[#00A14C] font-poppins text-white text-[14px] font-bold rounded-lg hover:bg-emerald-600 transition shadow-md">
                             Baca Selengkapnya
                         </a>
                     </div>
