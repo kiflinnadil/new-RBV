@@ -17,6 +17,7 @@ class Artikel extends Model
         'judul',
         'tanggal',
         'deskripsi',
-        'konten_image'
+        'cover',
+        'file_pdf'
     ];
 }

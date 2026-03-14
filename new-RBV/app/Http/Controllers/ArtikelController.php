@@ -2,31 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Artikel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 class ArtikelController extends Controller
 {
     public function index()
     {
-        $artikels = [
-            (object) [
-                'id' => '1',
-                'judul' => 'Kesehatan',
-                'deskripsi' => 'lorem ipsum',
-                'tanggal' => '2025-09-01',
-                'cover' => 'cover.png',
-                'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=sharing',
-            ],
-
-            (object) [
-                'id' => '2',
-                'judul' => 'Lorem',
-                'deskripsi' => 'lorem ipsum',
-                'tanggal' => '2025-09-01',
-                'cover' => 'cover.png',
-                'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=sharing',
-            ],
-
-        ];
-
+        $artikels = Artikel::latest()->get();
         return view('pages.Artikel.artikel', compact('artikels'));
     }
 
@@ -35,106 +19,74 @@ class ArtikelController extends Controller
         return view('pages.Artikel.createartikel');
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'judul'=>'required',
+            'deskripsi'=>'required',
+            'cover'=>'required|image|max:20480',
+            'file_pdf'=>'required|file|mimes:pdf|max:20480'
+        ]);
+
+        $cover = $request->file('cover')->store('artikel','public');
+        $pdf = $request->file('file_pdf')->store('artikel','public');
+
+        Artikel::create([
+            'judul'=>$request->judul,
+            'tanggal'=>now(),
+            'deskripsi'=>$request->deskripsi,
+            'cover'=>$cover,
+            'file_pdf'=>$pdf
+        ]);
+
+        return redirect()->route('artikel.index')->with('success','Artikel berhasil ditambah');
+    }
+
     public function show($id)
     {
-        $artikel = (object) [
-            'id' => $id,
-            'judul' => 'kesehatan'.$id,
-            'tanggal' => '2025-09-01'.$id,
-            'deskripsi' => 'Lorem Ipsum'.$id,
-            'cover' => 'cover.png'.$id,
-            'file_pdf' => 'path/to/file'.$id.'.pdf',
-        ];
-
+        $artikel = Artikel::findOrFail($id);
         return view('pages.Artikel.detailartikel', compact('artikel'));
     }
 
     public function edit($id)
     {
-        $all_artikel = [
-            (object) [
-                'id' => '1',
-                'judul' => 'Cara Menjaga Kesehatan di Era Modern',
-                'tanggal' => '2025-09-01',
-                'deskripsi' => 'Video ini membahas tips dan trik untuk menjaga kesehatan di era modern secara mendalam.',
-                'cover' => 'cover.png',
-                'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=sharing',
-            ],
-            (object) [
-                'id' => '2',
-                'judul' => 'Teknologi Terbaru di Tahun 2025',
-                'tanggal' => '2025-09-01',
-                'deskripsi' => 'Video ini membahas teknologi terbaru yang akan hadir di tahun 2025 dan dampaknya bagi kita.',
-                'cover' => 'cover.png',
-                'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=sharing',
-            ],
-            (object) [
-                'id' => '3',
-                'judul' => 'Pentingnya Pendidikan Karakter',
-                'tanggal' => '2025-09-01',
-                'deskripsi' => 'Video ini membahas pentingnya pendidikan karakter untuk generasi muda di masa depan.',
-                'cover' => 'cover.png',
-                'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=sharing',
-            ],
-            (object) [
-                'id' => '4',
-                'judul' => 'Dampak Perubahan Iklim Global',
-                'tanggal' => '2025-09-01',
-                'deskripsi' => 'Video ini membahas dampak perubahan iklim global dan upaya nyata yang dapat dilakukan.',
-                'cover' => 'cover.png',
-                'file_pdf' => 'https://drive.google.com/file/d/1Wp9I-Jcl3FW5Kpx_e8wQ2H20N_uWjN6e/view?usp=sharing',
-            ],
-        ];
-
-        $artikel = collect($all_artikel)->where('id', $id)->first();
-
-        if (! $artikel) {
-            abort(404);
-        }
-
+        $artikel = Artikel::findOrFail($id);
         return view('pages.Artikel.editartikel', compact('artikel'));
     }
 
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'required',
-            'file_pdf' => 'nullable|file|mimes:pdf|max:20480',
-            'cover' => 'nullable|image|max:20480',
-        ]);
-
-        $artikel = Buku::findOrFail($id);
-
-        $artikel->judul = $request->judul;
-        $buku->deskripsi = $request->deskripsi;
-
-        if ($request->hasFile('file_pdf')) {
-            $buku->file_pdf = $request->file('file_pdf')->store('artikel');
-        }
-
-        if ($request->hasFile('cover')) {
-            $buku->cover = $request->file('cover')->store('covers', 'public');
-        }
-
-        $artikel->save();
-
-        return redirect()->route('artikel.index')->with('success', 'Buku berhasil diperbarui!');
-    }
-
-    public function delete(Artikel $artikel)
+    public function update(Request $request,$id)
     {
         $artikel = Artikel::findOrFail($id);
 
-        if ($artikel->cover) {
+        $data = [
+            'judul'=>$request->judul,
+            'deskripsi'=>$request->deskripsi
+        ];
+
+        if($request->file('cover')){
             Storage::disk('public')->delete($artikel->cover);
+            $data['cover'] = $request->file('cover')->store('artikel','public');
         }
-        if ($artikel->file_pdf) {
+
+        if($request->file('file_pdf')){
             Storage::disk('public')->delete($artikel->file_pdf);
+            $data['file_pdf'] = $request->file('file_pdf')->store('artikel','public');
         }
+
+        $artikel->update($data);
+
+        return redirect()->route('artikel.index')->with('success','Artikel berhasil diupdate');
+    }
+
+    public function destroy($id)
+    {
+        $artikel = Artikel::findOrFail($id);
+
+        Storage::disk('public')->delete($artikel->cover);
+        Storage::disk('public')->delete($artikel->file_pdf);
 
         $artikel->delete();
 
-        return redirect()->route('artikel.index')->with('success', 'Buku berhasil dihapus!');
+        return redirect()->route('artikel.index')->with('success','Artikel berhasil dihapus');
     }
 }

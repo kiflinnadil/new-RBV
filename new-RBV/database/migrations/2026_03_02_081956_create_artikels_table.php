@@ -9,13 +9,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('artikels', function (Blueprint $table) {
-            $table->id('id_artikel'); 
-
+            $table->id('id_artikel');
             $table->string('judul');
             $table->date('tanggal');
             $table->text('deskripsi');
-            $table->string('konten_image'); 
-
+            $table->string('cover')->nullable();
+            $table->string('file_pdf')->nullable();
             $table->timestamps();
         });
     }

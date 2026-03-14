@@ -9,36 +9,56 @@
         </h1>
 
         <div class="bg-white rounded-[30px] shadow-xl p-10 md:p-14 border border-gray-100">
-            <form action="{{ route('artikel.store') }}" method="POST">
+            <form action="{{ route('artikel.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 
                 <div class="space-y-6">
+
                     <div>
-                        <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Judul Artikel</label>
+                        <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
+                            Judul Artikel
+                        </label>
                         <input type="text" name="judul" 
-                               class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 focus:ring-2 focus:ring-[#2B3A8C] outline-none"
-                               placeholder="Masukkan judul berita">
+                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 focus:ring-2 focus:ring-[#2B3A8C] outline-none"
+                                placeholder="Masukkan judul artikel">
                     </div>
 
                     <div>
-                        <label class="block text-gray-400 text-sm mb-2 ml-1">Deskripsi</label>
+                        <label class="block text-gray-400 text-sm mb-2 ml-1">
+                            Deskripsi
+                        </label>
                         <textarea name="deskripsi" rows="4"
-                                  class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
-                                  placeholder="Masukkan deskripsi berita"></textarea>
+                                    class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
+                                    placeholder="Masukkan deskripsi artikel"></textarea>
                     </div>
 
                     <div>
                         <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
-                            Konten Image
+                            Cover Artikel
                         </label>
 
                         <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
                             <span class="block font-montserrat text-gray-400 text-sm ml-1 italic">
-                                File maksimal 20 MB
+                                Upload Cover
                             </span>
-                            <input type="file" class="hidden">
+                            <input type="file" name="cover" class="hidden">
                         </label>
                     </div>
+
+                    <div>
+                        <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
+                            File Artikel (PDF)
+                        </label>
+
+                        <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
+                            <span class="block font-montserrat text-gray-400 text-sm ml-1 italic">
+                                Upload File PDF
+                            </span>
+                            <input type="file" name="file_pdf" class="hidden">
+                        </label>
+                    </div>
+
+                </div>
 
                 <div class="flex justify-center mt-10">
                     <button type="submit" 
@@ -46,6 +66,7 @@
                         Upload
                     </button>
                 </div>
+
             </form>
         </div>
     </div>

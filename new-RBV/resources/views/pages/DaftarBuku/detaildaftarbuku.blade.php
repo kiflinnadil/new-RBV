@@ -8,7 +8,7 @@
 
         <div>
             <img src="{{ asset('storage/'.$book->cover) }}"
-                 class="rounded-xl shadow-md w-full object-cover">
+                class="rounded-xl shadow-md w-full object-cover">
         </div>
 
         <div class="flex flex-col justify-between">
@@ -36,7 +36,7 @@
 
             <div class="flex flex-col gap-3">
 
-                <form action="{{ route('books.update', $book->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('books.update', $book->id_buku) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT') <div class="space-y-6">
                         <div>
@@ -85,16 +85,13 @@
                     </div>
                 </form>
 
-                <a href="{{ route('books.read', $book->id_buku) }}" target="_blank"
-                   class="flex items-center justify-center gap-2 w-full py-3 bg-[#00A14C] text-white font-bold rounded-xl hover:bg-emerald-700 transition text-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                    </svg>
-                    Baca Buku
-                </a>
+<a href="{{ route('books.read', $book->id_buku) }}"
+class="px-10 py-2.5 bg-[#00A14C] font-poppins text-white font-bold rounded-lg text-sm
+focus:outline-none focus:ring-0 active:ring-0"
+style="outline:none; box-shadow:none;">
 
                 <a href="{{ route('books.index') }}"
-                   class="flex items-center justify-center gap-2 w-full py-3 bg-gray-800 text-white font-bold rounded-xl hover:bg-gray-900 transition text-sm">
+                    class="flex items-center justify-center gap-2 w-full py-3 bg-gray-800 text-white font-bold rounded-xl hover:bg-gray-900 transition text-sm">
                     ← Kembali ke Daftar Buku
                 </a>
 

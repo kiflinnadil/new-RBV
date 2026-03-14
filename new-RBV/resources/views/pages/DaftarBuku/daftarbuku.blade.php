@@ -71,11 +71,6 @@
                         class="rounded-[32px] p-0 backdrop:bg-black/50 shadow-2xl w-full max-w-2xl overflow-hidden
                         fixed inset-0 m-auto">
                         <div class="bg-white p-8 md:p-12 relative">
-                            <button onclick="this.closest('dialog').close()" class="absolute top-5 right-5 text-gray-400 hover:text-black">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
 
                             <div class="flex flex-col items-center">
                                 <div class="w-48 md:w-64 aspect-[3/4] mb-8 shadow-2xl rounded-lg overflow-hidden">
@@ -152,5 +147,19 @@
             this.closest('form').submit();
         }, 500);
     });
-</script>
+        document.querySelectorAll("dialog").forEach(dialog => {
+        dialog.addEventListener("click", e => {
+            const rect = dialog.getBoundingClientRect();
+            const isInDialog =
+                rect.top <= e.clientY &&
+                e.clientY <= rect.top + rect.height &&
+                rect.left <= e.clientX &&
+                e.clientX <= rect.left + rect.width;
+
+            if (!isInDialog) {
+                dialog.close();
+            }
+        });
+    });
+    </script>
 @endsection

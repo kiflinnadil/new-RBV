@@ -23,9 +23,13 @@
             </div>
 
             <div class="hidden md:flex items-center gap-4">
-                <a href="#" class="font-poppins px-6 py-2 border-2 border-blue-900 text-blue-900 rounded-lg font-bold hover:bg-blue-50 transition">
+                @auth
+                    @if(auth()->user()->role == 'super_admin')
+                <a href="#" class="font-poppins px-6 py-2 border-3 border-blue-1000 text-blue-900 rounded-lg font-bold hover:bg-blue-50 transition">
                     Layanan
                 </a>
+                    @endif
+                @endauth
 
                 @guest
                     <a href="{{ route('login') }}"
@@ -35,30 +39,28 @@
                     @endguest
 
 
-                    {{-- Jika sudah login --}}
                     @auth
-                    <div class="relative group">
+                        <div class="relative group">
 
-                        <img src="{{ asset('images/profile.png') }}"
-                        class="w-10 h-10 rounded-full cursor-pointer border-2 border-blue-900">
+                            <img src="{{ asset('images/profile-icon.svg') }}"
+                                class="w-12 h-12 object-contain cursor-pointer">
 
-                        <div class="absolute right-0 top-full pt-2 w-40 bg-white shadow-lg rounded-lg hidden group-hover:block">
+                            <div class="absolute right-0 top-full pt-2 w-44 bg-white shadow-lg rounded-xl hidden group-hover:block">
 
-                            <div class="px-4 py-2 text-sm text-gray-700 border-b">
-                                {{ auth()->user()->name }}
+                                <div class="px-4 py-3 text-sm text-gray-700 border-b font-semibold">
+                                    {{ auth()->user()->name }}
+                                </div>
+
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button class="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-gray-100 rounded-b-xl">
+                                        Logout
+                                    </button>
+                                </form>
+
                             </div>
 
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button
-                                class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                                    Logout
-                                </button>
-                            </form>
-
                         </div>
-
-                    </div>
                     @endauth
             </div>
 

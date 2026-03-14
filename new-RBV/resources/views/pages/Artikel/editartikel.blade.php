@@ -9,13 +9,16 @@
             </h1>
 
             <div class="bg-white rounded-[30px] shadow-xl p-10 md:p-14 border border-gray-100">
-                <form action="{{ route('artikel.update', $artikel->id) }}" method="POST">
+                <form action="{{ route('artikel.update', $artikel->id_artikel) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    
+                    @method('PUT')
+
                     <div class="space-y-6">
+
                         <div>
                             <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Judul Artikel</label>
                             <input type="text" name="judul" 
+                                value="{{ $artikel->judul }}"
                                 class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
                                 placeholder="Masukkan judul artikel">
                         </div>
@@ -24,11 +27,10 @@
                             <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Deskripsi</label>
                             <textarea name="deskripsi" rows="4"
                             class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
-                            placeholder="Masukkan deskripsi buku"></textarea>
+                            placeholder="Masukkan deskripsi buku">{{ $artikel->deskripsi }}</textarea>
                         </div>
                         
                         <div>
-
                             <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
                                 File Artikel
                             </label>
@@ -37,7 +39,7 @@
                                 <span class="block font-montserrat text-gray-400 text-sm ml-1 italic">
                                     File maksimal 20 MB
                                 </span>
-                                <input type="file" class="hidden">
+                                <input type="file" name="file_pdf" class="hidden">
                             </label>
                         </div>
 
@@ -50,7 +52,7 @@
                                 <span class="block font-montserrat text-gray-400 text-sm ml-1 italic">
                                     File maksimal 20 MB
                                 </span>
-                                <input type="file" class="hidden">
+                                <input type="file" name="cover" class="hidden">
                             </label>
                         </div>
 
@@ -62,6 +64,7 @@
                             Upload
                         </button>
                     </div>
+
                 </form>
             </div>
         </div>

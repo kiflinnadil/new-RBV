@@ -1,6 +1,6 @@
 <?php
 
-// use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\BukuController;
@@ -37,12 +37,21 @@ Route::middleware(['auth','superadmin'])->group(function(){
     Route::put('/video/{id}',[VideoController::class,'update'])->name('video.update');
     Route::delete('/video/{id}',[VideoController::class,'destroy'])->name('video.destroy');
 
+    Route::get('/artikel/create',[ArtikelController::class,'create'])->name('artikel.create');
+    Route::post('/artikel',[ArtikelController::class,'store'])->name('artikel.store');
+    Route::get('/artikel/{id}/edit',[ArtikelController::class,'edit'])->name('artikel.edit');
+    Route::put('/artikel/{id}',[ArtikelController::class,'update'])->name('artikel.update');
+    Route::delete('/artikel/{id}',[ArtikelController::class,'destroy'])->name('artikel.destroy');
+
 });
 
 Route::get('/berita',[BeritaController::class,'index'])->name('berita.index');
 
 Route::get('video', [VideoController::class, 'index'])->name('video.index');
 Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
+
+Route::get('/artikel',[ArtikelController::class,'index'])->name('artikel.index');
+Route::get('/artikel/{id}',[ArtikelController::class,'show'])->name('artikel.show');
 
 // -------------- //
 // Route::get('/', [BukuController::class, 'beranda']);

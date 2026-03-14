@@ -8,7 +8,7 @@
 
         <div>
             <img src="{{ asset('images/'.$artikel->cover) }}"
-                 class="rounded-xl shadow-md w-full object-cover">
+                    class="rounded-xl shadow-md w-full object-cover">
         </div>
 
         <div class="flex flex-col justify-between">

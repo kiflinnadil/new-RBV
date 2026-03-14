@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="bg-[#F5F7FB] min-h-screen">
+<div class="min-h-screen" style="background: linear-gradient(to bottom, #E0EDFF 0%, #FFFFFF 100%);">
 
     <div class="max-w-7xl mx-auto px-16 pt-10">
         <div class="flex flex-col md:flex-row items-center justify-between gap-4">
@@ -39,7 +39,7 @@
 
             <div class="relative aspect-square bg-[#EFF4FF] rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden border border-white flex flex-col">
     
-                <div class="relative h-2/5 w-full">
+                <div class="relative h-[40%] w-full">
                     <img src="{{ asset('storage/' . $berita->cover) }}" 
                         class="w-full h-full object-cover" 
                         alt="Cover {{ $berita->judul }}"
