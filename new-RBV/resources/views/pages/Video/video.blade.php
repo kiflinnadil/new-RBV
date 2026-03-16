@@ -68,7 +68,7 @@
 
                                     <form action="{{ route('video.destroy', $video->id_video) }}" method="POST">
                                         @csrf @method('DELETE')
-                                        <button onclick="return confirm('Yakin Hapus?')" type="submit" 
+                                        <button onclick="return confirm('Apa anda yakin ingin menghapus?')" type="submit" 
                                                 class="p-1.5 bg-red-500 text-white rounded-lg shadow hover:scale-110 transition">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
