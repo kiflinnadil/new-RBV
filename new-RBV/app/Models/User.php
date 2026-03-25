@@ -40,4 +40,9 @@ class User extends Authenticatable
     {
         return 'NIK';
     }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class,'user_id');
+    }
 }

@@ -22,4 +22,9 @@ class Buku extends Model
         'file_pdf',
         'cover'
     ];
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class,'buku_id');
+    }
 }

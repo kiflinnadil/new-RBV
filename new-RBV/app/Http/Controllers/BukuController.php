@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Favorite;
+use Illuminate\Support\Facades\Auth;
 
 class BukuController extends Controller
 {
@@ -31,6 +33,16 @@ class BukuController extends Controller
         }
 
         $books = $query->latest()->get();
+
+        if(Auth::check()){
+            $favorites = Favorite::where('user_id', Auth::user()->id_user)
+                ->pluck('buku_id')
+                ->toArray();
+
+            foreach ($books as $book) {
+                $book->is_favorite = in_array($book->id_buku, $favorites);
+            }
+        }
 
         return view('pages.DaftarBuku.daftarbuku', compact('books'));
     }
@@ -122,5 +134,40 @@ class BukuController extends Controller
         $book->delete();
 
         return redirect()->route('books.index')->with('success','Buku berhasil dihapus');
+    }
+
+    // ⭐ TOGGLE FAVORITE
+    public function toggleFavorite($id)
+    {
+        $userId = Auth::user()->id_user;
+
+        $fav = Favorite::where('user_id',$userId)
+            ->where('buku_id',$id)
+            ->first();
+
+        if($fav){
+            $fav->delete();
+        } else {
+            Favorite::create([
+                'user_id'=>$userId,
+                'buku_id'=>$id
+            ]);
+        }
+
+        return back();
+    }
+
+    // ⭐ HALAMAN FAVORIT
+    public function favorit()
+    {
+        $books = Buku::whereHas('favorites', function($q){
+            $q->where('user_id', Auth::user()->id_user);
+        })->latest()->get();
+
+        foreach ($books as $buku) {
+            $buku->is_favorite = true;
+        }
+
+        return view('pages.DaftarBuku.favorite', compact('books'));
     }
 }

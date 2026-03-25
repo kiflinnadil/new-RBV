@@ -24,7 +24,7 @@
             <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden flex flex-col border border-white p-5 group">
 
                 <div class="relative aspect-[3/4] w-full rounded-2xl overflow-hidden shadow-inner bg-gray-50">
-                    <img src="{{ asset('images/'.$buku->cover) }}" 
+                    <img src="{{ asset('storage/'.$buku->cover) }}" 
                         class="w-full h-full object-cover group-hover:scale-110 transition duration-500" 
                         alt="{{ $buku->judul }}">
                         
@@ -40,7 +40,7 @@
                         </form>
 
                         <div class="aspect-[3/4] w-full overflow-hidden">
-                            <img src="{{ asset('images/'.$buku->cover) }}" class="w-full h-full object-cover">
+                            <img src="{{ asset('storage/'.$buku->cover) }}" class="w-full h-full object-cover">
                         </div>
 
                 </div>

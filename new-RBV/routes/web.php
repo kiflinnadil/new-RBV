@@ -64,6 +64,13 @@ Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index
 Route::get('/artikel/{id}', [ArtikelController::class, 'show'])->name('artikel.show');
 Route::get('/artikel/{id}/read', [ArtikelController::class, 'read'])->name('artikel.read');
 
+Route::post('/books/{id}/favorite', [BukuController::class, 'toggleFavorite'])
+    ->name('books.favorite')
+    ->middleware('auth');
+
+Route::get('/favorite', [BukuController::class, 'favorit'])
+    ->name('books.favorit')
+    ->middleware('auth');
 // -------------- //
 // Route::get('/', [BukuController::class, 'beranda']);
 
