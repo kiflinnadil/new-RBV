@@ -8,51 +8,60 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [BukuController::class,'beranda']);
-Route::get('/koleksi', [BukuController::class,'index'])->name('books.index');
-Route::get('/koleksi/{id}',[BukuController::class,'show'])->name('books.show');
-Route::get('/books/{id}/read',[BukuController::class,'read'])->name('books.read');
+Route::get('/', [BukuController::class, 'beranda']);
+Route::get('/koleksi', [BukuController::class, 'index'])->name('books.index');
+Route::get('/koleksi/{id}', [BukuController::class, 'show'])->name('books.show');
+Route::get('/books/{id}/read', [BukuController::class, 'read'])->name('books.read');
 Route::get('/books/read/{id}', [BukuController::class, 'read'])->name('books.read');
 
-Route::get('/login', function () {return view('pages.login');})->name('login');
+Route::get('/login', function () {
+    return view('pages.login');
+})->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth','superadmin'])->group(function(){
+Route::get('/profil', function () {
+    return view('pages.profil');
+});
 
-    Route::get('/books/create',[BukuController::class,'create'])->name('books.create');
-    Route::post('/books',[BukuController::class,'store'])->name('books.store');
-    Route::get('/books/{id}/edit',[BukuController::class,'edit'])->name('books.edit');
-    Route::put('/books/{id}',[BukuController::class,'update'])->name('books.update');
-    Route::delete('/books/{id}',[BukuController::class,'destroy'])->name('books.delete');
+Route::get('/tambah-akun', function () {
+    return view('tambah-akun');
+});
+Route::middleware(['auth', 'superadmin'])->group(function () {
 
-    Route::get('/berita/create',[BeritaController::class,'create'])->name('berita.create');
-    Route::post('/berita',[BeritaController::class,'store'])->name('berita.store');
-    Route::get('/berita/{id}/edit',[BeritaController::class,'edit'])->name('berita.edit');
-    Route::put('/berita/{id}',[BeritaController::class,'update'])->name('berita.update');
-    Route::delete('/berita/{id}',[BeritaController::class,'destroy'])->name('berita.destroy');
+    Route::get('/books/create', [BukuController::class, 'create'])->name('books.create');
+    Route::post('/books', [BukuController::class, 'store'])->name('books.store');
+    Route::get('/books/{id}/edit', [BukuController::class, 'edit'])->name('books.edit');
+    Route::put('/books/{id}', [BukuController::class, 'update'])->name('books.update');
+    Route::delete('/books/{id}', [BukuController::class, 'destroy'])->name('books.delete');
 
-    Route::get('/video/create',[VideoController::class,'create'])->name('video.create');
-    Route::post('/video',[VideoController::class,'store'])->name('video.store');
-    Route::get('/video/{id}/edit',[VideoController::class,'edit'])->name('video.edit');
-    Route::put('/video/{id}',[VideoController::class,'update'])->name('video.update');
-    Route::delete('/video/{id}',[VideoController::class,'destroy'])->name('video.destroy');
+    Route::get('/berita/create', [BeritaController::class, 'create'])->name('berita.create');
+    Route::post('/berita', [BeritaController::class, 'store'])->name('berita.store');
+    Route::get('/berita/{id}/edit', [BeritaController::class, 'edit'])->name('berita.edit');
+    Route::put('/berita/{id}', [BeritaController::class, 'update'])->name('berita.update');
+    Route::delete('/berita/{id}', [BeritaController::class, 'destroy'])->name('berita.destroy');
 
-    Route::get('/artikel/create',[ArtikelController::class,'create'])->name('artikel.create');
-    Route::post('/artikel',[ArtikelController::class,'store'])->name('artikel.store');
-    Route::get('/artikel/{id}/edit',[ArtikelController::class,'edit'])->name('artikel.edit');
-    Route::put('/artikel/{id}',[ArtikelController::class,'update'])->name('artikel.update');
-    Route::delete('/artikel/{id}',[ArtikelController::class,'destroy'])->name('artikel.destroy');
+    Route::get('/video/create', [VideoController::class, 'create'])->name('video.create');
+    Route::post('/video', [VideoController::class, 'store'])->name('video.store');
+    Route::get('/video/{id}/edit', [VideoController::class, 'edit'])->name('video.edit');
+    Route::put('/video/{id}', [VideoController::class, 'update'])->name('video.update');
+    Route::delete('/video/{id}', [VideoController::class, 'destroy'])->name('video.destroy');
+
+    Route::get('/artikel/create', [ArtikelController::class, 'create'])->name('artikel.create');
+    Route::post('/artikel', [ArtikelController::class, 'store'])->name('artikel.store');
+    Route::get('/artikel/{id}/edit', [ArtikelController::class, 'edit'])->name('artikel.edit');
+    Route::put('/artikel/{id}', [ArtikelController::class, 'update'])->name('artikel.update');
+    Route::delete('/artikel/{id}', [ArtikelController::class, 'destroy'])->name('artikel.destroy');
 
 });
 
-Route::get('/berita',[BeritaController::class,'index'])->name('berita.index');
+Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
 
 Route::get('video', [VideoController::class, 'index'])->name('video.index');
 Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
 
-Route::get('/artikel',[ArtikelController::class,'index'])->name('artikel.index');
-Route::get('/artikel/{id}',[ArtikelController::class,'show'])->name('artikel.show');
+Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
+Route::get('/artikel/{id}', [ArtikelController::class, 'show'])->name('artikel.show');
 Route::get('/artikel/{id}/read', [ArtikelController::class, 'read'])->name('artikel.read');
 
 // -------------- //

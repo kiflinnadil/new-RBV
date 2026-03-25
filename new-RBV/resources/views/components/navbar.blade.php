@@ -51,12 +51,24 @@
                                     {{ auth()->user()->name }}
                                 </div>
 
-                                <form action="{{ route('logout') }}" method="POST">
+                                <button class="w-full text-left px-4 py-3 font-poppins text-sm text-gray-700 hover:bg-gray-100 rounded-b-xl">
+                                    <a href="/tambah-akun" >
+                                        Tambah Akun
+                                    </a>
+                                </button>
+
+                                <button class="w-full text-left px-4 py-3 font-poppins text-sm text-gray-700 hover:bg-gray-100 rounded-b-xl">
+                                    <a href="/profil" >
+                                        Profil
+                                    </a>
+                                </button>
+
+                                {{-- <form action="{{ route('logout') }}" method="POST">
                                     @csrf
                                     <button class="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-gray-100 rounded-b-xl">
                                         Logout
                                     </button>
-                                </form>
+                                </form> --}}
 
                             </div>
 

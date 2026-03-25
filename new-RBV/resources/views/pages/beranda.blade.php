@@ -123,55 +123,76 @@
 
 
 
-    <div id="fasilitasSection" class="bg-white py-16">
-        
-        <div class="max-w-6xl mx-auto px-8 text-center mb-12">
-            <h2 class="font-poppins text-[55px] font-extrabold text-[#272E84] [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)] tracking-tight mb-2">
+    <div id="fasilitasSection" class="py-16"
+        style="background: linear-gradient(180deg, #c8d8f8 0%, #dde8ff 30%, #e8d8f8 70%, #c8c8f0 100%);">
+
+        <div class="max-w-3xl mx-auto px-8 text-center mb-10">
+            <h2 class="font-poppins text-[55px] font-extrabold text-[#1a237e] mb-3"
+                style="text-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
                 Fasilitas Yang Tersedia
             </h2>
-            <p class="font-montserrat text-22px text-black max-w-2xl mx-auto">
-                Kami menyediakan berbagai Fasilitas Unggulan untuk kenyamanan dan keamanan pasien.
+            <p class="text-black text-base font-montserrat leading-relaxed">
+                Kami menyediakan berbagai Fasilitas Unggulan untuk kenyamanan dan
+                keamanan pasien serta pengunjung Rumah Sakit Citra Husada.
             </p>
         </div>
-        
-        <div class="max-w-7xl mx-auto px-4 overflow-hidden">
-            <div class="swiper swiper-fasilitas">
+
+        <div class="relative">
+
+            <button class="fasilitas-prev absolute left-4 top-1/2 -translate-y-1/2 z-10
+                text-gray-400 hover:text-gray-700 transition-colors text-5xl font-thin
+                leading-none bg-transparent border-none cursor-pointer select-none w-10 text-center">
+                &#8249;
+            </button>
+            <button class="fasilitas-next absolute right-4 top-1/2 -translate-y-1/2 z-10
+                text-gray-400 hover:text-gray-700 transition-colors text-5xl font-thin
+                leading-none bg-transparent border-none cursor-pointer select-none w-10 text-center">
+                &#8250;
+            </button>
+
+            <div class="swiper swiper-fasilitas px-16">
                 <div class="swiper-wrapper">
 
                     @foreach ([
-                        ['img' => 'lab.png', 'title' => 'Layanan Laboratorium'],
-                        ['img' => 'lab.png', 'title' => 'Layanan Radiologi'],
-                        ['img' => 'lab.png', 'title' => 'Layanan Farmasi'],
-                        ['img' => 'lab.png', 'title' => 'Instalasi Gawat Darurat'],
-                        ] as $item)
+                        ['img' => 'layanangawatdarurat.png', 'title' => 'Layanan Gawat Darurat',   'desc' => 'Dilengkapi peralatan pemeriksaan terbaru'],
+                        ['img' => 'lab.png',                 'title' => 'Layanan Laboratorium',    'desc' => 'Pemeriksaan laboratorium lengkap dan akurat'],
+                        ['img' => 'lab.png',                 'title' => 'Layanan Radiologi',       'desc' => 'Teknologi pencitraan medis terkini'],
+                        ['img' => 'lab.png',                 'title' => 'Layanan Farmasi',         'desc' => 'Obat-obatan lengkap dan terpercaya'],
+                        ['img' => 'layanangawatdarurat.png', 'title' => 'Instalasi Gawat Darurat', 'desc' => 'Penanganan darurat 24 jam siap melayani'],
+                        ['img' => 'layanangawatdarurat.png', 'title' => 'Layanan Rawat Inap',      'desc' => 'Kamar nyaman dengan fasilitas lengkap'],
+                        ['img' => 'layanangawatdarurat.png', 'title' => 'Layanan Rehabilitasi',    'desc' => 'Program pemulihan fisik profesional'],
+                        ['img' => 'layanangawatdarurat.png', 'title' => 'Layanan Konsultasi',      'desc' => 'Konsultasi dokter spesialis terpercaya'],
+                        ['img' => 'layanangawatdarurat.png', 'title' => 'Layanan Operasi',         'desc' => 'Ruang operasi steril berteknologi tinggi'],
+                    ] as $item)
 
-                    <div class="swiper-slide flex justify-center item-center">
-                        <div class="card-fasilitas rounded-3xl shadow-xl p-8 text-center mx-auto max-w-[340px]"
-                            style="background: linear-gradient(
-                                to bottom,
-                                #E0EDFF 0%,
-                                #FFFFFF 100%
-                            );">
-                            <div class="flex justify-center mb-4">
+                    <div class="swiper-slide">
+                        <div class="rounded-3xl text-center py-10 px-8"
+                            style="background: linear-gradient(160deg, #dbeafe 0%, #f0f6ff 50%, #ffffff 100%);
+                                box-shadow: 0 4px 24px rgba(100,120,200,0.10);">
+                            <div class="flex justify-center mb-6">
                                 <img src="{{ asset('images/' . $item['img']) }}"
-                                class="w-30 h-30 font-poppins object-contain">
+                                    class="object-contain"
+                                    style="width: 180px; height: 160px;"
+                                    alt="{{ $item['title'] }}">
                             </div>
-                            <h3 class="font-bold text-base text-gray-800 mb-2">
+                            <h3 class="font-bold text-lg text-gray-800 mb-2">
                                 {{ $item['title'] }}
                             </h3>
-                            <p class="font-montserrat text-sm text-gray-500">
-                                Dilengkapi peralatan pemeriksaan terbaru
+                            <p class="text-gray-500 text-sm leading-relaxed">
+                                {{ $item['desc'] }}
                             </p>
                         </div>
                     </div>
-                    
+
                     @endforeach
-                    
+
                 </div>
-                
-                <div class="swiper-pagination mt-10"></div>
             </div>
+
         </div>
+
+        <div class="fasilitas-pagination flex justify-center mt-8 gap-2"></div>
+
     </div>
     
 
@@ -194,29 +215,49 @@
                 </p>
             </div>
 
-            <div class="px-10 mt-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
-                    <div class="bg-gray-100 rounded-xl shadow-md p-4 h-64">
-                        <h5 class="font-bold text-blue-900 mb-2">
-                            Statistik Pengunjung
-                        </h5>
-                        <div class="relative h-48">
-                            <canvas id="chartKunjungan"></canvas>
+            <div class="px-16 py-10">
+
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+
+                    <div class="bg-white rounded-2xl border border-gray-200 px-6 py-5 flex items-center gap-2 shadow-xl">
+                        <div class="flex-shrink-0">
+                            <img src="{{ asset('images/kunjungan.png') }}" class="w-30 h-30 object-contain">
+                        </div>
+                        <div>
+                            <p class="font-poppins text-blue-900 font-bold text-lg leading-tight">Kunjungan Hari ini</p>
+                            <p class="font-poppins text-red-600 font-bold text-4xl mt-1">{{ $kunjunganHariIni ?? 100 }}</p>
                         </div>
                     </div>
-        
-                    <div class="bg-gray-100 rounded-xl shadow-md p-4 h-64">
-                            <h5 class="font-bold text-blue-900 mb-2">
-                                Trend Buku
-                            </h5>
-                            <div class="relative h-48">
-                                <canvas id="trendChart"></canvas>
-                            </div>
+
+                    <div class="bg-white rounded-2xl border border-gray-200 px-6 py-5 flex items-center gap-2 shadow-xl">
+                        <div class="flex-shrink-0">
+                            <img src="{{ asset('images/layanan.png') }}" class="w-30 h-30 object-contain">
                         </div>
-        
+                        <div>
+                            <p class="font-poppins text-blue-900 font-bold text-lg leading-tight">Akses Layanan</p>
+                            <p class="font-poppins text-red-600 font-bold text-4xl mt-1">{{ $aksesLayanan ?? 100 }}</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-gray-200 px-6 py-5 flex items-center gap-2 shadow-xl">
+                        <div class="flex-shrink-0">
+                            <img src="{{ asset('images/trenbuku.png') }}" class="w-30 h-30 object-contain">
+                        </div>
+                        <div>
+                            <p class="font-poppins text-blue-900 font-bold text-lg leading-tight">Trend Buku</p>
+                            <p class="font-poppins text-red-600 font-bold text-4xl mt-1">{{ $trendBuku ?? 100 }}</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="bg-white rounded-2xl border border-gray-200 p-6">
+                    <div class="relative" style="height: 380px;">
+                        <canvas id="chartKunjungan"></canvas>
                     </div>
                 </div>
+
             </div>
 
 

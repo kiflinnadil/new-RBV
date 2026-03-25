@@ -26,4 +26,12 @@ class ProfileController extends Controller
 
         return redirect('/login');
     }
+
+    public function show()
+    {
+
+        $user = Auth::user();
+
+        return view('pages.profile', compact('user'));
+    }
 }
