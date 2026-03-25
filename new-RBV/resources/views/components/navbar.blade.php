@@ -40,38 +40,21 @@
 
 
                     @auth
-                        <div class="relative group">
-
+                        <div class="relative" id="profileDropdownWrapper">
                             <img src="{{ asset('images/profile-icon.svg') }}"
+                                id="profileBtn"
                                 class="w-12 h-12 object-contain cursor-pointer">
-
-                            <div class="absolute right-0 top-full pt-2 w-44 bg-white shadow-lg rounded-xl hidden group-hover:block">
-
-                                <div class="px-4 py-3 text-sm text-gray-700 border-b font-semibold">
-                                    {{ auth()->user()->name }}
-                                </div>
-
-                                <button class="w-full text-left px-4 py-3 font-poppins text-sm text-gray-700 hover:bg-gray-100 rounded-b-xl">
-                                    <a href="/tambah-akun" >
-                                        Tambah Akun
-                                    </a>
-                                </button>
-
-                                <button class="w-full text-left px-4 py-3 font-poppins text-sm text-gray-700 hover:bg-gray-100 rounded-b-xl">
-                                    <a href="/profil" >
-                                        Profil
-                                    </a>
-                                </button>
-
-                                {{-- <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button class="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-gray-100 rounded-b-xl">
-                                        Logout
-                                    </button>
-                                </form> --}}
-
+                            <div id="profileDropdown"
+                                class="absolute right-0 mt-3 w-44 bg-white shadow-xl rounded-xl hidden z-[9999]">
+                                <a href="/tambah-akun"
+                                    class="block px-4 py-3 font-poppins text-sm text-gray-700 hover:bg-gray-100">
+                                    Tambah Akun
+                                </a>
+                                <a href="/profil"
+                                    class="block px-4 py-3 font-poppins text-sm text-gray-700 hover:bg-gray-100">
+                                    Profil
+                                </a>
                             </div>
-
                         </div>
                     @endauth
             </div>
@@ -79,3 +62,23 @@
         </div>
     </div>
 </nav>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const btn = document.getElementById("profileBtn");
+    const dropdown = document.getElementById("profileDropdown");
+
+    btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        dropdown.classList.toggle("hidden");
+    });
+
+    document.addEventListener("click", function (e) {
+        if (!document.getElementById("profileDropdownWrapper").contains(e.target)) {
+            dropdown.classList.add("hidden");
+        }
+    });
+
+});
+</script>
