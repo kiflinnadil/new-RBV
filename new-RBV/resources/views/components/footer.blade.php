@@ -21,19 +21,19 @@
             <h3 class="font-bold text-lg mb-4">Navigasi</h3>
             <ul class="flex flex-col gap-3 text-sm text-gray-200">
                 <li><a href="#" class="hover:text-white transition">Beranda</a></li>
-                <li><a href="#" class="hover:text-white transition">Tentang Kami</a></li>
+                <li><a target="_blank" href="https://rscitrahusada.com/profil" class="hover:text-white transition">Tentang Kami</a></li>
                 <li><a href="#" class="hover:text-white transition">Layanan</a></li>
-                <li><a href="#" class="hover:text-white transition">FAQ</a></li>
+                {{-- <li><a href="#" class="hover:text-white transition">FAQ</a></li> --}}
             </ul>
         </div>
 
         <div>
             <h3 class="font-bold text-lg mb-4">Media Sosial</h3>
             <div class="flex gap-3 mb-6">
-                <a href="https://www.youtube.com/c/RSCITRAHUSADAJEMBER/videos" class="hover:opacity-80 transition"><i class="fab fa-youtube text-xl"><image src="{{ asset('images/youtube.png') }}" alt="YouTube" class="h-6 w-6"></i></a>
-                <a href="https://www.instagram.com/rscitrahusadajember/" class="hover:opacity-80 transition"><i class="fab fa-instagram text-xl"><image src="{{ asset('images/instagram.png') }}" alt="Instagram" class="h-6 w-6"></i></a>
-                <a href="https://www.facebook.com/rscitrahusadajember/?locale=id_ID" class="hover:opacity-80 transition"><i class="fab fa-facebook text-xl"><image src="{{ asset('images/facebook.png') }}" alt="Facebook" class="h-6 w-6"></i></a>
-                <a href="https://www.tiktok.com/@rscitrahusadajember" class="hover:opacity-80 transition"><i class="fab fa-tiktok text-xl"><image src="{{ asset('images/tiktok.png') }}" alt="TikTok" class="h-6 w-6"></i></a>
+                <a target="_blank" href="https://www.youtube.com/c/RSCITRAHUSADAJEMBER/videos" class="hover:opacity-80 transition"><i class="fab fa-youtube text-xl"><image src="{{ asset('images/youtube.png') }}" alt="YouTube" class="h-6 w-6"></i></a>
+                <a target="_blank" href="https://www.instagram.com/rscitrahusadajember/" class="hover:opacity-80 transition"><i class="fab fa-instagram text-xl"><image src="{{ asset('images/instagram.png') }}" alt="Instagram" class="h-6 w-6"></i></a>
+                <a target="_blank" href="https://www.facebook.com/rscitrahusadajember/?locale=id_ID" class="hover:opacity-80 transition"><i class="fab fa-facebook text-xl"><image src="{{ asset('images/facebook.png') }}" alt="Facebook" class="h-6 w-6"></i></a>
+                <a target="_blank" href="https://www.tiktok.com/@rscitrahusadajember" class="hover:opacity-80 transition"><i class="fab fa-tiktok text-xl"><image src="{{ asset('images/tiktok.png') }}" alt="TikTok" class="h-6 w-6"></i></a>
             </div>
             <div class="rounded-sm overflow-hidden h-25 w-full shadow-inner">
                 <div class="w-full h-[400px] rounded-sm overflow-hidden">
@@ -50,7 +50,7 @@
             <h3 class="font-bold text-lg mb-4">Kontak Kami</h3>
             <ul class="flex flex-col gap-3 text-sm text-gray-200">
                 <li class="flex items-start gap-2">
-                    <span>(+62 331) 486200 ext: 142</span>
+                    <span>(+62 331) 486200 ext: 0 (Operator)</span>
                 </li>
                 <li class="flex items-start gap-2">
                     <span>081379048176</span>
