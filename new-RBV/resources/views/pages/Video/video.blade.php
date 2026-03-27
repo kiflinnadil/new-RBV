@@ -11,7 +11,7 @@
             @auth
                 @if(auth()->user()->role == 'super_admin')
                     <a href="{{ route('video.create') }}" 
-                    class="flex items-center justify-center w-10 h-10 rounded-md border border-gray-300 bg-white text-gray-800 transition hover:scale-110 shadow-sm">
+                    class="flex items-center justify-center w-10 h-10 rounded-md border border-gray-300 bg-white text-[#606060] transition hover:scale-110 shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4" />
                         </svg>
@@ -63,13 +63,52 @@
                                         <img src="{{ asset('images/edit.png') }}" class="items-center w-5 h-5 object-contain">
                                     </a>
 
-                                    <form action="{{ route('video.destroy', $video->id_video) }}" method="POST">
+                                    <div x-data="deleteModal()" x-init="init()" x-cloak>
+
+                                    <div class="flex justify-center">
+                                        <button @click="openDelete = true"
+                                            class="p-2 bg-red-500 text-white rounded-md shadow transition">
+                                            <img src="{{ asset('images/delete.png') }}" class="w-5 h-5 object-contain">
+                                        </button>
+                                    </div>
+
+                                    <div x-show="openDelete"
+                                        @click.self="openDelete = false"
+                                        x-transition
+                                        class="fixed inset-0 z-[999] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
+
+                                        <div class="bg-white rounded-[30px] p-10 max-w-sm w-full shadow-2xl text-center">
+
+                                            <h2 class="text-3xl font-extrabold text-gray-900 mb-2">Hapus</h2>
+                                            <p class="text-gray-500 mb-8">Apa anda yakin ingin hapus?</p>
+
+                                            <div class="flex gap-4">
+                                                <button @click="openDelete = false"
+                                                    class="bg-gray-400 text-white font-bold py-3 rounded-xl w-full">
+                                                    Tidak
+                                                </button>
+
+                                                <form action="{{ route('video.destroy', $video->id_video) }}" method="POST" class="w-full">
+                                                    @csrf @method('DELETE')
+                                                    <button type="submit"
+                                                        class="bg-red-600 text-white font-bold py-3 rounded-xl w-full">
+                                                        Ya
+                                                    </button>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                    {{-- <form action="{{ route('video.destroy', $video->id_video) }}" method="POST">
                                         @csrf @method('DELETE')
                                         <button onclick="return confirm('Apa anda yakin ingin menghapus?')" type="submit" 
                                                 class="p-1.5 bg-red-500 text-white rounded-lg shadow hover:scale-110 transition">
                                             <img src="{{ asset('images/delete.png') }}" class="items-center w-5 h-5 object-contain">
                                         </button>
-                                    </form>
+                                    </form> --}}
 
                                 </div>
                             @endif
@@ -108,4 +147,14 @@
         </div>
     </div>
 </div>
+<script>
+function deleteModal() {
+    return {
+        openDelete: false,
+        init() {
+            this.openDelete = false
+        }
+    }
+}
+</script>
 @endsection

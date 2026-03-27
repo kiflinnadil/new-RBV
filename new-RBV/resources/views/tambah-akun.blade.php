@@ -23,6 +23,24 @@
                 </div>
 
                 <div>
+                    <label class="block text-gray-500 text-sm mb-1 ml-1">Jabatan</label>
+                    <input type="text" name="jabatan"
+                        class="w-full bg-[#F3F4F6] border-none rounded-xl py-3 px-5 text-gray-600 outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-gray-500 text-sm mb-1 ml-1">Unit Kerja</label>
+                    <input type="text" name="Unit Kerja"
+                        class="w-full bg-[#F3F4F6] border-none rounded-xl py-3 px-5 text-gray-600 outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-gray-500 text-sm mb-1 ml-1">Role</label>
+                    <input type="text" name="Role"
+                        class="w-full bg-[#F3F4F6] border-none rounded-xl py-3 px-5 text-gray-600 outline-none">
+                </div>
+
+                <div>
                     <label class="block text-gray-500 text-sm mb-1 ml-1">Password</label>
                     <input type="text" name="password"
                         class="w-full bg-[#F3F4F6] border-none rounded-xl py-3 px-5 text-gray-600 outline-none">
@@ -30,8 +48,10 @@
 
                 <div>
                     <label class="block text-gray-500 text-sm mb-1 ml-1">Konfirmasi Password</label>
-                    <input type="text" name=""
-                        class="w-full bg-[#F3F4F6] border-none rounded-xl py-3 px-5 text-gray-600 outline-none">
+                    <input 
+                        type="password" name="password"
+                        required
+                        class="w-full bg-[#F3F4F6] border-none rounded-xl py-3 px-5 text-gray-600 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-white/60 transition">
                 </div>
 
                 <div class="flex justify-center mt-10">

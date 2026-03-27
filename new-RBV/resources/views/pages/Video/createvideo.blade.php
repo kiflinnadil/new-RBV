@@ -28,7 +28,7 @@
                     </div>
 
                     <div>
-                        <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Link Berita</label>
+                        <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Link Video</label>
                         <input type="url" name="link" 
                             class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
                             placeholder="https://youtube.com/embed/...">

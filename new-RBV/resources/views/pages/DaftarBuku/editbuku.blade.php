@@ -34,10 +34,13 @@
 
                         <div>
                             <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Kategori</label>
-                            <input type="text" name="kategori" 
-                                value="{{ $book->kategori }}"
-                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
-                                placeholder="Masukkan kategori">
+                            <select name="kategori"
+                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none">
+
+                                <option value="">Pilih Kategori</option>
+                                <option value="Kesehatan">Kesehatan</option>
+                                <option value="Non Kesehatan">Non Kesehatan</option>
+                            </select>
                         </div>
 
                         <div>

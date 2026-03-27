@@ -84,23 +84,65 @@
                                         @auth
                                             @if(auth()->user()->role == 'super_admin')
                                         <div class="flex gap-2">
-                                            <a href="{{ route('books.edit', $buku->id_buku) }}" class="p-2 bg-[#00A14C] text-white rounded-md">
-                                                <img src="{{ asset('images/edit.png') }}" class="w-5 h-5 object-contain">
-                                            </a>
+                                            <button class="px-2 bg-[#00A14C] text-white rounded-md">
+                                                <a href="{{ route('books.edit', $buku->id_buku) }}">
+                                                    <img src="{{ asset('images/edit.png') }}" class="w-5 h-5 object-contain">
+                                                </a>
+                                            </button>
                                             
-                                            <form action="{{ route('books.delete', $buku->id_buku) }}" method="POST" onsubmit="return confirm('Apa anda yakin ingin menghapus?')">
+                                            
+                                            <div x-data="deleteModal()" x-init="init()" x-cloak>
+
+                                                <div class="flex justify-center">
+                                                    <button @click="openDelete = true"
+                                                        class="p-2 bg-red-500 text-white rounded-md shadow transition">
+                                                        <img src="{{ asset('images/delete.png') }}" class="w-5 h-5 object-contain">
+                                                    </button>
+                                                </div>
+
+                                                <div x-show="openDelete"
+                                                    @click.self="openDelete = false"
+                                                    x-transition
+                                                    class="fixed inset-0 z-[999] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
+
+                                                    <div class="bg-white rounded-[30px] p-10 max-w-sm w-full shadow-2xl text-center">
+
+                                                        <h2 class="text-3xl font-extrabold text-gray-900 mb-2">Hapus</h2>
+                                                        <p class="text-gray-500 mb-8">Apa anda yakin ingin hapus?</p>
+
+                                                        <div class="flex gap-4">
+                                                            <button @click="openDelete = false"
+                                                                class="bg-gray-400 text-white font-bold py-3 rounded-xl w-full">
+                                                                Tidak
+                                                            </button>
+
+                                                            <form action="{{ route('books.delete', $buku->id_buku) }}" method="POST" class="w-full">
+                                                                @csrf @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="bg-red-600 text-white font-bold py-3 rounded-xl w-full">
+                                                                    Ya
+                                                                </button>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            {{-- <form action="{{ route('books.delete', $buku->id_buku) }}" method="POST" onsubmit="return confirm('Apa anda yakin ingin menghapus?')">
                                                 @csrf @method('DELETE')
                                                 <button type="submit" class="p-2 bg-red-500 text-white rounded-md">
                                                     <img src="{{ asset('images/delete.png') }}" class="w-5 h-5 object-contain">
                                                 </button>
-                                            </form>
+                                            </form>  --}}
 
                                             <form action="{{ route('books.favorite', $buku->id_buku) }}" method="POST">
                                                 @csrf
-                                                <button type="submit" class="bg-white/80 p-2 rounded-full shadow-sm hover:scale-110 transition">
+                                                <button type="submit" class="hover:scale-110 transition">
                                                     <svg xmlns="http://www.w3.org/2000/svg" 
-                                                        class="h-6 w-6 {{ $buku->is_favorite ? 'text-yellow-400 fill-current' : 'text-gray-400' }}" 
-                                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                        class="h-8 w-8 {{ $buku->is_favorite ? 'text-yellow-400 fill-current' : 'text-gray-400' }}" 
+                                                        viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
                                                     </svg>
                                                 </button>
@@ -163,5 +205,14 @@
             }
         });
     });
+
+    function deleteModal() {
+        return {
+            openDelete: false,
+            init() {
+                this.openDelete = false
+            }
+        }
+    }
     </script>
 @endsection
