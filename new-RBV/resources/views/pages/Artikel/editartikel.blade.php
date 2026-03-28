@@ -19,15 +19,13 @@
                             <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Judul Artikel</label>
                             <input type="text" name="judul" 
                                 value="{{ $artikel->judul }}"
-                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
-                                placeholder="Masukkan judul artikel">
+                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none">
                         </div>
 
                         <div>
                             <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Deskripsi</label>
                             <textarea name="deskripsi" rows="4"
-                            class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
-                            placeholder="Masukkan deskripsi buku">{{ $artikel->deskripsi }}</textarea>
+                            class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none">{{ $artikel->deskripsi }}</textarea>
                         </div>
                         
                         <div>
@@ -35,11 +33,11 @@
                                 File Artikel
                             </label>
 
-                            <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
-                                <span class="block font-montserrat text-gray-400 text-sm ml-1 italic">
-                                    File maksimal 20 MB
+                            <label class="flex items-center justify-between w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
+                                <span id="pdfName" class="font-montserrat text-gray-400 text-sm italic">
+                                    {{ $artikel->file_pdf ? basename($artikel->file_pdf) : 'File maksimal 20 MB' }}
                                 </span>
-                                <input type="file" name="file_pdf" class="hidden">
+                                <input type="file" name="file_pdf" id="file_pdf" class="hidden">
                             </label>
                         </div>
 
@@ -48,11 +46,11 @@
                                 Cover Photo
                             </label>
 
-                            <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
-                                <span class="block font-montserrat text-gray-400 text-sm ml-1 italic">
-                                    File maksimal 20 MB
+                            <label class="flex items-center justify-between w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
+                                <span id="coverName" class="font-montserrat text-gray-400 text-sm italic">
+                                    {{ $artikel->cover ? basename($artikel->cover) : 'File maksimal 20 MB' }}
                                 </span>
-                                <input type="file" name="cover" class="hidden">
+                                <input type="file" name="cover" id="cover" class="hidden">
                             </label>
                         </div>
 
@@ -61,7 +59,7 @@
                     <div class="flex justify-center mt-10">
                         <button type="submit" 
                                 class="bg-[#2B3A8C] font-poppins text-white font-bold py-3 px-12 rounded-lg hover:bg-blue-800 transition shadow-md">
-                            Upload
+                            Update
                         </button>
                     </div>
 
@@ -69,4 +67,21 @@
             </div>
         </div>
     </div>
+
+<script>
+document.getElementById('file_pdf').addEventListener('change', function(e){
+    const fileName = e.target.files[0]?.name;
+    if(fileName){
+        document.getElementById('pdfName').textContent = fileName;
+    }
+});
+
+document.getElementById('cover').addEventListener('change', function(e){
+    const fileName = e.target.files[0]?.name;
+    if(fileName){
+        document.getElementById('coverName').textContent = fileName;
+    }
+});
+</script>
+
 @endsection

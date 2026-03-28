@@ -12,7 +12,7 @@ class BukuController extends Controller
 {
     public function beranda()
     {
-        $books = Buku::latest()->take(5)->get();
+        $books = Buku::latest()->take(4)->get();
 
         $labels = ['2025-09', '2025-10', '2025-11', '2025-12', '2026-01'];
         $dataKunjungan = [25, 130, 365, 20, 110];
@@ -70,7 +70,7 @@ class BukuController extends Controller
         'pengarang'=>'required',
         'kategori'=>'required',
         'tahun_terbit'=>'required',
-        'deskripsi'=>'required',
+        'deskripsi'=>'nullable',
         'file_pdf'=>'required|file|mimes:pdf|max:20480',
         'cover'=>'required|file|max:20480'
     ]);
@@ -136,7 +136,6 @@ class BukuController extends Controller
         return redirect()->route('books.index')->with('success','Buku berhasil dihapus');
     }
 
-    // ⭐ TOGGLE FAVORITE
     public function toggleFavorite($id)
     {
         $userId = Auth::user()->id_user;
@@ -157,7 +156,6 @@ class BukuController extends Controller
         return back();
     }
 
-    // ⭐ HALAMAN FAVORIT
     public function favorit()
     {
         $books = Buku::whereHas('favorites', function($q){

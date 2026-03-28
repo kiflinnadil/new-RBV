@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id('id_artikel');
             $table->string('judul');
             $table->date('tanggal');
-            $table->text('deskripsi');
+            $table->text('deskripsi')->nullable();
             $table->string('cover')->nullable();
             $table->string('file_pdf')->nullable();
             $table->timestamps();

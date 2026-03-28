@@ -26,8 +26,7 @@
                             type="text"
                             name="judul"
                             value="{{ $berita->judul }}"
-                            class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
-                            placeholder="Masukkan judul berita">
+                            class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none">
                     </div>
 
                     <div>
@@ -35,16 +34,14 @@
                             Kategori
                         </label>
 
-                        <div class="relative">
-                            <select name="kategori"
-                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none appearance-none cursor-pointer">
+                        <select name="kategori"
+                            class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none">
 
-                                <option value="Kesehatan" {{ $berita->kategori=='Kesehatan'?'selected':'' }}>Kesehatan</option>
-                                <option value="Kegiatan" {{ $berita->kategori=='Kegiatan'?'selected':'' }}>Kegiatan</option>
-                                <option value="Inovasi" {{ $berita->kategori=='Inovasi'?'selected':'' }}>Inovasi</option>
+                            <option value="Kesehatan" {{ $berita->kategori=='Kesehatan'?'selected':'' }}>Kesehatan</option>
+                            <option value="Kegiatan" {{ $berita->kategori=='Kegiatan'?'selected':'' }}>Kegiatan</option>
+                            <option value="Inovasi" {{ $berita->kategori=='Inovasi'?'selected':'' }}>Inovasi</option>
 
-                            </select>
-                        </div>
+                        </select>
                     </div>
 
                     <div>
@@ -55,8 +52,7 @@
                         <textarea
                             name="deskripsi"
                             rows="4"
-                            class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
-                            placeholder="Masukkan deskripsi berita">{{ $berita->deskripsi }}</textarea>
+                            class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none">{{ $berita->deskripsi }}</textarea>
                     </div>
 
                     <div>
@@ -68,8 +64,7 @@
                             type="url"
                             name="link"
                             value="{{ $berita->file_url }}"
-                            class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 focus:ring-2 focus:ring-[#2B3A8C] outline-none"
-                            placeholder="https://youtube.com/...">
+                            class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 focus:ring-2 focus:ring-[#2B3A8C] outline-none">
                     </div>
 
                     <div>
@@ -77,15 +72,12 @@
                             Cover Berita
                         </label>
 
-                        <input type="file" name="cover"
-                            class="w-full bg-gray-100 border-none rounded-xl py-3 px-5">
-
-                        <div class="mt-4">
-                            <p class="text-sm text-gray-400 mb-2">Cover Saat Ini:</p>
-
-                            <img src="{{ asset('storage/'.$berita->cover) }}"
-                                class="w-40 rounded-xl shadow">
-                        </div>
+                        <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 font-montserrat cursor-pointer hover:bg-gray-200">
+                            <span id="fileText" class="block text-gray-400 text-sm ml-1 italic">
+                                {{ $berita->cover ? basename($berita->cover) : 'Upload cover berita' }}
+                            </span>
+                            <input type="file" name="cover" id="coverInput" class="hidden" accept="image/*">
+                        </label>
                     </div>
 
                 </div>
@@ -107,4 +99,15 @@
     </div>
 
 </div>
+
+<script>
+document.getElementById('coverInput').addEventListener('change', function (e) {
+    const file = e.target.files[0];
+
+    if (file) {
+        document.getElementById('fileText').innerText = file.name;
+    }
+});
+</script>
+
 @endsection

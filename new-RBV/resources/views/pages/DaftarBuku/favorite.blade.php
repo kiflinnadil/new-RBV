@@ -31,7 +31,7 @@
                         <form action="{{ route('books.favorite', $buku->id_buku) }}" method="POST" class="absolute top-3 right-3 z-10">
                             @csrf
                             <button type="submit" class="top-3 right-3 z-5 hover:scale-125 transition">
-                                <img src="{{ "images/Star.png" }}" class="w-10 h-10 object-contain" alt="favorite">
+                                <img src="{{ "images/star.svg" }}" class="w-9 h-9 object-contain" alt="favorite">
                                 {{-- <svg xmlns="http://www.w3.org/2000/svg" 
                                     class="h-6 w-6 text-yellow-400 fill-current" 
                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

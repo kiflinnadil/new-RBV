@@ -14,6 +14,7 @@
                 @csrf
                 
                 <div class="space-y-6">
+
                     <div>
                         <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
                             Judul Berita
@@ -64,13 +65,16 @@
                         <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
                             Cover Berita
                         </label>
+
                         <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 font-montserrat cursor-pointer hover:bg-gray-200">
-                            <span class="block text-gray-400 text-sm ml-1 italic">
+                            <span id="fileText" class="block text-gray-400 text-sm ml-1 italic">
                                 Upload cover berita
                             </span>
-                            <input type="file" name="cover" class="hidden">
+                            <input type="file" name="cover" id="coverInput" class="hidden" accept="image/*">
                         </label>
+
                     </div>
+
                 </div>
 
                 <div class="flex justify-center mt-10">
@@ -79,9 +83,21 @@
                         Upload
                     </button>
                 </div>
+
             </form>
 
         </div>
     </div>
 </div>
+
+<script>
+document.getElementById('coverInput').addEventListener('change', function (e) {
+    const file = e.target.files[0];
+
+    if (file) {
+        document.getElementById('fileText').innerText = file.name;
+    }
+});
+</script>
+
 @endsection

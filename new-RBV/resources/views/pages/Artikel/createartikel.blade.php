@@ -33,32 +33,32 @@
                     </div>
 
                     <div>
-                        <div>
-                            <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
-                                File Artikel (PDF)
-                            </label>
+                        <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
+                            File Artikel (PDF)
+                        </label>
 
-                            <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
-                                <span class="block font-montserrat text-gray-400 text-sm ml-1 italic">
-                                    Upload File PDF
-                                </span>
-                                <input type="file" name="file_pdf" class="hidden">
-                            </label>
-                        </div>
-
-                        <div>
-                            <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
-                                Cover Artikel
-                            </label>
-
-                            <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
-                                <span class="block font-montserrat text-gray-400 text-sm ml-1 italic">
-                                    Upload Cover
-                                </span>
-                                <input type="file" name="cover" class="hidden">
-                            </label>
-                        </div>
+                        <label class="flex items-center justify-between w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
+                            <span id="pdfName" class="font-montserrat text-gray-400 text-sm italic">
+                                Upload File PDF
+                            </span>
+                            <input type="file" name="file_pdf" id="file_pdf" class="hidden">
+                        </label>
                     </div>
+
+                    <div>
+                        <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
+                            Cover Artikel
+                        </label>
+
+                        <label class="flex items-center justify-between w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
+                            <span id="coverName" class="font-montserrat text-gray-400 text-sm italic">
+                                Upload Cover
+                            </span>
+                            <input type="file" name="cover" id="cover" class="hidden">
+                        </label>
+                    </div>
+
+                </div>
 
                 <div class="flex justify-center mt-10">
                     <button type="submit" 
@@ -71,4 +71,21 @@
         </div>
     </div>
 </div>
+
+<script>
+document.getElementById('file_pdf').addEventListener('change', function(e){
+    const fileName = e.target.files[0]?.name;
+    if(fileName){
+        document.getElementById('pdfName').textContent = fileName;
+    }
+});
+
+document.getElementById('cover').addEventListener('change', function(e){
+    const fileName = e.target.files[0]?.name;
+    if(fileName){
+        document.getElementById('coverName').textContent = fileName;
+    }
+});
+</script>
+
 @endsection

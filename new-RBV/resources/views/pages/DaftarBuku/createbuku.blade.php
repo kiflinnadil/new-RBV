@@ -32,7 +32,6 @@
                         <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Kategori</label>
                         <select name="kategori"
                             class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none">
-
                             <option value="">Pilih Kategori</option>
                             <option value="Kesehatan">Kesehatan</option>
                             <option value="Non Kesehatan">Non Kesehatan</option>
@@ -58,11 +57,11 @@
                             File Buku
                         </label>
 
-                        <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 font-montserrat cursor-pointer hover:bg-gray-200">
-                            <span class="block text-gray-400 text-sm ml-1 italic">
+                        <label class="flex items-center justify-between w-full bg-gray-100 rounded-xl py-3 px-5 font-montserrat cursor-pointer hover:bg-gray-200">
+                            <span id="filePdfName" class="text-gray-400 text-sm italic">
                                 File maksimal 20 MB
                             </span>
-                            <input type="file" name="file_pdf" class="hidden">
+                            <input type="file" name="file_pdf" id="file_pdf" class="hidden">
                         </label>
                     </div>
 
@@ -71,11 +70,11 @@
                             Cover Photo
                         </label>
 
-                        <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 font-montserrat cursor-pointer hover:bg-gray-200">
-                            <span class="block text-gray-400 text-sm ml-1 italic">
+                        <label class="flex items-center justify-between w-full bg-gray-100 rounded-xl py-3 px-5 font-montserrat cursor-pointer hover:bg-gray-200">
+                            <span id="coverName" class="text-gray-400 text-sm italic">
                                 File maksimal 20 MB
                             </span>
-                            <input type="file" name="cover" class="hidden">
+                            <input type="file" name="cover" id="cover" class="hidden">
                         </label>
                     </div>
 
@@ -91,4 +90,21 @@
         </div>
     </div>
 </div>
-@endsection
+
+<script>
+document.getElementById('file_pdf').addEventListener('change', function(e){
+    const fileName = e.target.files[0]?.name;
+    if(fileName){
+        document.getElementById('filePdfName').textContent = fileName;
+    }
+});
+
+document.getElementById('cover').addEventListener('change', function(e){
+    const fileName = e.target.files[0]?.name;
+    if(fileName){
+        document.getElementById('coverName').textContent = fileName;
+    }
+});
+</script>
+
+@endsection 

@@ -13,7 +13,7 @@ return new class extends Migration
 
             $table->string('judul');
             $table->date('tanggal');
-            $table->text('deskripsi');
+            $table->text('deskripsi')->nullable();
             $table->string('file_url');
 
             $table->timestamps();

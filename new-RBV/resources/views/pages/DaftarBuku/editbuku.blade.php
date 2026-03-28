@@ -20,16 +20,14 @@
                             <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Judul Buku</label>
                             <input type="text" name="judul" 
                                 value="{{ $book->judul }}"
-                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
-                                placeholder="Masukkan judul buku">
+                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none">
                         </div>
                         
                         <div>
                             <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Pengarang</label>
                             <input type="text" name="pengarang" 
                                 value="{{ $book->penulis }}"
-                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
-                                placeholder="Masukkan nama pengarang">
+                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none">
                         </div>
 
                         <div>
@@ -38,8 +36,8 @@
                                 class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none">
 
                                 <option value="">Pilih Kategori</option>
-                                <option value="Kesehatan">Kesehatan</option>
-                                <option value="Non Kesehatan">Non Kesehatan</option>
+                                <option value="Kesehatan" {{ $book->kategori == 'Kesehatan' ? 'selected' : '' }}>Kesehatan</option>
+                                <option value="Non Kesehatan" {{ $book->kategori == 'Non Kesehatan' ? 'selected' : '' }}>Non Kesehatan</option>
                             </select>
                         </div>
 
@@ -47,15 +45,13 @@
                             <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Tahun Terbit</label>
                             <input type="text" name="tahun_terbit" 
                                 value="{{ $book->tahun }}"
-                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
-                                placeholder="Masukkan tahun terbit">
+                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none">
                         </div>
 
                         <div>
                             <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">Deskripsi</label>
                             <textarea name="deskripsi" rows="4"
-                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
-                                placeholder="Masukkan deskripsi buku">{{ $book->deskripsi }}</textarea>
+                                class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none">{{ $book->deskripsi }}</textarea>
                         </div>
                         
                         <div>
@@ -63,11 +59,11 @@
                                 File Buku
                             </label>
 
-                            <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
-                                <span class="block font-montserrat text-gray-400 text-sm ml-1 italic">
-                                    File maksimal 20 MB
+                            <label class="flex items-center justify-between w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
+                                <span id="filePdfName" class="font-montserrat text-gray-400 text-sm italic">
+                                    {{ $book->file_pdf ? basename($book->file_pdf) : 'File maksimal 20 MB' }}
                                 </span>
-                                <input type="file" name="file_pdf" class="hidden">
+                                <input type="file" name="file_pdf" id="file_pdf" class="hidden">
                             </label>
                         </div>
 
@@ -76,11 +72,11 @@
                                 Cover Photo
                             </label>
 
-                            <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
-                                <span class="block font-montserrat text-gray-400 text-sm ml-1 italic">
-                                    File maksimal 20 MB
+                            <label class="flex items-center justify-between w-full bg-gray-100 rounded-xl py-3 px-5 cursor-pointer hover:bg-gray-200">
+                                <span id="coverName" class="font-montserrat text-gray-400 text-sm italic">
+                                    {{ $book->cover ? basename($book->cover) : 'File maksimal 20 MB' }}
                                 </span>
-                                <input type="file" name="cover" class="hidden">
+                                <input type="file" name="cover" id="cover" class="hidden">
                             </label>
                         </div>
 
@@ -98,4 +94,21 @@
             </div>
         </div>
     </div>
+
+<script>
+document.getElementById('file_pdf').addEventListener('change', function(e){
+    const fileName = e.target.files[0]?.name;
+    if(fileName){
+        document.getElementById('filePdfName').textContent = fileName;
+    }
+});
+
+document.getElementById('cover').addEventListener('change', function(e){
+    const fileName = e.target.files[0]?.name;
+    if(fileName){
+        document.getElementById('coverName').textContent = fileName;
+    }
+});
+</script>
+
 @endsection

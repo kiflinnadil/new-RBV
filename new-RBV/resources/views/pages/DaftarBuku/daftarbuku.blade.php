@@ -25,13 +25,14 @@
                     </form>
                     @auth
                         @if(auth()->user()->role == 'super_admin')
-                            <a href="{{ route('books.create') }}" 
-                                class="flex items-center justify-center w-11 h-11 rounded-xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 transition shadow-sm"
-                                title="Tambah Data"> 
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4" />
-                                </svg>
-                            </a>
+                        <a href="{{ route('books.create') }}"
+                            class="flex items-center justify-center w-10 h-10 rounded-md border border-gray-300 bg-white text-[#606060] transition hover:scale-110">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="3" d="M12 4v16m8-8H4"/>
+                            </svg>
+                        </a>
                         @endif
                     @endauth
                 </div>

@@ -31,7 +31,7 @@ class BeritaController extends Controller
         $request->validate([
             'judul'=>'required',
             'kategori'=>'required',
-            'deskripsi'=>'required',
+            'deskripsi'=>'nullable',
             'link'=>'required|url',
             'cover'=>'required|image|max:20480'
         ]);
@@ -62,7 +62,7 @@ class BeritaController extends Controller
         $request->validate([
             'judul'=>'required',
             'kategori'=>'required',
-            'deskripsi'=>'required',
+            'deskripsi'=>'nullable',
             'link'=>'required|url',
             'cover'=>'nullable|image|max:20480'
         ]);

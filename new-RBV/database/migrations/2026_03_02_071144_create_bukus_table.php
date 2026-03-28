@@ -15,9 +15,9 @@ return new class extends Migration
             $table->string('penulis');
             $table->string('kategori');
             $table->year('tahun');
-            $table->text('deskripsi');
-            $table->string('file_pdf');
-            $table->string('cover');
+            $table->text('deskripsi')->nullable();
+            $table->string('file_pdf')->nullable();
+            $table->string('cover')->nullable();
 
             $table->timestamps();
         });

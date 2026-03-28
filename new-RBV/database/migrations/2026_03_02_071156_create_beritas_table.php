@@ -14,9 +14,9 @@ return new class extends Migration
             $table->string('judul');
             $table->string('kategori'); 
             $table->date('tanggal');
-            $table->text('deskripsi');
-            $table->string('file_url'); 
-            $table->string('cover');
+            $table->text('deskripsi')->nullable();
+            $table->string('file_url')->nullable(); 
+            $table->string('cover')->nullable();
 
             $table->timestamps();
         });
