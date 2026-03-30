@@ -7,6 +7,8 @@ use App\Http\Controllers\BukuController;
 // use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AkunController;
+
 
 Route::get('/', [BukuController::class, 'beranda']);
 Route::get('/koleksi', [BukuController::class, 'index'])->name('books.index');
@@ -24,9 +26,7 @@ Route::get('/profil', function () {
     return view('pages.profil');
 });
 
-Route::get('/tambah-akun', function () {
-    return view('tambah-akun');
-});
+
 Route::middleware(['auth', 'superadmin'])->group(function () {
 
     Route::get('/books/create', [BukuController::class, 'create'])->name('books.create');
@@ -52,6 +52,14 @@ Route::middleware(['auth', 'superadmin'])->group(function () {
     Route::get('/artikel/{id}/edit', [ArtikelController::class, 'edit'])->name('artikel.edit');
     Route::put('/artikel/{id}', [ArtikelController::class, 'update'])->name('artikel.update');
     Route::delete('/artikel/{id}', [ArtikelController::class, 'destroy'])->name('artikel.destroy');
+
+    Route::get('/akun', [AkunController::class, 'index'])->name('akun.index');
+    Route::get('/tambah-akun', [AkunController::class, 'create'])->name('akun.create');
+    Route::post('/akun', [AkunController::class, 'store'])->name('akun.store');
+
+    Route::get('/akun/{id}/edit', [AkunController::class, 'edit'])->name('akun.edit');
+    Route::put('/akun/{id}', [AkunController::class, 'update'])->name('akun.update');
+    Route::delete('/akun/{id}', [AkunController::class, 'destroy'])->name('akun.destroy');
 
 });
 

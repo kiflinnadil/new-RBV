@@ -26,7 +26,7 @@ class BukuApiController extends Controller
             'judul'=>'required',
             'penulis'=>'required',
             'tahun'=>'required',
-            'deskripsi'=>'required',
+            'deskripsi'=>'nullable',
             'file_pdf'=>'required|file|mimes:pdf',
             'cover'=>'required|image'
         ]);

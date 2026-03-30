@@ -2,7 +2,6 @@
 
 @section('content')
 
-{{-- 🔥 WRAPPER TANPA x-cloak --}}
 <div x-data="globalDelete()">
 
 <div class="min-h-screen" style="background: linear-gradient(to bottom, #E0EDFF 0%, #FFFFFF 100%);">

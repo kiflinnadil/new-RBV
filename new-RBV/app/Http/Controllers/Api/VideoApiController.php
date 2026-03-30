@@ -22,7 +22,7 @@ class VideoApiController extends Controller
     {
         $request->validate([
             'judul'=>'required',
-            'deskripsi'=>'required',
+            'deskripsi'=>'nullable',
             'file_url'=>'required|url'
         ]);
 

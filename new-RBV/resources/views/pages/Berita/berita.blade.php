@@ -14,16 +14,49 @@
             </h1>
 
             <div class="flex items-center gap-4">
+                
                 <form method="GET" action="{{ URL::current() }}">
-                    <select name="kategori" onchange="this.form.submit()"
-                        class="rounded-md border border-gray-300 bg-white px-[14px] py-2 text-gray-600 shadow-sm outline-none">
-                        <option value="">Kategori</option>
-                        @foreach($kategoris as $item)
-                            <option value="{{ $item }}" {{ (isset($kategori) && $kategori == $item) ? 'selected' : '' }}>
-                                {{ $item }}
-                            </option>
-                        @endforeach
-                    </select>
+                    
+                    <div x-data="{ open: false, selected: '{{ $kategori ?? 'Kategori' }}' }" class="relative w-[180px]">
+
+                        <button type="button"
+                            @click="open = !open"
+                            class="w-full bg-[#F5F5F5] bg-white border border-gray-400 rounded-[5px] px-5 py-3
+                                text-gray-600 text-sm font-serial font-montserrat text-[17px]
+                                flex justify-between items-center shadow-sm">
+
+                            <span x-text="selected"></span>
+
+                            <img src="{{ asset('images/Vector.svg') }}"
+                                class="w-4 h-4 transition-transform duration-300"
+                                :class="open ? 'rotate-180' : ''">
+                        </button>
+
+                        <div x-show="open"
+                            @click.outside="open = false"
+                            x-transition
+                            class="absolute w-full mt-2 bg-white border border-gray-300 rounded-lg shadow-lg z-50 overflow-hidden font-montserrat">
+
+                            <div 
+                                @click="selected='Kategori'; open=false; $refs.input.value=''; $el.closest('form').submit()"
+                                class="px-4 py-2 hover:bg-gray-200 cursor-pointer text-sm text-gray-600">
+                                Semua
+                            </div>
+
+                            @foreach($kategoris as $item)
+                                <div 
+                                    @click="selected='{{ $item }}'; open=false; $refs.input.value='{{ $item }}'; $el.closest('form').submit()"
+                                    class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm text-gray-600">
+                                    {{ $item }}
+                                </div>
+                            @endforeach
+
+                        </div>
+
+                        <input type="hidden" name="kategori" x-ref="input" value="{{ $kategori }}">
+
+                    </div>
+
                 </form>
 
                 @auth
@@ -48,58 +81,55 @@
 
             @forelse ($berita as $berita)
 
-            <div class="relative aspect-square bg-[#EFF4FF] rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden border border-white flex flex-col">
+            <div class="relative aspect-square bg-[#EFF4FF] rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden flex flex-col">
     
                 <div class="relative h-[40%] w-full">
                     <img src="{{ asset('storage/' . $berita->cover) }}" 
                         class="w-full h-full object-cover"
-                        onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+                        onerror="this.src='https://via.placeholder.com/400x300'">
 
                     @auth
                     @if(auth()->user()->role == 'super_admin')
-
                     <div class="absolute top-3 right-3 z-20 flex flex-col gap-2">
 
                         <a href="{{ route('berita.edit', $berita->id_berita) }}"
                             class="p-1.5 bg-[#00A14C] text-white rounded-lg shadow hover:scale-110 transition">
-                            <img src="{{ asset('images/edit.png') }}" class="w-5 h-5 object-contain">
+                            <img src="{{ asset('images/edit.png') }}" class="w-5 h-5">
                         </a>
 
                         <button @click="openDeleteModal({{ $berita->id_berita }})"
                             class="p-1.5 bg-red-500 text-white rounded-lg shadow hover:scale-110 transition">
-                            <img src="{{ asset('images/delete.png') }}" class="w-5 h-5 object-contain">
+                            <img src="{{ asset('images/delete.png') }}" class="w-5 h-5">
                         </button>
 
                     </div>
-
                     @endif
                     @endauth
-
                 </div>
 
-                <div class="p-5 flex flex-col justify-between flex-grow">
+                <div class="p-5 flex flex-col flex-grow">
 
                     <div>
-                        <p class="font-montserrat text-[10px] text-[#00A14C] font-bold uppercase mb-1">
+                        <p class="text-[10px] text-[#00A14C] font-bold uppercase">
                             {{ $berita->kategori }}
                         </p>
 
-                        <h2 class="font-poppins text-xl font-bold text-[#2B3A8C] leading-tight line-clamp-2">
+                        <h2 class="text-xl font-bold text-[#2B3A8C] line-clamp-2">
                             {{ $berita->judul }}
                         </h2>
 
-                        <p class="font-montserrat text-xs text-gray-400 mt-1">
+                        <p class="text-xs text-gray-400">
                             {{ \Carbon\Carbon::parse($berita->tanggal)->translatedFormat('d F Y') }}
                         </p>
                     </div>
 
-                    <p class="font-montserrat text-sm text-gray-600 line-clamp-2 leading-relaxed my-2">
-                        {{ $berita->deskripsi }} 
+                    <p class="text-sm text-gray-600 line-clamp-2 my-2">
+                        {{ $berita->deskripsi }}
                     </p>
 
-                    <div class="flex justify-center mt-auto">
+                    <div class="mt-auto text-center">
                         <a href="{{ $berita->file_url }}" target="_blank"
-                            class="px-6 py-1.5 bg-[#00A14C] font-poppins text-white text-[14px] font-bold rounded-lg hover:bg-emerald-600 transition shadow-md">
+                            class="px-6 py-2 bg-[#00A14C] text-white font-bold rounded-lg hover:bg-emerald-600">
                             Baca Selengkapnya
                         </a>
                     </div>
@@ -118,26 +148,23 @@
 </div>
 
 <template x-if="openDelete">
-    <div
-        @click.self="closeModal()"
-        class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
+    <div @click.self="closeModal()"
+        class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50">
 
-        <div class="bg-white rounded-[30px] p-10 max-w-sm w-full shadow-2xl text-center">
+        <div class="bg-white rounded-3xl p-10 w-full max-w-sm text-center">
 
-            <h2 class="text-3xl font-extrabold text-gray-900 mb-2">Hapus</h2>
-            <p class="text-gray-500 mb-8">Apa anda yakin ingin hapus?</p>
+            <h2 class="text-2xl font-bold mb-2">Hapus</h2>
+            <p class="text-gray-500 mb-6">Yakin hapus?</p>
 
             <div class="flex gap-4">
-                <button @click="closeModal()"
-                    class="bg-gray-400 text-white font-bold py-3 rounded-xl w-full">
+                <button @click="closeModal()" class="bg-gray-400 text-white py-2 w-full rounded">
                     Tidak
                 </button>
 
                 <form :action="'/berita/' + selectedId" method="POST" class="w-full">
                     @csrf
                     @method('DELETE')
-                    <button type="submit"
-                        class="bg-red-600 text-white font-bold py-3 rounded-xl w-full">
+                    <button class="bg-red-600 text-white py-2 w-full rounded">
                         Ya
                     </button>
                 </form>

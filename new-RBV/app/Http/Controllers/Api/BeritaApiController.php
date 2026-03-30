@@ -24,7 +24,7 @@ class BeritaApiController extends Controller
         $request->validate([
             'judul'=>'required',
             'kategori'=>'required',
-            'deskripsi'=>'required',
+            'deskripsi'=>'nullable',
             'file_url'=>'required|url',
             'cover'=>'required|image|max:20480'
         ]);

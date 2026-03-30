@@ -22,7 +22,7 @@ class ArtikelApiController extends Controller
     {
         $request->validate([
             'judul'=>'required',
-            'deskripsi'=>'required'
+            'deskripsi'=>'nullable'
         ]);
 
         $artikel = Artikel::create([

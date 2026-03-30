@@ -9,14 +9,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->id_user();
 
             $table->string('NIK')->unique();
             $table->string('nama_lengkap');
             $table->string('jabatan')->nullable();
             $table->string('unit_kerja')->nullable();
-            $table->enum('role', ['super_admin', 'admin', '?'])
-                ->default('?');
+            $table->enum('role', ['super_admin', 'admin', 'sekretaris', 'karyawan', 'unit'])
+                ->default('karyawan');
 
             $table->string('password');
             $table->rememberToken();
