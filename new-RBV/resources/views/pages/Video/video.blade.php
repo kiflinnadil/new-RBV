@@ -34,15 +34,10 @@
 
             @php
                 $youtubeId = null;
-                $tiktokId = null;
                 $isInstagram = false;
 
                 if (preg_match('/(youtube\.com\/watch\?v=|youtu\.be\/)([^\&\?\/]+)/', $video->file_url, $yt)) {
                     $youtubeId = $yt[2];
-                }
-
-                if (preg_match('/video\/(\d+)/', $video->file_url, $tt)) {
-                    $tiktokId = $tt[1];
                 }
 
                 if (str_contains($video->file_url, 'instagram.com')) {
@@ -56,12 +51,15 @@
 
                     <a href="{{ $video->file_url }}" target="_blank" class="block w-full h-full">
 
-                        @if($youtubeId)
+                        @if(!empty($video->thumbnail))
+                            <img src="{{ trim($video->thumbnail) }}"
+                                class="w-full h-full object-cover">
+
+                        @elseif($youtubeId)
                             <img src="https://img.youtube.com/vi/{{ $youtubeId }}/hqdefault.jpg"
                                 class="w-full h-full object-cover">
 
                         @elseif(str_contains($video->file_url, 'tiktok.com'))
-
                             <div class="w-full h-full bg-black flex items-center justify-center relative">
 
                                 <svg xmlns="http://www.w3.org/2000/svg" 
@@ -174,6 +172,7 @@
                     </button>
                 </form>
             </div>
+
         </div>
     </div>
 </template>

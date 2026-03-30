@@ -17,7 +17,8 @@ class Video extends Model
         'judul',
         'tanggal',
         'deskripsi',
-        'file_url'
+        'file_url',
+        'thumbnail'
     ];
 
     public function getYoutubeId()
