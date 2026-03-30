@@ -15,8 +15,8 @@
                         <div class="relative group">
                             <input type="text" name="search" value="{{ request('search') }}"
                                 placeholder="Cari buku"
-                                class="pl-5 pr-12 py-2.5 rounded-xl border border-gray-200 bg-white w-72 font-montserrat focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition-all">
-                            <div class="absolute right-0 top-0 h-full w-12 flex items-center justify-center bg-gray-100 rounded-r-xl text-gray-400 group-focus-within:bg-[#2B3A8C] group-focus-within:text-white transition">
+                                class="pl-5 pr-12 py-2.5 rounded-xl border border-gray-200 bg-white w-[287px] h-[49px] font-montserrat focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition-all">
+                            <div class="absolute right-0 top-0 h-[49px] w-[43px] flex items-center justify-center bg-gray-100 rounded-r-xl text-gray-400 group-focus-within:bg-[#2B3A8C] group-focus-within:text-white transition">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
@@ -26,7 +26,7 @@
                     @auth
                         @if(auth()->user()->role == 'super_admin')
                         <a href="{{ route('books.create') }}"
-                            class="flex items-center justify-center w-10 h-10 rounded-md border border-gray-300 bg-white text-[#606060] transition hover:scale-110">
+                            class="flex items-center justify-center w-[47px] h-[49px] rounded-md border border-gray-300 bg-white text-[#606060] transition hover:scale-110">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round"

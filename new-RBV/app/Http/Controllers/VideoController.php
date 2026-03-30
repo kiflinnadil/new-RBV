@@ -10,6 +10,7 @@ class VideoController extends Controller
     public function index()
     {
         $videos = Video::latest()->get();
+
         return view('pages.Video.video', compact('videos'));
     }
 
@@ -23,14 +24,14 @@ class VideoController extends Controller
         $request->validate([
             'judul' => 'required',
             'deskripsi' => 'nullable',
-            'link' => 'required|url'
+            'link' => 'required|url',
         ]);
 
         Video::create([
             'judul' => $request->judul,
             'tanggal' => now(),
             'deskripsi' => $request->deskripsi,
-            'file_url' => $request->link
+            'file_url' => $request->link,
         ]);
 
         return redirect()->route('video.index')
@@ -40,12 +41,14 @@ class VideoController extends Controller
     public function show($id)
     {
         $video = Video::findOrFail($id);
+
         return view('pages.Video.detailvideo', compact('video'));
     }
 
     public function edit($id)
     {
         $video = Video::findOrFail($id);
+
         return view('pages.Video.editvideo', compact('video'));
     }
 
@@ -54,7 +57,7 @@ class VideoController extends Controller
         $request->validate([
             'judul' => 'required',
             'deskripsi' => 'nullable',
-            'link' => 'required|url'
+            'link' => 'required|url',
         ]);
 
         $video = Video::findOrFail($id);
@@ -62,7 +65,7 @@ class VideoController extends Controller
         $video->update([
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
-            'file_url' => $request->link
+            'file_url' => $request->link,
         ]);
 
         return redirect()->route('video.index')
