@@ -25,7 +25,7 @@ class ArtikelController extends Controller
             'judul'     => 'required',
             'deskripsi' => 'nullable',
             'cover'     => 'required|file|max:20480',
-            'file_pdf'  => 'required|file|mimes:pdf|max:20480'
+            'file_pdf' => 'required|file|mimes:pdf,jpg,jpeg,png|max:20480'
         ]);
 
         $cover = $request->file('cover')->store('artikel','public');
@@ -48,11 +48,7 @@ class ArtikelController extends Controller
         $artikel = Artikel::findOrFail($id);
 
         return response()->file(
-            storage_path('app/public/' . $artikel->file_pdf),
-            [
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="artikel.pdf"'
-            ]
+            storage_path('app/public/' . $artikel->file_pdf)
         );
     }
 
