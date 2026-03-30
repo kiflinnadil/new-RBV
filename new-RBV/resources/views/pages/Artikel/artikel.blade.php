@@ -15,7 +15,7 @@
             @auth
                 @if(auth()->user()->role == 'super_admin')
                     <a href="{{ route('artikel.create') }}"
-                        class="flex items-center justify-center w-10 h-10 rounded-md border border-gray-300 bg-white text-[#606060] transition hover:scale-110">
+                        class="flex items-center justify-center w-[47px] h-[49px] rounded-md border border-gray-300 bg-white text-[#606060] transition hover:scale-110">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round"
