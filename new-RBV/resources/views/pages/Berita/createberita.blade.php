@@ -1,37 +1,44 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="bg-gray-50 min-h-screen py-16">
-    <div class="max-w-4xl mx-auto px-6">
-        
-        <h1 class="font-poppins text-5xl font-extrabold text-[#272E84] text-center mb-10 [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)]">
+<div class="bg-gray-50 min-h-screen py-8 sm:py-12 lg:py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <h1 class="font-poppins font-extrabold text-[#272E84] text-center mb-6 sm:mb-8 lg:mb-10
+                   text-3xl sm:text-4xl lg:text-5xl
+                   [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)]">
             Upload Berita
         </h1>
 
-        <div class="bg-white rounded-[30px] shadow-xl p-10 md:p-14 border border-gray-100">
+        <div class="bg-white rounded-[20px] sm:rounded-[30px] shadow-xl border border-gray-100
+                    p-6 sm:p-10 lg:p-14">
 
             <form action="{{ route('berita.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                
-                <div class="space-y-6">
+
+                <div class="space-y-4 sm:space-y-6">
 
                     <div>
-                        <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
+                        <label class="block font-montserrat text-gray-400 text-xs sm:text-sm mb-1.5 sm:mb-2 ml-1">
                             Judul Berita
                         </label>
-                        <input 
-                            type="text" 
-                            name="judul" 
-                            class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
+                        <input
+                            type="text"
+                            name="judul"
+                            class="w-full bg-gray-100 border-none rounded-xl py-2.5 sm:py-3 px-4 sm:px-5
+                                   font-montserrat text-sm sm:text-base
+                                   focus:ring-2 focus:ring-[#2B3A8C] outline-none"
                             placeholder="Masukkan judul berita">
                     </div>
 
                     <div>
-                        <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
+                        <label class="block font-montserrat text-gray-400 text-xs sm:text-sm mb-1.5 sm:mb-2 ml-1">
                             Kategori
                         </label>
                         <select name="kategori"
-                            class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none">
+                            class="w-full bg-gray-100 border-none rounded-xl py-2.5 sm:py-3 px-4 sm:px-5
+                                   font-montserrat text-sm sm:text-base
+                                   focus:ring-2 focus:ring-[#2B3A8C] outline-none">
                             <option value="">Pilih kategori</option>
                             <option value="Kesehatan">Kesehatan</option>
                             <option value="Kegiatan">Kegiatan</option>
@@ -40,52 +47,68 @@
                     </div>
 
                     <div>
-                        <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
+                        <label class="block font-montserrat text-gray-400 text-xs sm:text-sm mb-1.5 sm:mb-2 ml-1">
                             Deskripsi
                         </label>
-                        <textarea 
-                            name="deskripsi" 
+                        <textarea
+                            name="deskripsi"
                             rows="4"
-                            class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
+                            class="w-full bg-gray-100 border-none rounded-xl py-2.5 sm:py-3 px-4 sm:px-5
+                                   font-montserrat text-sm sm:text-base
+                                   focus:ring-2 focus:ring-[#2B3A8C] outline-none resize-none"
                             placeholder="Masukkan deskripsi berita"></textarea>
                     </div>
 
                     <div>
-                        <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
+                        <label class="block font-montserrat text-gray-400 text-xs sm:text-sm mb-1.5 sm:mb-2 ml-1">
                             Link Berita
                         </label>
-                        <input 
-                            type="url" 
+                        <input
+                            type="url"
                             name="link"
-                            class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
+                            class="w-full bg-gray-100 border-none rounded-xl py-2.5 sm:py-3 px-4 sm:px-5
+                                   font-montserrat text-sm sm:text-base
+                                   focus:ring-2 focus:ring-[#2B3A8C] outline-none"
                             placeholder="https://example.com/berita">
                     </div>
 
                     <div>
-                        <label class="block font-montserrat text-gray-400 text-sm mb-2 ml-1">
+                        <label class="block font-montserrat text-gray-400 text-xs sm:text-sm mb-1.5 sm:mb-2 ml-1">
                             Cover Berita
                         </label>
-
-                        <label class="flex items-center w-full bg-gray-100 rounded-xl py-3 px-5 font-montserrat cursor-pointer hover:bg-gray-200">
-                            <span id="fileText" class="block text-gray-400 text-sm ml-1 italic">
+                        <label class="flex items-center gap-3 w-full bg-gray-100 rounded-xl
+                                      py-2.5 sm:py-3 px-4 sm:px-5
+                                      font-montserrat cursor-pointer hover:bg-gray-200 transition">
+                            
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                            </svg>
+                            <span id="fileText" class="text-gray-400 text-xs sm:text-sm italic truncate">
                                 Upload cover berita
                             </span>
                             <input type="file" name="cover" id="coverInput" class="hidden" accept="image/*">
                         </label>
 
+                        <div id="previewWrapper" class="hidden mt-3">
+                            <img id="previewImg" src="" alt="Preview"
+                                class="h-32 sm:h-40 rounded-xl object-cover border border-gray-200 shadow">
+                        </div>
                     </div>
 
                 </div>
 
-                <div class="flex justify-center mt-10">
+                <div class="flex justify-center mt-8 sm:mt-10">
                     <button type="submit"
-                        class="bg-[#2B3A8C] text-white font-bold py-3 px-12 font-poppins rounded-lg hover:bg-blue-800 transition shadow-md">
+                        class="bg-[#2B3A8C] text-white font-bold font-poppins rounded-lg
+                               hover:bg-blue-800 transition shadow-md
+                               py-2.5 sm:py-3 px-10 sm:px-12
+                               text-sm sm:text-base w-full sm:w-auto">
                         Upload
                     </button>
                 </div>
 
             </form>
-
         </div>
     </div>
 </div>
@@ -93,9 +116,16 @@
 <script>
 document.getElementById('coverInput').addEventListener('change', function (e) {
     const file = e.target.files[0];
-
     if (file) {
         document.getElementById('fileText').innerText = file.name;
+
+        // Show image preview
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+            document.getElementById('previewImg').src = ev.target.result;
+            document.getElementById('previewWrapper').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
     }
 });
 </script>
