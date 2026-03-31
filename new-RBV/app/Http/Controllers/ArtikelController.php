@@ -5,9 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Artikel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class ArtikelController extends Controller
 {
+    private function checkRole()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        if (!$user || !$user->hasRole(['super_admin', 'admin'])) {
+            abort(403, 'Akses ditolak');
+        }
+    }
+
     public function index()
     {
         $artikels = Artikel::latest()->get();
@@ -16,16 +28,19 @@ class ArtikelController extends Controller
 
     public function create()
     {
+        $this->checkRole();
         return view('pages.Artikel.createartikel');
     }
 
     public function store(Request $request)
     {
+        $this->checkRole();
+
         $request->validate([
             'judul'     => 'required',
             'deskripsi' => 'nullable',
             'cover'     => 'required|file|max:20480',
-            'file_pdf' => 'required|file|mimes:pdf,jpg,jpeg,png|max:20480'
+            'file_pdf'  => 'required|file|mimes:pdf,jpg,jpeg,png|max:20480'
         ]);
 
         $cover = $request->file('cover')->store('artikel','public');
@@ -54,12 +69,16 @@ class ArtikelController extends Controller
 
     public function edit($id)
     {
+        $this->checkRole();
+
         $artikel = Artikel::findOrFail($id);
         return view('pages.Artikel.editartikel', compact('artikel'));
     }
 
     public function update(Request $request,$id)
     {
+        $this->checkRole();
+
         $artikel = Artikel::findOrFail($id);
 
         $data = [
@@ -85,6 +104,8 @@ class ArtikelController extends Controller
 
     public function destroy($id)
     {
+        $this->checkRole();
+
         $artikel = Artikel::findOrFail($id);
 
         Storage::disk('public')->delete($artikel->cover);

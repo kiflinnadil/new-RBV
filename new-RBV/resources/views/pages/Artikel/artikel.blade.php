@@ -15,7 +15,7 @@
             </h1>
 
             @auth
-                @if(auth()->user()->role == 'super_admin')
+                @if(auth()->user()->hasRole(['super_admin', 'admin']))
                     <a href="{{ route('artikel.create') }}"
                         class="flex items-center justify-center flex-shrink-0
                                w-[44px] h-[44px] sm:w-[47px] sm:h-[49px]
@@ -45,7 +45,7 @@
                         onerror="this.src='https://via.placeholder.com/400x300'">
 
                     @auth
-                        @if(auth()->user()->role == 'super_admin')
+                        @if(auth()->user()->hasRole(['super_admin', 'admin']))
                         <div class="absolute top-2 right-2 sm:top-3 sm:right-3 z-20 flex flex-col gap-1.5 sm:gap-2">
                             <a href="{{ route('artikel.edit', $artikel->id_artikel) }}"
                                 class="p-1.5 bg-[#00A14C] text-white rounded-lg shadow hover:scale-110 transition">

@@ -27,7 +27,7 @@ Route::get('/profil', function () {
 });
 
 
-Route::middleware(['auth', 'superadmin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
     Route::get('/books/create', [BukuController::class, 'create'])->name('books.create');
     Route::post('/books', [BukuController::class, 'store'])->name('books.store');

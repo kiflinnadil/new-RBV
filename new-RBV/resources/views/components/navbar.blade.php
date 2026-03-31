@@ -17,7 +17,7 @@
                     <a href="/berita" class="font-poppins font-normal hover:text-blue-700 transition">Berita</a>
                     <a href="/koleksi" class="font-poppins font-normal hover:text-blue-700 transition">Buku</a>
                     @auth
-                        @if(auth()->user()->role == 'super_admin')
+                        @if(auth()->user()->hasRole(['super_admin', 'admin']))
                             <a href="/favorite" class="font-poppins font-normal hover:text-blue-700 transition">Favorit</a>
                             <a href="/e-office" class="font-poppins font-normal hover:text-blue-700 transition">E-Office</a>
                         @endif
