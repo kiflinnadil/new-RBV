@@ -67,7 +67,7 @@
                     </p>
                     <div class="mt-auto text-center">
                         <a href="{{ route('artikel.read', $artikel->id_artikel) }}" target="_blank"
-                            class="px-4 py-2 bg-[#00A14C] text-white rounded-lg">
+                            class="px-6 py-2 bg-[#00A14C] text-white font-bold rounded-lg hover:bg-emerald-600">
                             Baca Selengkapnya
                         </a>
                     </div>
