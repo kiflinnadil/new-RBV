@@ -129,7 +129,7 @@
 
 
     <div id="fasilitasSection" class="py-10 sm:py-14 lg:py-16"
-        style="background: linear-gradient(180deg, #c8d8f8 0%, #dde8ff 30%, #e8d8f8 70%, #c8c8f0 100%);">
+        style="background: #F6F9FF">
 
         <div class="max-w-3xl mx-auto px-4 sm:px-8 text-center mb-8 sm:mb-10">
             <h2 class="font-poppins font-extrabold text-[#1a237e] mb-3
@@ -170,7 +170,7 @@
                     ] as $item)
                     <div class="swiper-slide">
                         <div class="rounded-3xl text-center py-7 sm:py-10 px-5 sm:px-8 h-full"
-                            style="background: linear-gradient(160deg, #dbeafe 0%, #f0f6ff 50%, #ffffff 100%);
+                            style="background: linear-gradient(160deg, #dbeafe 0%, #E0EDFF 50%, #ffffff 100%);
                                    box-shadow: 0 4px 24px rgba(100,120,200,0.10);">
                             <div class="flex justify-center mb-4 sm:mb-6">
                                 <img src="{{ asset('images/' . $item['img']) }}"

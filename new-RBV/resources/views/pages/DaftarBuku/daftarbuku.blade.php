@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="min-h-screen" style="background: linear-gradient(to bottom, #E0EDFF 0%, #FFFFFF 100%);">
-
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-8 sm:pt-10">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
@@ -88,11 +87,7 @@
                        overflow-hidden fixed inset-0 m-auto">
                 <div class="bg-white p-5 sm:p-8 lg:p-12 relative max-h-[90vh] overflow-y-auto">
 
-                    <button onclick="document.getElementById('modal-{{ $buku->id_buku }}').close()"
-                        class="absolute top-3 right-4 text-gray-400 hover:text-gray-700 transition text-2xl leading-none z-10">
-                        &times;
-                    </button>
-
+                   
                     <div class="flex flex-col items-center">
 
                         <div class="w-32 sm:w-48 lg:w-64 aspect-[3/4] mb-5 sm:mb-8 shadow-2xl rounded-lg overflow-hidden">
