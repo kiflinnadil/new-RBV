@@ -6,8 +6,8 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
             <h1 class="font-poppins font-extrabold text-[#2B3A8C]
-                       text-2xl sm:text-3xl lg:text-4xl
-                       [text-shadow:_0px_4px_5px_rgb(0_0_0_/_20%)]">
+                        text-2xl sm:text-3xl lg:text-4xl
+                        [text-shadow:_0px_4px_5px_rgb(0_0_0_/_20%)]">
                 Daftar Buku
             </h1>
 
@@ -18,9 +18,9 @@
                         <input type="text" name="search" value="{{ request('search') }}"
                             placeholder="Cari buku"
                             class="pl-4 sm:pl-5 pr-11 py-2.5 rounded-xl border border-gray-200 bg-white
-                                   w-full sm:w-[240px] lg:w-[287px] h-[44px] sm:h-[49px]
-                                   font-montserrat text-sm
-                                   focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition-all">
+                                    w-full sm:w-[240px] lg:w-[287px] h-[44px] sm:h-[49px]
+                                    font-montserrat text-sm
+                                    focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition-all">
                         <div class="absolute right-0 top-0 h-[44px] sm:h-[49px] w-[40px] sm:w-[43px]
                                     flex items-center justify-center
                                     bg-gray-100 rounded-r-xl text-gray-400
@@ -33,12 +33,12 @@
                 </form>
 
                 @auth
-                    @if(auth()->user()->role == 'super_admin')
+                    @if(in_array(auth()->user()->role, ['super_admin','admin']))
                     <a href="{{ route('books.create') }}"
                         class="flex items-center justify-center flex-shrink-0
-                               w-[44px] h-[44px] sm:w-[47px] sm:h-[49px]
-                               rounded-md border border-gray-300 bg-white text-[#606060]
-                               transition hover:scale-110 shadow-sm">
+                                w-[44px] h-[44px] sm:w-[47px] sm:h-[49px]
+                                rounded-md border border-gray-300 bg-white text-[#606060]
+                                transition hover:scale-110 shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"/>
                         </svg>
@@ -64,17 +64,17 @@
 
                 <div class="pt-3 sm:pt-4 lg:pt-6 pb-2 flex flex-col flex-grow text-center">
                     <h2 class="font-poppins font-extrabold text-[#2B3A8C] leading-tight mb-1 line-clamp-2
-                               text-sm sm:text-base lg:text-xl">
+                                text-sm sm:text-base lg:text-xl">
                         {{ $buku->judul }}
                     </h2>
                     <p class="font-poppins font-bold text-black opacity-80 mb-3 sm:mb-5 lg:mb-6
-                              text-xs sm:text-sm">
+                                text-xs sm:text-sm">
                         {{ $buku->penulis }}
                     </p>
                     <div class="mt-auto px-0 sm:px-1 lg:px-2">
                         <button onclick="document.getElementById('modal-{{ $buku->id_buku }}').showModal()"
                             class="block w-full py-2 sm:py-2.5 bg-[#00A14C] font-poppins text-white font-bold rounded-lg hover:bg-[#008a41] transition shadow-md
-                                   text-[11px] sm:text-[12px] lg:text-[13px]">
+                                    text-[11px] sm:text-[12px] lg:text-[13px]">
                             Detail Buku
                         </button>
                     </div>
@@ -83,11 +83,11 @@
 
             <dialog id="modal-{{ $buku->id_buku }}"
                 class="rounded-[20px] sm:rounded-[32px] p-0 backdrop:bg-black/50 shadow-2xl
-                       w-[95vw] sm:w-full max-w-sm sm:max-w-lg lg:max-w-2xl
-                       overflow-hidden fixed inset-0 m-auto">
+                        w-[95vw] sm:w-full max-w-sm sm:max-w-lg lg:max-w-2xl
+                        overflow-hidden fixed inset-0 m-auto">
                 <div class="bg-white p-5 sm:p-8 lg:p-12 relative max-h-[90vh] overflow-y-auto">
 
-                   
+                
                     <div class="flex flex-col items-center">
 
                         <div class="w-32 sm:w-48 lg:w-64 aspect-[3/4] mb-5 sm:mb-8 shadow-2xl rounded-lg overflow-hidden">
@@ -101,9 +101,10 @@
                                     {{ $buku->judul }}
                                 </h1>
 
-                                @auth
-                                    @if(auth()->user()->role == 'super_admin')
+                                    @auth
                                     <div class="flex gap-1.5 sm:gap-2 flex-shrink-0 items-center">
+
+                                        @if(in_array(auth()->user()->role, ['super_admin','admin']))
 
                                         <button class="p-1.5 sm:p-2 bg-[#00A14C] text-white rounded-md">
                                             <a href="{{ route('books.edit', $buku->id_buku) }}">
@@ -141,12 +142,16 @@
                                             </div>
                                         </div>
 
+                                        @endif
+
                                         <form action="{{ route('books.favorite', $buku->id_buku) }}" method="POST">
                                             @csrf
                                             <button type="submit" class="hover:scale-110 transition">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="h-6 w-6 sm:h-8 sm:w-8 {{ $buku->is_favorite ? 'text-yellow-400 fill-current' : 'text-gray-400' }}"
-                                                    viewBox="0 0 24 24">
+                                                    class="h-6 w-6 sm:h-8 sm:w-8 
+                                                    {{ $buku->is_favorite ? 'text-yellow-400 fill-current' : 'text-gray-400' }}"
+                                                    viewBox="0 0 24 24" fill="currentColor">
+
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
                                                 </svg>
@@ -154,15 +159,14 @@
                                         </form>
 
                                     </div>
-                                    @endif
-                                @endauth
+                                    @endauth
                             </div>
 
                             <p class="font-poppins font-bold text-black text-xs sm:text-sm">{{ $buku->penulis }}</p>
                             <p class="font-poppins text-gray-400 text-xs mb-3 sm:mb-4">{{ $buku->tahun }}</p>
 
                             <p class="font-poppins text-gray-500 leading-relaxed mb-6 sm:mb-10 text-justify
-                                      text-xs sm:text-[13px]">
+                                        text-xs sm:text-[13px]">
                                 {{ $buku->deskripsi }}
                             </p>
 

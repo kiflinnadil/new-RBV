@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Auth;
 
 class BukuController extends Controller
 {
+        private function checkRole()
+    {
+        $user = Auth::user();
+
+        if (!$user || !in_array($user->role, ['super_admin','admin'])) {
+            abort(403, 'Akses ditolak');
+        }
+    }
+    
     public function beranda()
     {
         $books = Buku::latest()->take(4)->get();
@@ -60,45 +69,49 @@ class BukuController extends Controller
     }
     public function create()
     {
+        $this->checkRole(); 
         return view('pages.DaftarBuku.createbuku');
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'judul'=>'required',
-        'pengarang'=>'required',
-        'kategori'=>'required',
-        'tahun_terbit'=>'required',
-        'deskripsi'=>'nullable',
-        'file_pdf'=>'required|file|mimes:pdf|max:20480',
-        'cover'=>'required|file|max:20480'
-    ]);
+    {
+        $this->checkRole(); 
+        $request->validate([
+            'judul'=>'required',
+            'pengarang'=>'required',
+            'kategori'=>'required',
+            'tahun_terbit'=>'required',
+            'deskripsi'=>'nullable',
+            'file_pdf'=>'required|file|mimes:pdf|max:20480',
+            'cover'=>'required|file|max:20480'
+        ]);
 
-    $pdf = $request->file('file_pdf')->store('books','public');
-    $cover = $request->file('cover')->store('covers','public');
+        $pdf = $request->file('file_pdf')->store('books','public');
+        $cover = $request->file('cover')->store('covers','public');
 
-    Buku::create([
-        'judul'=>$request->judul,
-        'penulis'=>$request->pengarang,
-        'kategori'=>$request->kategori,
-        'tahun'=>$request->tahun_terbit,
-        'deskripsi'=>$request->deskripsi,
-        'file_pdf'=>$pdf,
-        'cover'=>$cover
-    ]);
+        Buku::create([
+            'judul'=>$request->judul,
+            'penulis'=>$request->pengarang,
+            'kategori'=>$request->kategori,
+            'tahun'=>$request->tahun_terbit,
+            'deskripsi'=>$request->deskripsi,
+            'file_pdf'=>$pdf,
+            'cover'=>$cover
+        ]);
 
-    return redirect()->route('books.index')->with('success','Buku berhasil ditambahkan');
-}
+        return redirect()->route('books.index')->with('success','Buku berhasil ditambahkan');
+    }
 
     public function edit($id)
     {
+        $this->checkRole(); 
         $book = Buku::findOrFail($id);
         return view('pages.DaftarBuku.editbuku', compact('book'));
     }
 
     public function update(Request $request,$id)
     {
+        $this->checkRole(); 
         $buku = Buku::findOrFail($id);
 
         $data = [
@@ -126,6 +139,7 @@ class BukuController extends Controller
 
     public function destroy($id)
     {
+        $this->checkRole(); 
         $book = Buku::findOrFail($id);
 
         Storage::disk('public')->delete($book->file_pdf);

@@ -17,8 +17,10 @@
                     <a href="/berita" class="font-poppins font-normal hover:text-blue-700 transition">Berita</a>
                     <a href="/koleksi" class="font-poppins font-normal hover:text-blue-700 transition">Buku</a>
                     @auth
-                        @if(auth()->user()->hasRole(['super_admin', 'admin']))
+                        @if(auth()->user()->hasRole(['super_admin', 'admin', 'karyawan', 'unit', 'sekretaris']))
                             <a href="/favorite" class="font-poppins font-normal hover:text-blue-700 transition">Favorit</a>
+                        @endif
+                        @if(auth()->user()->hasRole(['super_admin', 'sekretaris']))
                             <a href="/e-office" class="font-poppins font-normal hover:text-blue-700 transition">E-Office</a>
                         @endif
                     @endauth
@@ -30,7 +32,7 @@
             
             <div class="hidden lg:flex items-center gap-3">
                 @auth
-                    @if(auth()->user()->role == 'super_admin')
+                    @if(auth()->user()->hasRole(['super_admin', 'admin', 'karyawan', 'unit', 'sekretaris']))
                         <a href="#"
                             class="font-poppins px-4 xl:px-6 py-2 border-2 border-blue-900 text-blue-900 rounded-lg font-bold text-sm hover:bg-blue-50 transition whitespace-nowrap">
                             Layanan

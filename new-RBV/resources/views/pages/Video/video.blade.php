@@ -14,11 +14,11 @@
             </h1>
 
             @auth
-                @if(auth()->user()->role == 'super_admin')
+                @if(in_array(auth()->user()->role, ['super_admin','admin']))
                     <a href="{{ route('video.create') }}"
                         class="flex items-center justify-center w-[47px] h-[49px]
-                               rounded-md border border-gray-300 bg-white text-[#606060]
-                               transition hover:scale-110">
+                                rounded-md border border-gray-300 bg-white text-[#606060]
+                                transition hover:scale-110">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -50,7 +50,7 @@
 
             <div class="relative aspect-square bg-[#EFF4FF] rounded-2xl shadow-lg overflow-hidden flex flex-col">
 
-                <div class="relative h-[50%] w-full overflow-hidden">
+                <div class="relative h-[40%] w-full overflow-hidden">
 
                     <a href="{{ $video->file_url }}" target="_blank" class="block w-full h-full">
 
@@ -98,7 +98,7 @@
                     </a>
 
                     @auth
-                        @if(auth()->user()->role == 'super_admin')
+                        @if(in_array(auth()->user()->role, ['super_admin','admin']))
                         <div class="absolute top-3 right-3 z-20 flex flex-col gap-2">
                             <a href="{{ route('video.edit', $video->id_video) }}"
                                 class="p-1.5 bg-[#00A14C] text-white rounded-lg shadow hover:scale-110 transition">

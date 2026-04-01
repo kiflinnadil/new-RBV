@@ -5,9 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Berita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class BeritaController extends Controller
 {
+    private function checkRole()
+    {
+        $user = Auth::user();
+
+        if (!$user || !in_array($user->role, ['super_admin','admin'])) {
+            abort(403, 'Akses ditolak');
+        }
+    }
+
     public function index(Request $request)
     {
         $kategori = $request->get('kategori');
@@ -23,11 +33,14 @@ class BeritaController extends Controller
 
     public function create()
     {
+        $this->checkRole(); 
         return view('pages.Berita.createberita');
     }
 
     public function store(Request $request)
     {
+        $this->checkRole();
+
         $request->validate([
             'judul'=>'required',
             'kategori'=>'required',
@@ -53,12 +66,16 @@ class BeritaController extends Controller
 
     public function edit($id)
     {
+        $this->checkRole();
+
         $berita = Berita::findOrFail($id);
         return view('pages.Berita.editberita', compact('berita'));
     }
 
     public function update(Request $request,$id)
     {
+        $this->checkRole();
+
         $request->validate([
             'judul'=>'required',
             'kategori'=>'required',
@@ -89,6 +106,8 @@ class BeritaController extends Controller
 
     public function destroy($id)
     {
+        $this->checkRole();
+
         $berita = Berita::findOrFail($id);
 
         Storage::disk('public')->delete($berita->cover);

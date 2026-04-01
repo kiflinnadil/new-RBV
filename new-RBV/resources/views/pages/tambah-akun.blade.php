@@ -68,8 +68,8 @@
                         <div class="relative">
                             <select name="role"
                                 class="w-full appearance-none bg-[#F3F4F6] rounded-xl
-                                       py-3 pl-5 pr-10 text-gray-700
-                                       focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
+                                        py-3 pl-5 pr-10 text-gray-700
+                                        focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
                                 <option value="">Pilih Role</option>
 
                                 <option value="admin"      {{ old('role') == 'admin'      ? 'selected' : '' }}>Admin</option>
@@ -92,8 +92,8 @@
                                 autocomplete="new-password"
                                 oninput="checkPasswordMatch()"
                                 class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 pr-12
-                                       [&::-ms-reveal]:hidden [&::-ms-clear]:hidden
-                                       focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
+                                        [&::-ms-reveal]:hidden [&::-ms-clear]:hidden
+                                        focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
                             <button type="button" onclick="togglePassword('password','eye-1')"
                                 class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition p-0.5">
                                 <svg id="eye-1" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -112,8 +112,8 @@
                                 autocomplete="new-password"
                                 oninput="checkPasswordMatch()"
                                 class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 pr-12
-                                       [&::-ms-reveal]:hidden [&::-ms-clear]:hidden
-                                       focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
+                                        [&::-ms-reveal]:hidden [&::-ms-clear]:hidden
+                                        focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
                             <button type="button" onclick="togglePassword('password_confirmation','eye-2')"
                                 class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition p-0.5">
                                 <svg id="eye-2" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -4,10 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Video;
 use Illuminate\Http\Request;
-    use Illuminate\Support\Facades\Http; 
+use Illuminate\Support\Facades\Http; 
+use Illuminate\Support\Facades\Auth;
 
 class VideoController extends Controller
 {
+        private function checkRole()
+    {
+        $user = Auth::user();
+
+        if (!$user || !in_array($user->role, ['super_admin', 'admin'])) {
+            abort(403, 'Akses ditolak');
+        }
+    }
+
     public function index()
     {
         $videos = Video::latest()->get();
@@ -17,12 +27,14 @@ class VideoController extends Controller
 
     public function create()
     {
+        $this->checkRole();
         return view('pages.Video.createvideo');
     }
 
 
     public function store(Request $request)
     {
+        $this->checkRole();
         $request->validate([
             'judul' => 'required',
             'deskripsi' => 'nullable',
@@ -83,7 +95,9 @@ class VideoController extends Controller
     }
 
     public function edit($id)
+    
     {
+        $this->checkRole();
         $video = Video::findOrFail($id);
 
         return view('pages.Video.editvideo', compact('video'));
@@ -91,6 +105,7 @@ class VideoController extends Controller
 
     public function update(Request $request, $id)
     {
+        $this->checkRole();
         $request->validate([
             'judul' => 'required',
             'deskripsi' => 'nullable',
@@ -111,6 +126,7 @@ class VideoController extends Controller
 
     public function destroy($id)
     {
+        $this->checkRole();
         Video::findOrFail($id)->delete();
 
         return redirect()->route('video.index')

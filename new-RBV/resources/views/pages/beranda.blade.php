@@ -53,8 +53,8 @@
 
                 <div class="flex justify-center items-center mb-8 sm:mb-10 lg:mb-12">
                     <h1 class="font-poppins font-extrabold text-[#272E84] tracking-tight text-center
-                               text-3xl sm:text-4xl lg:text-[55px]
-                               [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)]">
+                                text-3xl sm:text-4xl lg:text-[55px]
+                                [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)]">
                         Rekomendasi Buku
                     </h1>
                 </div>
@@ -72,17 +72,17 @@
 
                         <div class="pt-3 sm:pt-4 lg:pt-6 pb-2 flex flex-col flex-grow text-center">
                             <h2 class="font-poppins font-extrabold text-[#2B3A8C] leading-tight mb-1 line-clamp-2
-                                       text-sm sm:text-base lg:text-xl">
+                                        text-sm sm:text-base lg:text-xl">
                                 {{ $buku->judul }}
                             </h2>
                             <p class="font-poppins font-bold text-black opacity-80 mb-3 sm:mb-5 lg:mb-6
-                                      text-xs sm:text-sm">
+                                        text-xs sm:text-sm">
                                 {{ $buku->penulis }}
                             </p>
                             <div class="mt-auto px-0 sm:px-1 lg:px-2">
                                 <button onclick="document.getElementById('modal-home-{{ $buku->id_buku }}').showModal()"
                                     class="block w-full py-2 sm:py-2.5 bg-[#00A14C] font-poppins text-white font-bold rounded-lg hover:bg-[#008a41] transition shadow-md
-                                           text-[11px] sm:text-[12px] lg:text-[13px]">
+                                            text-[11px] sm:text-[12px] lg:text-[13px]">
                                     Detail Buku
                                 </button>
                             </div>
@@ -91,8 +91,8 @@
 
                     <dialog id="modal-home-{{ $buku->id_buku }}"
                         class="rounded-[24px] sm:rounded-[32px] p-0 backdrop:bg-black/50 shadow-2xl
-                               w-[95vw] sm:w-full max-w-lg sm:max-w-xl lg:max-w-2xl
-                               overflow-hidden fixed inset-0 m-auto">
+                                w-[95vw] sm:w-full max-w-lg sm:max-w-xl lg:max-w-2xl
+                                overflow-hidden fixed inset-0 m-auto">
                         <div class="bg-white p-5 sm:p-8 lg:p-12 relative">
                             <button onclick="document.getElementById('modal-home-{{ $buku->id_buku }}').close()"
                                 class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition text-2xl leading-none">&times;</button>
@@ -133,7 +133,7 @@
 
         <div class="max-w-3xl mx-auto px-4 sm:px-8 text-center mb-8 sm:mb-10">
             <h2 class="font-poppins font-extrabold text-[#1a237e] mb-3
-                       text-3xl sm:text-4xl lg:text-[55px]"
+                        text-3xl sm:text-4xl lg:text-[55px]"
                 style="text-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
                 Fasilitas Yang Tersedia
             </h2>
@@ -171,7 +171,7 @@
                     <div class="swiper-slide">
                         <div class="rounded-3xl text-center py-7 sm:py-10 px-5 sm:px-8 h-full"
                             style="background: linear-gradient(160deg, #dbeafe 0%, #E0EDFF 50%, #ffffff 100%);
-                                   box-shadow: 0 4px 24px rgba(100,120,200,0.10);">
+                                    box-shadow: 0 4px 24px rgba(100,120,200,0.10);">
                             <div class="flex justify-center mb-4 sm:mb-6">
                                 <img src="{{ asset('images/' . $item['img']) }}"
                                     class="object-contain w-28 h-24 sm:w-36 sm:h-32 lg:w-[180px] lg:h-[160px]"
@@ -203,8 +203,8 @@
 
             <div class="max-w-6xl mx-auto text-center mb-8 sm:mb-10 lg:mb-12">
                 <h2 class="font-poppins font-extrabold text-[#272E84] tracking-tight mb-3
-                           text-3xl sm:text-4xl lg:text-[55px]
-                           [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)]">
+                            text-3xl sm:text-4xl lg:text-[55px]
+                            [text-shadow:_0px_4px_5px_rgb(0_0_0_/_40%)]">
                     Statistik Pengunjung
                 </h2>
                 <p class="font-poppins text-black text-sm sm:text-lg lg:text-[22px] max-w-2xl mx-auto">

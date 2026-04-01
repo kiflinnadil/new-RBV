@@ -6,16 +6,14 @@ use App\Models\Artikel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class ArtikelController extends Controller
 {
     private function checkRole()
     {
-        /** @var User $user */
         $user = Auth::user();
 
-        if (!$user || !$user->hasRole(['super_admin', 'admin'])) {
+        if (!$user || !in_array($user->role, ['super_admin', 'admin'])) {
             abort(403, 'Akses ditolak');
         }
     }
@@ -39,7 +37,7 @@ class ArtikelController extends Controller
         $request->validate([
             'judul'     => 'required',
             'deskripsi' => 'nullable',
-            'cover'     => 'required|file|max:20480',
+            'cover'     => 'required|image|max:2048',
             'file_pdf'  => 'required|file|mimes:pdf,jpg,jpeg,png|max:20480'
         ]);
 
