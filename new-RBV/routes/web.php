@@ -1,14 +1,13 @@
 <?php
 
+use App\Http\Controllers\AkunController;
 use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BeritaController;
-use App\Http\Controllers\BukuController;
 // use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BukuController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AkunController;
-
 
 Route::get('/', [BukuController::class, 'beranda']);
 Route::get('/koleksi', [BukuController::class, 'index'])->name('books.index');
@@ -25,7 +24,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/profil', function () {
     return view('pages.profil');
 });
-
 
 Route::middleware(['auth'])->group(function () {
 
@@ -79,6 +77,47 @@ Route::post('/books/{id}/favorite', [BukuController::class, 'toggleFavorite'])
 Route::get('/favorite', [BukuController::class, 'favorit'])
     ->name('books.favorit')
     ->middleware('auth');
+
+Route::redirect('/e-office', '/eoffice');
+
+Route::prefix('eoffice')
+    ->name('eoffice.')
+    ->middleware(['auth'])
+    ->group(function () {
+
+        Route::prefix('surat-masuk')->name('surat-masuk.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\SuratMasukController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\SuratMasukController::class, 'create'])->name('create');
+            Route::post('/', [\App\Http\Controllers\SuratMasukController::class, 'store'])->name('store');
+            Route::get('/export/excel', [\App\Http\Controllers\SuratMasukController::class, 'exportExcel'])->name('export');
+            Route::get('/{id}', [\App\Http\Controllers\SuratMasukController::class, 'show'])->name('show');
+            Route::get('/{id}/pdf', [\App\Http\Controllers\SuratMasukController::class, 'exportPdf'])->name('export-pdf');
+            // Approvve
+            Route::post('/{id}/setujui', [\App\Http\Controllers\SuratMasukController::class, 'setujui'])->name('setujui');
+            Route::post('/{id}/tolak', [\App\Http\Controllers\SuratMasukController::class, 'tolak'])->name('tolak');
+        });
+
+        Route::prefix('surat-keluar')->name('surat-keluar.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\SuratKeluarController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\SuratKeluarController::class, 'create'])->name('create');
+            Route::post('/', [\App\Http\Controllers\SuratKeluarController::class, 'store'])->name('store');
+            Route::get('/export/excel', [\App\Http\Controllers\SuratKeluarController::class, 'exportExcel'])->name('export-all');
+            Route::get('/{id}', [\App\Http\Controllers\SuratKeluarController::class, 'show'])->name('show');
+            Route::get('/{id}/pdf', [\App\Http\Controllers\SuratKeluarController::class, 'pdf'])->name('pdf');
+            // Approve
+            Route::post('/{id}/setujui', [\App\Http\Controllers\SuratKeluarController::class, 'setujui'])->name('setujui');
+            Route::post('/{id}/tolak', [\App\Http\Controllers\SuratKeluarController::class, 'tolak'])->name('tolak');
+        });
+
+        Route::prefix('notifikasi')->name('notifikasi.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\NotifikasiController::class, 'index'])->name('index');
+            Route::post('/baca-semua', [\App\Http\Controllers\NotifikasiController::class, 'bacaSemua'])->name('baca-semua');
+            Route::get('/{id}/baca', [\App\Http\Controllers\NotifikasiController::class, 'baca'])->name('baca');
+        });
+    });
+Route::get('/layanan', function () {
+    return view('pages.Layanan.layanan');
+})->name('Layanan.index');
 // -------------- //
 // Route::get('/', [BukuController::class, 'beranda']);
 

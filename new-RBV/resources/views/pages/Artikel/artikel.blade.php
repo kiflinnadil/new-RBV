@@ -44,11 +44,11 @@
                     <div class="absolute top-3 right-3 z-20 flex flex-col gap-2">
                         <a href="{{ route('artikel.edit', $artikel->id_artikel) }}"
                             class="p-1.5 bg-[#00A14C] text-white rounded-lg shadow hover:scale-110 transition">
-                            <img src="{{ asset('images/edit.png') }}" class="w-5 h-5 object-contain">
+                            <img src="{{ asset('images/Edit.svg') }}" class="w-5 h-5 object-contain">
                         </a>
                         <button @click="openDeleteModal({{ $artikel->id_artikel }})"
                             class="p-1.5 bg-red-500 text-white rounded-lg shadow hover:scale-110 transition">
-                            <img src="{{ asset('images/delete.png') }}" class="w-5 h-5 object-contain">
+                            <img src="{{ asset('images/Delete.svg') }}" class="w-5 h-5 object-contain">
                         </button>
                     </div>
                     @endif

@@ -90,10 +90,6 @@
                             <input type="file" name="cover" id="coverInput" class="hidden" accept="image/*">
                         </label>
 
-                        <div id="previewWrapper" class="hidden mt-3">
-                            <img id="previewImg" src="" alt="Preview"
-                                class="h-32 sm:h-40 rounded-xl object-cover border border-gray-200 shadow">
-                        </div>
                     </div>
 
                 </div>

@@ -94,12 +94,12 @@
 
                         <a href="{{ route('berita.edit', $berita->id_berita) }}"
                             class="p-1.5 bg-[#00A14C] text-white rounded-lg shadow hover:scale-110 transition">
-                            <img src="{{ asset('images/edit.png') }}" class="w-5 h-5">
+                            <img src="{{ asset('images/Edit.svg') }}" class="w-5 h-5">
                         </a>
 
                         <button @click="openDeleteModal({{ $berita->id_berita }})"
                             class="p-1.5 bg-red-500 text-white rounded-lg shadow hover:scale-110 transition">
-                            <img src="{{ asset('images/delete.png') }}" class="w-5 h-5">
+                            <img src="{{ asset('images/Delete.svg') }}" class="w-5 h-5">
                         </button>
 
                     </div>

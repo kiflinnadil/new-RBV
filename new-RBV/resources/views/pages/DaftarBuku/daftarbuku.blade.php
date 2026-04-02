@@ -108,14 +108,14 @@
 
                                         <button class="p-1.5 sm:p-2 bg-[#00A14C] text-white rounded-md">
                                             <a href="{{ route('books.edit', $buku->id_buku) }}">
-                                                <img src="{{ asset('images/edit.png') }}" class="w-4 h-4 sm:w-5 sm:h-5 object-contain">
+                                                <img src="{{ asset('images/Edit.svg') }}" class="w-4 h-4 sm:w-5 sm:h-5 object-contain">
                                             </a>
                                         </button>
 
                                         <div x-data="deleteModal()" x-init="init()" x-cloak>
                                             <button @click="openDelete = true"
                                                 class="p-1.5 sm:p-2 bg-red-500 text-white rounded-md shadow transition">
-                                                <img src="{{ asset('images/delete.png') }}" class="w-4 h-4 sm:w-5 sm:h-5 object-contain">
+                                                <img src="{{ asset('images/delete.svg') }}" class="w-4 h-4 sm:w-5 sm:h-5 object-contain">
                                             </button>
 
                                             <div x-show="openDelete"
