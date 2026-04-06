@@ -28,7 +28,7 @@ Route::get('/profil', function () {
     return view('pages.profil');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','role:super_admin,admin'])->group(function () {
 
     Route::get('/books/create', [BukuController::class, 'create'])->name('books.create');
     Route::post('/books', [BukuController::class, 'store'])->name('books.store');
@@ -53,7 +53,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/artikel/{id}/edit', [ArtikelController::class, 'edit'])->name('artikel.edit');
     Route::put('/artikel/{id}', [ArtikelController::class, 'update'])->name('artikel.update');
     Route::delete('/artikel/{id}', [ArtikelController::class, 'destroy'])->name('artikel.destroy');
+});
 
+Route::middleware(['auth','role:super_admin'])->group(function () {
     Route::get('/akun', [AkunController::class, 'index'])->name('akun.index');
     Route::get('/tambah-akun', [AkunController::class, 'create'])->name('akun.create');
     Route::post('/akun', [AkunController::class, 'store'])->name('akun.store');
@@ -61,8 +63,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/akun/{id}/edit', [AkunController::class, 'edit'])->name('akun.edit');
     Route::put('/akun/{id}', [AkunController::class, 'update'])->name('akun.update');
     Route::delete('/akun/{id}', [AkunController::class, 'destroy'])->name('akun.destroy');
-
 });
+
 
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
 

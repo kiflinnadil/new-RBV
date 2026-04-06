@@ -9,16 +9,7 @@ use App\Models\Favorite;
 use Illuminate\Support\Facades\Auth;
 
 class BukuController extends Controller
-{
-        private function checkRole()
-    {
-        $user = Auth::user();
-
-        if (!$user || !in_array($user->role, ['super_admin','admin'])) {
-            abort(403, 'Akses ditolak');
-        }
-    }
-    
+{ 
     public function beranda()
     {
         $books = Buku::latest()->take(4)->get();
@@ -69,13 +60,11 @@ class BukuController extends Controller
     }
     public function create()
     {
-        $this->checkRole(); 
         return view('pages.DaftarBuku.createbuku');
     }
 
     public function store(Request $request)
     {
-        $this->checkRole(); 
         $request->validate([
             'judul'=>'required',
             'pengarang'=>'required',
@@ -104,14 +93,12 @@ class BukuController extends Controller
 
     public function edit($id)
     {
-        $this->checkRole(); 
         $book = Buku::findOrFail($id);
         return view('pages.DaftarBuku.editbuku', compact('book'));
     }
 
     public function update(Request $request,$id)
     {
-        $this->checkRole(); 
         $buku = Buku::findOrFail($id);
 
         $data = [
@@ -139,7 +126,6 @@ class BukuController extends Controller
 
     public function destroy($id)
     {
-        $this->checkRole(); 
         $book = Buku::findOrFail($id);
 
         Storage::disk('public')->delete($book->file_pdf);

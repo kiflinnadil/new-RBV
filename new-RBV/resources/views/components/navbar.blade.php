@@ -111,22 +111,35 @@
                 @endguest
 
                 @auth
-                    <div class="relative" id="profileDropdownWrapper">
-                        <img src="{{ asset('images/profile-icon.svg') }}"
-                            id="profileBtn"
-                            class="w-10 h-10 xl:w-12 xl:h-12 object-contain cursor-pointer rounded-full hover:opacity-80 transition">
-                        <div id="profileDropdown"
-                            class="absolute right-0 mt-3 w-44 bg-white shadow-xl rounded-xl hidden z-[9999] border border-gray-100">
-                            <a href="/tambah-akun"
-                                class="block px-4 py-3 font-poppins text-sm text-gray-700 hover:bg-gray-100 rounded-t-xl transition">
-                                Tambah Akun
-                            </a>
-                            <a href="/profil"
-                                class="block px-4 py-3 font-poppins text-sm text-gray-700 hover:bg-gray-100 rounded-b-xl transition">
-                                Profil
-                            </a>
-                        </div>
+
+                @if(auth()->user()->role == 'super_admin')
+                <div class="relative" id="profileDropdownWrapper">
+                    <img src="{{ asset('images/profile-icon.svg') }}"
+                        id="profileBtn"
+                        class="w-10 h-10 xl:w-12 xl:h-12 object-contain cursor-pointer rounded-full hover:opacity-80 transition">
+
+                    <div id="profileDropdown"
+                        class="absolute right-0 mt-3 w-44 bg-white shadow-xl rounded-xl hidden z-[9999] border border-gray-100">
+                        
+                        <a href="/tambah-akun"
+                            class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 rounded-t-xl">
+                            Tambah Akun
+                        </a>
+
+                        <a href="/profil"
+                            class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 rounded-b-xl">
+                            Profil
+                        </a>
                     </div>
+                </div>
+
+                @else
+                <a href="/profil">
+                    <img src="{{ asset('images/profile-icon.svg') }}"
+                        class="w-10 h-10 xl:w-12 xl:h-12 object-contain cursor-pointer rounded-full hover:opacity-80 transition">
+                </a>
+                @endif
+
                 @endauth
             </div>
             
@@ -227,7 +240,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    @auth
+    @if(auth()->user()->role == 'super_admin')
     setupDropdown('profileBtn', 'profileDropdown', 'profileDropdownWrapper');
+    @endif
+    @endauth
     setupDropdown('eofficeBtn', 'eofficeDropdown', 'eofficeDropdownWrapper');
     setupDropdown('bellBtn', 'bellDropdown', 'bellWrapper');
 
