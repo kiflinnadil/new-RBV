@@ -6,6 +6,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BeritaController;
 // use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\PanduanController;
+use App\Http\Controllers\PromkesController;
+use App\Http\Controllers\RepositoriController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
@@ -118,6 +121,49 @@ Route::prefix('eoffice')
 Route::get('/layanan', function () {
     return view('pages.Layanan.layanan');
 })->name('Layanan.index');
+
+Route::prefix('promkes')->name('promkes.')->group(function () {
+
+    // Akses publik — semua user (termasuk tamu) bisa melihat daftar
+    Route::get('/', [PromkesController::class, 'index'])->name('index');
+
+    // Hanya admin & super_admin yang bisa tambah/edit/hapus
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/create', [PromkesController::class, 'create'])->name('create');
+        Route::post('/', [PromkesController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [PromkesController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [PromkesController::class, 'update'])->name('update');
+        Route::delete('/{id}', [PromkesController::class, 'destroy'])->name('destroy');
+    });
+});
+
+// ─── REPOSITORI ─────────────────────────────────────────────────────────────
+Route::prefix('repositori')->name('repositori.')->group(function () {
+
+    Route::get('/', [RepositoriController::class, 'index'])->name('index');
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/create', [RepositoriController::class, 'create'])->name('create');
+        Route::post('/', [RepositoriController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [RepositoriController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [RepositoriController::class, 'update'])->name('update');
+        Route::delete('/{id}', [RepositoriController::class, 'destroy'])->name('destroy');
+    });
+});
+
+// ─── PANDUAN, PEDOMAN & SOP ─────────────────────────────────────────────────
+Route::prefix('panduan')->name('panduan.')->group(function () {
+
+    Route::get('/', [PanduanController::class, 'index'])->name('index');
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/create', [PanduanController::class, 'create'])->name('create');
+        Route::post('/', [PanduanController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [PanduanController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [PanduanController::class, 'update'])->name('update');
+        Route::delete('/{id}', [PanduanController::class, 'destroy'])->name('destroy');
+    });
+});
 // -------------- //
 // Route::get('/', [BukuController::class, 'beranda']);
 

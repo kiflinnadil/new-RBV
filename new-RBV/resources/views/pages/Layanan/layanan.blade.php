@@ -4,83 +4,81 @@
 <div class="min-h-screen" style="background: linear-gradient(to bottom, #E0EDFF 0%, #FFFFFF 100%);">
 
     <div class="max-w-5xl mx-auto px-4 sm:px-8 pt-8 sm:pt-10">
-        <div class="flex items-center justify-center gap-4 pb-8">
+        <div class="flex items-center justify-center pb-20">
             <h1 class="font-poppins text-4xl font-extrabold text-[#2B3A8C]">
                 Layanan
             </h1>
         </div>
     </div>
 
-    <div class="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-10">
-        <div class="grid grid-cols-1 gap-6 lg:gap-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-8 pb-16">
+        <div class="grid grid-cols-1 gap-10">
 
-            <div class="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-8 hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group cursor-pointer">
-                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                    <div class="flex-shrink-0 w-20 h-20 bg-orange-50 rounded-3xl flex items-center justify-center group-hover:bg-orange-500 transition-colors duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-orange-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
+            <a href="/panduan" class="block group">
+                <div class="bg-white rounded-[15px] border border-gray-100 p-6 sm:p-8
+                            flex flex-col sm:flex-row items-center sm:items-center gap-6
+                            transition-all duration-300 hover:-translate-y-1
+                            hover:border-[#2B3A8C]/30"
+                     style="box-shadow: 0px 4px 16.8px 0px rgba(0,55,136,0.46);">
+
+                    <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center">
+                        <img src="{{ asset('images/panduan-icon.jpg') }}" alt="Panduan Icon" class="w-full h-full object-contain">
                     </div>
-                    <div class="flex-grow">
-                        <h3 class="font-poppins text-2xl font-bold text-gray-800 mb-2">Panduan,Pedoman & SOP</h3>
-                        <p class="text-gray-500 text-base leading-relaxed mb-4">
-                            Kumpulan standar operasional prosedur untuk menunjang konsistensi pelayanan di setiap unit.
+
+                    <div class="flex-grow text-center sm:text-left">
+                        <h3 class="font-poppins text-xl sm:text-2xl font-bold text-[#2B3A8C] mb-2">
+                            Panduan, pedoman dan SOP
+                        </h3>
+                        <p class="text-gray-400 text-sm sm:text-base leading-relaxed">
+                            Dokumen Panduan, Pedoman, SOP serta informasi penggunaan layanan di Rumah Sakit Citra Husada.
                         </p>
-                        <a href="#" class="inline-flex items-center font-bold text-sm text-[#2B3A8C] group-hover:gap-3 transition-all">
-                            Learn More 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                        </a>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group cursor-pointer">
-                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                    <div class="flex-shrink-0 w-20 h-20 bg-blue-50 rounded-3xl flex items-center justify-center group-hover:bg-[#2B3A8C] transition-colors duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-[#2B3A8C] group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
+            <a href="/repositori" class="block group">
+                <div class="bg-white rounded-[15px] border border-gray-100 p-6 sm:p-8
+                            flex flex-col sm:flex-row items-center sm:items-center gap-6
+                            transition-all duration-300 hover:-translate-y-1
+                            hover:border-[#2B3A8C]/30"
+                     style="box-shadow: 0px 4px 16.8px 0px rgba(0,55,136,0.46);">
+
+                    <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center">
+                        <img src="{{ asset('images/repositori-icon.jpg') }}" alt="Repositori Icon" class="w-full h-full object-contain">
                     </div>
-                    <div class="flex-grow">
-                        <h3 class="font-poppins text-2xl font-bold text-gray-800 mb-2">Repositori</h3>
-                        <p class="text-gray-500 text-base leading-relaxed mb-4">
-                            Akses database publikasi ilmiah, jurnal kesehatan, dan hasil karya penelitian karyawan.
+
+                    <div class="flex-grow text-center sm:text-left">
+                        <h3 class="font-poppins text-xl sm:text-2xl font-bold text-[#2B3A8C] mb-2">
+                            Repositori
+                        </h3>
+                        <p class="text-gray-400 text-sm sm:text-base leading-relaxed">
+                            Kumpulan dokumen kesehatan, jurnal, dan informasi penting lainnya yang ada di Rumah Sakit Citra Husada.
                         </p>
-                        <a href="#" class="inline-flex items-center font-bold text-sm text-[#2B3A8C] group-hover:gap-3 transition-all">
-                            Learn More 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                        </a>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-8 hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group cursor-pointer">
-                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                    <div class="flex-shrink-0 w-20 h-20 bg-red-50 rounded-3xl flex items-center justify-center group-hover:bg-red-600 transition-colors duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-red-600 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
+            <a href="/promkes" class="block group">
+                <div class="bg-white rounded-[15px] border border-gray-100 p-6 sm:p-8
+                            flex flex-col sm:flex-row items-center sm:items-center gap-6
+                            transition-all duration-300 hover:-translate-y-1
+                            hover:border-[#2B3A8C]/30"
+                     style="box-shadow: 0px 4px 16.8px 0px rgba(0,55,136,0.46);">
+
+                    <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center">
+                        <img src="{{ asset('images/promkes-icon.jpg') }}" alt="Promkes Icon" class="w-full h-full object-contain">
                     </div>
-                    <div class="flex-grow">
-                        <h3 class="font-poppins text-2xl font-bold text-gray-800 mb-2">Promkes</h3>
-                        <p class="text-gray-500 text-base leading-relaxed mb-4">
-                            Media edukasi dan informasi mengenai kesehatan resmi dari Kementerian Kesehatan RI.
+
+                    <div class="flex-grow text-center sm:text-left">
+                        <h3 class="font-poppins text-xl sm:text-2xl font-bold text-[#2B3A8C] mb-2">
+                            Promkes
+                        </h3>
+                        <p class="text-gray-400 text-sm sm:text-base leading-relaxed">
+                            Program promosi kesehatan serta edukasi untuk masyarakat demi mendukung hidup sehat.
                         </p>
-                        <a href="#" class="inline-flex items-center font-bold text-sm text-[#2B3A8C] group-hover:gap-3 transition-all">
-                            Learn More 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                        </a>
                     </div>
                 </div>
-            </div>
-
-            
+            </a>
 
         </div>
     </div>

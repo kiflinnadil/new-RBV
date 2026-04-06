@@ -25,9 +25,7 @@
                                     flex items-center justify-center
                                     bg-gray-100 rounded-r-xl text-gray-400
                                     group-focus-within:bg-[#2B3A8C] group-focus-within:text-white transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                            </svg>
+                            <img src="{{ asset('images/search-icon.jpg') }}" class="w-[20.505786895751953px] h-[20.5079345703125px]">
                         </div>
                     </div>
                 </form>
