@@ -19,7 +19,7 @@
                             flex flex-col sm:flex-row items-center sm:items-center gap-6
                             transition-all duration-300 hover:-translate-y-1
                             hover:border-[#2B3A8C]/30"
-                     style="box-shadow: 0px 4px 16.8px 0px rgba(0,55,136,0.46);">
+                    style="box-shadow: 0px 4px 16.8px 0px rgba(0,55,136,0.46);">
 
                     <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center">
                         <img src="{{ asset('images/panduan-icon.jpg') }}" alt="Panduan Icon" class="w-full h-full object-contain">
@@ -27,7 +27,7 @@
 
                     <div class="flex-grow text-center sm:text-left">
                         <h3 class="font-poppins text-xl sm:text-2xl font-bold text-[#2B3A8C] mb-2">
-                            Panduan, pedoman dan SOP
+                            Panduan, Pedoman dan SOP
                         </h3>
                         <p class="text-gray-400 text-sm sm:text-base leading-relaxed">
                             Dokumen Panduan, Pedoman, SOP serta informasi penggunaan layanan di Rumah Sakit Citra Husada.
@@ -63,7 +63,7 @@
                             flex flex-col sm:flex-row items-center sm:items-center gap-6
                             transition-all duration-300 hover:-translate-y-1
                             hover:border-[#2B3A8C]/30"
-                     style="box-shadow: 0px 4px 16.8px 0px rgba(0,55,136,0.46);">
+                    style="box-shadow: 0px 4px 16.8px 0px rgba(0,55,136,0.46);">
 
                     <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center">
                         <img src="{{ asset('images/promkes-icon.jpg') }}" alt="Promkes Icon" class="w-full h-full object-contain">

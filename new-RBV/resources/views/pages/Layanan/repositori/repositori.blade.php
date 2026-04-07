@@ -33,7 +33,7 @@
                 </form>
 
                 @auth
-                    @if(in_array(auth()->user()->role, ['super_admin','admin']))
+                    @if(in_array(auth()->user()->role, ['super_admin']))
                         <a href="{{ route('repositori.create') }}"
                             class="flex items-center justify-center w-[47px] h-[49px] rounded-md border border-gray-300 bg-white text-[#606060] transition hover:scale-110">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -52,39 +52,64 @@
         @forelse ($repositoris as $item)
         <div class="flex items-center gap-4 py-4 border-b border-gray-200">
 
-            <div class="flex-shrink-0 w-14 h-14">
-                <div class="w-14 h-14 bg-red-600 rounded flex flex-col items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                    <span class="text-white text-[9px] font-bold mt-0.5">PDF</span>
+            <div onclick="window.open('{{ $item->file ? asset('storage/' . $item->file) : '#' }}', '_blank')"
+                class="flex items-center gap-4 flex-grow cursor-pointer group">
+
+                <div class="flex-shrink-0 w-14 h-14">
+                    <div class="w-14 h-14 bg-red-600 rounded flex flex-col items-center justify-center
+                                transition duration-200 group-hover:scale-105 group-hover:shadow-md">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-6 h-6 text-white transition duration-200 group-hover:scale-110"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+
+                        <span class="text-white text-[9px] font-bold mt-0.5
+                                    transition duration-200 group-hover:scale-110">
+                            PDF
+                        </span>
+
+                    </div>
                 </div>
+
+                <div class="flex-grow">
+                    <p class="font-bold text-[18px] text-gray-800
+                            transition duration-200 group-hover:text-blue-600">
+                        {{ $item->judul }}
+                    </p>
+                    <p class="text-sm text-gray-400 mt-0.5">
+                        Diunggah pada, {{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('j F Y') }}
+                    </p>
+                </div>
+
             </div>
 
-            <div class="flex-grow">
-                <a href="{{ $item->file ? asset('storage/' . $item->file) : '#' }}"
-                   target="{{ $item->file ? '_blank' : '_self' }}"
-                   class="font-bold text-[18px] text-gray-800 hover:text-[#2B3A8C] transition">
-                    {{ $item->judul }}
+            <div class="flex items-center gap-8 flex-shrink-0">
+
+                @if($item->file)
+                <a href="{{ asset('storage/' . $item->file) }}"
+                download
+                class="p-2 bg-gray-300 text-white rounded-lg shadow hover:bg-gray-400 hover:scale-110 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                    </svg>
                 </a>
-                <p class="text-sm text-gray-400 mt-0.5">
-                    Diunggah pada, {{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('j F Y') }}
-                </p>
-            </div>
-
-           <div class="flex items-center gap-8 flex-shrink-0">
+                @endif
 
                 @auth
-                    @if(in_array(auth()->user()->role, ['super_admin','admin']))
-                    <a href="{{ route('panduan.edit', $item->id) }}"
+                    @if(in_array(auth()->user()->role, ['super_admin']))
+                    <a href="{{ route('repositori.edit', $item->id_repositori) }}"
                         class="p-2 bg-[#00A14C] text-white rounded-lg shadow hover:scale-110 transition">
                         <img src="{{ asset('images/Edit.svg') }}" class="w-5 h-5">
-                       
                     </a>
+
                     <button @click="openDeleteModal({{ $item->id }})"
                         class="p-2 bg-red-500 text-white rounded-lg shadow hover:scale-110 transition">
                         <img src="{{ asset('images/Delete.svg') }}" class="w-5 h-5">
-
                     </button>
                     @endif
                 @endauth
