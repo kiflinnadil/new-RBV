@@ -21,7 +21,7 @@ Route::get('/books/read/{id}', [BukuController::class, 'read'])->name('books.rea
 Route::get('/login', function () {return view('pages.login');})->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('/profil', function () {return view('pages.profil');});
+Route::get('/profil', function () {return view('pages.profil');})->name('profil');
 
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
 

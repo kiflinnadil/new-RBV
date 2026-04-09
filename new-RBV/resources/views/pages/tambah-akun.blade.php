@@ -3,6 +3,13 @@
 @section('content')
 <div class="bg-[#F5F7FB] min-h-screen py-16 flex items-center justify-center">
     <div class="max-w-2xl w-full px-6">
+        <div class="mb-6">
+            <a href="/"
+            class="inline-flex items-center justify-center w-10 h-10 rounded-full
+                    text-gray-400 hover:text-[#2B3A8C] hover:bg-blue-50 transition-all duration-200 -ml-50 -mt-10">
+                <img src="{{ asset('images/kembali.svg') }}" class="w-6 h-6" fill=none  viewBox="0 0 24 24" stroke="currentColor">
+            </a>
+        </div>
 
         <form action="{{ route('akun.store') }}" method="POST" id="formTambahAkun">
             @csrf

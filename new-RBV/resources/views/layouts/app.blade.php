@@ -37,7 +37,28 @@
 
 <body class="overflow-y-scroll bg-white">
 
-    @include('components.navbar')
+    {{-- @include('components.navbar') --}}
+    @php
+        $hideNavbarRoutes = [
+            'panduan.index',
+            'panduan.create',
+            'panduan.edit',
+            'promkes.index',
+            'promkes.create',
+            'promkes.edit',
+            'repositori.index',
+            'repositori.create',
+            'repositori.edit',
+            'akun.create',
+            'akun.edit',
+            'akun.index',
+            'profil',
+        ];
+    @endphp
+
+    @if(!in_array(Route::currentRouteName(), $hideNavbarRoutes))
+        @include('components.navbar')
+    @endif
 
     <main>
         @yield('content')
