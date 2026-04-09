@@ -23,21 +23,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/profil', function () {return view('pages.profil');})->name('profil');
 
-Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
 
-Route::get('video', [VideoController::class, 'index'])->name('video.index');
-Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
-
-Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
-Route::get('/artikel/{id}', [ArtikelController::class, 'show'])->name('artikel.show');
-Route::get('/artikel/{id}/read', [ArtikelController::class, 'read'])->name('artikel.read');
-
-Route::post('/books/{id}/favorite', [BukuController::class, 'toggleFavorite'])->name('books.favorite')->middleware('auth');
-Route::get('/favorite', [BukuController::class, 'favorit'])->name('books.favorit')->middleware('auth');
-
-Route::get('/promkes', [PromkesController::class, 'index'])->name('promkes.index');
-Route::get('/panduan', [PanduanController::class, 'index'])->name('panduan.index');
-Route::get('/layanan', function () {return view('pages.Layanan.layanan');})->name('Layanan.index');
 
 Route::middleware(['auth','role:super_admin,admin'])->group(function () {
 
@@ -101,6 +87,21 @@ Route::middleware(['auth','role:super_admin,sekretaris'])->group(function () {
 
 });
 
+Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
+
+Route::get('video', [VideoController::class, 'index'])->name('video.index');
+Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
+
+Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
+Route::get('/artikel/{id}', [ArtikelController::class, 'show'])->name('artikel.show');
+Route::get('/artikel/{id}/read', [ArtikelController::class, 'read'])->name('artikel.read');
+
+Route::post('/books/{id}/favorite', [BukuController::class, 'toggleFavorite'])->name('books.favorite')->middleware('auth');
+Route::get('/favorite', [BukuController::class, 'favorit'])->name('books.favorit')->middleware('auth');
+
+Route::get('/promkes', [PromkesController::class, 'index'])->name('promkes.index');
+Route::get('/panduan', [PanduanController::class, 'index'])->name('panduan.index');
+Route::get('/layanan', function () {return view('pages.Layanan.layanan');})->name('Layanan.index');
 
 
 

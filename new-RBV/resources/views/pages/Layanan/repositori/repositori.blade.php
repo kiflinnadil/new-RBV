@@ -25,7 +25,7 @@
                 <form method="GET" action="{{ route('repositori.index') }}" class="flex items-center">
                     <div class="relative group">
                         <input type="text" name="search" value="{{ request('search') }}"
-                            placeholder="Cari buku"
+                            placeholder="Cari dukomen"
                             class="pl-4 sm:pl-5 pr-11 py-2.5 rounded-xl border border-gray-200 bg-white
                                     w-full sm:w-[240px] lg:w-[287px] h-[44px] sm:h-[49px]
                                     font-montserrat text-sm
@@ -33,7 +33,7 @@
                         <div class="absolute right-0 top-0 h-[44px] sm:h-[49px] w-[40px] sm:w-[43px]
                                     flex items-center justify-center
                                     bg-gray-100 rounded-r-xl text-gray-400
-                                    group-focus-within:bg-[#2B3A8C] group-focus-within:text-white transition">
+                                    transition">
                             <img src="{{ asset('images/search-icon.jpg') }}" class="w-[20.505786895751953px] h-[20.5079345703125px]">
                         </div>
                     </div>
@@ -132,7 +132,7 @@
 
         @if($repositoris->hasPages())
         <div class="mt-8">
-            {{ $repositoris->links() }}
+            {{ $repositoris->appends(request()->query())->links() }}
         </div>
         @endif
 
@@ -167,6 +167,17 @@ function globalDelete() {
         openDeleteModal(id) { this.selectedId = id; this.openDelete = true; },
         closeModal() { this.openDelete = false; this.selectedId = null; }
     }
+}
+const searchInput = document.querySelector('input[name="search"]');
+
+if (searchInput) {
+    let timeout = null;
+    searchInput.addEventListener('keyup', function () {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            this.closest('form').submit();
+        }, 500);
+    });
 }
 </script>
 

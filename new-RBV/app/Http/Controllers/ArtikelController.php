@@ -24,7 +24,7 @@ class ArtikelController extends Controller
         $request->validate([
             'judul'     => 'required',
             'deskripsi' => 'nullable',
-            'cover'     => 'required|image|max:2048',
+            'cover'     => 'required|file|max:2048',
             'file_pdf'  => 'required|file|mimes:pdf,jpg,jpeg,png|max:20480'
         ]);
 

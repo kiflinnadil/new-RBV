@@ -155,14 +155,14 @@
             <p class="text-gray-500 mb-6">Yakin hapus?</p>
 
             <div class="flex gap-4">
-                <button @click="closeModal()" class="bg-gray-400 text-white py-2 w-full rounded">
+                <button @click="closeModal()" class="bg-gray-400 text-white font-bold py-3 rounded-xl w-full">
                     Tidak
                 </button>
 
                 <form :action="'/berita/' + selectedId" method="POST" class="w-full">
                     @csrf
                     @method('DELETE')
-                    <button class="bg-red-600 text-white py-2 w-full rounded">
+                    <button class="bg-red-600 text-white font-bold py-3 rounded-xl w-full">
                         Ya
                     </button>
                 </form>

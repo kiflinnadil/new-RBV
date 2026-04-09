@@ -24,7 +24,7 @@
                         <div class="absolute right-0 top-0 h-[44px] sm:h-[49px] w-[40px] sm:w-[43px]
                                     flex items-center justify-center
                                     bg-gray-100 rounded-r-xl text-gray-400
-                                    group-focus-within:bg-[#2B3A8C] group-focus-within:text-white transition">
+                                    transition">
                             <img src="{{ asset('images/search-icon.jpg') }}" class="w-[20.505786895751953px] h-[20.5079345703125px]">
                         </div>
                     </div>

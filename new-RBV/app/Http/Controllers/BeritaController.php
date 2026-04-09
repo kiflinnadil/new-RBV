@@ -33,7 +33,7 @@ class BeritaController extends Controller
             'kategori'=>'required',
             'deskripsi'=>'nullable',
             'link'=>'required|url',
-            'cover'=>'required|image|max:20480'
+            'cover'=>'required|file|max:20480'
         ]);
 
         $cover = $request->file('cover')->store('berita','public');
