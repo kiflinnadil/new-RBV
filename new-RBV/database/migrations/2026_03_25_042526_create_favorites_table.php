@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('favorites', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-        $table->foreignId('buku_id')->constrained('bukus')->cascadeOnDelete();
+        $table->id('id_favorite');
+        $table->foreignId('id_user')->references('id_user')->on('users')->cascadeOnDelete();
+        $table->foreignId('id_buku')->references('id_buku')->on('bukus')->cascadeOnDelete();
         $table->timestamps();
 
-        $table->unique(['user_id','buku_id']);
+        $table->unique(['id_user','id_buku']);
     });
     }
 

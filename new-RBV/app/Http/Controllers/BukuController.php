@@ -35,8 +35,8 @@ class BukuController extends Controller
         $books = $query->latest()->get();
 
         if(Auth::check()){
-            $favorites = Favorite::where('user_id', Auth::user()->id_user)
-                ->pluck('buku_id')
+            $favorites = Favorite::where('id_user', Auth::user()->id_user)
+                ->pluck('id_buku')
                 ->toArray();
 
             foreach ($books as $book) {
@@ -140,16 +140,16 @@ class BukuController extends Controller
     {
         $userId = Auth::user()->id_user;
 
-        $fav = Favorite::where('user_id',$userId)
-            ->where('buku_id',$id)
+        $fav = Favorite::where('id_user',$userId)
+            ->where('id_buku',$id)
             ->first();
 
         if($fav){
             $fav->delete();
         } else {
             Favorite::create([
-                'user_id'=>$userId,
-                'buku_id'=>$id
+                'id_user'=>$userId,
+                'id_buku'=>$id
             ]);
         }
 
@@ -159,7 +159,7 @@ class BukuController extends Controller
     public function favorit()
     {
         $books = Buku::whereHas('favorites', function($q){
-            $q->where('user_id', Auth::user()->id_user);
+            $q->where('id_user', Auth::user()->id_user);
         })->latest()->get();
 
         foreach ($books as $buku) {

@@ -114,7 +114,7 @@
                         <img src="{{ asset('images/Edit.svg') }}" class="w-5 h-5">
                     </a>
 
-                    <button @click="openDeleteModal({{ $item->id }})"
+                    <button @click="openDeleteModal({{ $item->id_panduan }})"
                         class="p-2 bg-red-500 text-white rounded-lg shadow hover:scale-110 transition">
                         <img src="{{ asset('images/Delete.svg') }}" class="w-5 h-5">
                     </button>
@@ -137,23 +137,29 @@
     </div>
 </div>
 
-<template x-if="openDelete">
-    <div @click.self="closeModal()"
-        class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
-        <div class="bg-white rounded-[30px] p-10 max-w-sm w-full shadow-2xl text-center">
-            <h2 class="text-2xl font-bold mb-2">Hapus</h2>
-            <p class="text-gray-500 mb-6">Yakin ingin menghapus data ini?</p>
-            <div class="flex gap-4">
-                <button @click="closeModal()" class="bg-gray-400 text-white py-2 w-full rounded">Tidak</button>
-                <form :action="'/panduan/' + selectedId" method="POST" class="w-full">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="bg-red-600 text-white py-2 w-full rounded">Ya</button>
-                </form>
-            </div>
+<div x-show="openDelete"
+    class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
+    
+    <div class="bg-white rounded-[30px] p-10 max-w-sm w-full shadow-2xl text-center">
+        <h2 class="text-2xl font-bold mb-2">Hapus</h2>
+        <p class="text-gray-500 mb-6">Yakin ingin menghapus data ini?</p>
+
+        <div class="flex gap-4">
+            <button @click="closeModal()" class="bg-gray-400 text-white py-2 w-full rounded">
+                Tidak
+            </button>
+
+            <form id="deleteForm" method="POST" class="w-full">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="bg-red-600 text-white py-2 w-full rounded">
+                    Ya
+                </button>
+            </form>
+
         </div>
     </div>
-</template>
+</div>
 
 </div>
 
@@ -162,8 +168,18 @@ function globalDelete() {
     return {
         openDelete: false,
         selectedId: null,
-        openDeleteModal(id) { this.selectedId = id; this.openDelete = true; },
-        closeModal() { this.openDelete = false; this.selectedId = null; }
+        openDeleteModal(id) {
+            this.selectedId = id
+            this.openDelete = true
+
+            setTimeout(() => {
+                document.getElementById('deleteForm').action = '/panduan/' + id
+            }, 50)
+        },
+        closeModal() {
+            this.openDelete = false
+            this.selectedId = null
+        }
     }
 }
 const searchInput = document.querySelector('input[name="search"]');

@@ -25,6 +25,6 @@ class Buku extends Model
 
     public function favorites()
     {
-        return $this->hasMany(Favorite::class,'buku_id');
+        return $this->hasMany(Favorite::class,'id_buku');
     }
 }

@@ -116,7 +116,7 @@
                         <img src="{{ asset('images/Edit.svg') }}" class="w-5 h-5">
                     </a>
 
-                    <button @click="openDeleteModal({{ $item->id }})"
+                    <button @click="openDeleteModal({{ $item->id_promkes }})"
                         class="p-2 bg-red-500 text-white rounded-lg shadow hover:scale-110 transition">
                         <img src="{{ asset('images/Delete.svg') }}" class="w-5 h-5">
                     </button>
@@ -141,7 +141,7 @@
     </div>
 </div>
 
-<template x-if="openDelete">
+<div x-show="openDelete">
     <div @click.self="closeModal()"
         class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
         <div class="bg-white rounded-[30px] p-10 max-w-sm w-full shadow-2xl text-center">
@@ -152,7 +152,7 @@
                 <button @click="closeModal()" class="bg-gray-400 text-white py-2 w-full rounded">
                     Tidak
                 </button>
-                <form :action="'/promkes/' + selectedId" method="POST" class="w-full">
+                <form id="deleteForm" method="POST" class="w-full">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="bg-red-600 text-white py-2 w-full rounded">
@@ -162,7 +162,7 @@
             </div>
         </div>
     </div>
-</template>
+</div>
 
 </div>
 
@@ -174,6 +174,10 @@ function globalDelete() {
         openDeleteModal(id) {
             this.selectedId = id
             this.openDelete = true
+
+            setTimeout(() => {
+                document.getElementById('deleteForm').action = '/promkes/' + id
+            }, 50)
         },
         closeModal() {
             this.openDelete = false

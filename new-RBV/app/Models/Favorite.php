@@ -13,18 +13,20 @@ class Favorite extends Model
 
     protected $table = 'favorites';
 
+    protected $primaryKey = 'id_favorite';
+
     protected $fillable = [
-        'user_id',
-        'buku_id'
+        'id_user',
+        'id_buku'
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 
     public function buku()
     {
-        return $this->belongsTo(Buku::class,'buku_id');
+        return $this->belongsTo(Buku::class, 'id_buku', 'id_buku');
     }
 }

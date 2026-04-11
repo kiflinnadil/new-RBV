@@ -25,7 +25,7 @@ class ArtikelController extends Controller
             'judul'     => 'required',
             'deskripsi' => 'nullable',
             'cover'     => 'required|file|max:2048',
-            'file_pdf'  => 'required|file|mimes:pdf,jpg,jpeg,png|max:20480'
+            'file_pdf'  => 'required|file|max:20480'
         ]);
 
         $cover = $request->file('cover')->store('artikel','public');
