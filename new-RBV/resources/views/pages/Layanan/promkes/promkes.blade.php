@@ -2,7 +2,13 @@
 
 @section('content')
 
-<div x-data="globalDelete()">
+<style>
+[x-cloak] {
+    display: none !important;
+}
+</style>
+
+<div x-data="globalDelete()" x-init="openDelete = false">
 
 <div class="min-h-screen" style="background: linear-gradient(to bottom, #E0EDFF 0%, #FFFFFF 100%);">
 
@@ -11,9 +17,10 @@
             <a href="/layanan"
             class="inline-flex items-center justify-center w-10 h-10 rounded-full
                     text-gray-400 hover:text-[#2B3A8C] hover:bg-blue-50 transition-all duration-200 -ml-20">
-                <img src="{{ asset('images/kembali.svg') }}" class="w-6 h-6" fill=none  viewBox="0 0 24 24" stroke="currentColor">
+                <img src="{{ asset('images/kembali.svg') }}" class="w-6 h-6">
             </a>
         </div>
+
         <div class="flex flex-col md:flex-row items-center justify-between gap-4">
 
             <h1 class="font-poppins text-4xl font-extrabold text-[#2B3A8C]">
@@ -32,9 +39,8 @@
                                     focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition-all">
                         <div class="absolute right-0 top-0 h-[44px] sm:h-[49px] w-[40px] sm:w-[43px]
                                     flex items-center justify-center
-                                    bg-gray-100 rounded-r-xl text-gray-400
-                                    transition">
-                            <img src="{{ asset('images/search-icon.jpg') }}" class="w-[20.505786895751953px] h-[20.5079345703125px]">
+                                    bg-gray-100 rounded-r-xl text-gray-400">
+                            <img src="{{ asset('images/search-icon.jpg') }}" class="w-[20px] h-[20px]">
                         </div>
                     </div>
                 </form>
@@ -76,8 +82,7 @@
                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
 
-                        <span class="text-white text-[9px] font-bold mt-0.5
-                                    transition duration-200 group-hover:scale-110">
+                        <span class="text-white text-[9px] font-bold mt-0.5">
                             PDF
                         </span>
 
@@ -85,8 +90,7 @@
                 </div>
 
                 <div class="flex-grow">
-                    <p class="font-bold text-[18px] text-gray-800
-                                transition duration-200 group-hover:text-blue-600">
+                    <p class="font-bold text-[18px] text-gray-800 group-hover:text-blue-600">
                         {{ $item->judul }}
                     </p>
                     <p class="text-sm text-gray-400 mt-0.5">
@@ -116,7 +120,8 @@
                         <img src="{{ asset('images/Edit.svg') }}" class="w-5 h-5">
                     </a>
 
-                    <button @click="openDeleteModal({{ $item->id_promkes }})"
+                    <button type="button"
+                        @click.stop="openDeleteModal({{ $item->id_promkes }})"
                         class="p-2 bg-red-500 text-white rounded-lg shadow hover:scale-110 transition">
                         <img src="{{ asset('images/Delete.svg') }}" class="w-5 h-5">
                     </button>
@@ -141,7 +146,7 @@
     </div>
 </div>
 
-<div x-show="openDelete">
+<div x-show="openDelete" x-cloak>
     <div @click.self="closeModal()"
         class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
         <div class="bg-white rounded-[30px] p-10 max-w-sm w-full shadow-2xl text-center">
@@ -175,9 +180,9 @@ function globalDelete() {
             this.selectedId = id
             this.openDelete = true
 
-            setTimeout(() => {
+            this.$nextTick(() => {
                 document.getElementById('deleteForm').action = '/promkes/' + id
-            }, 50)
+            })
         },
         closeModal() {
             this.openDelete = false
@@ -185,6 +190,7 @@ function globalDelete() {
         }
     }
 }
+
 const searchInput = document.querySelector('input[name="search"]');
 
 if (searchInput) {

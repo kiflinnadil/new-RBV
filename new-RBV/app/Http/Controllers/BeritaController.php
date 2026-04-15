@@ -64,7 +64,7 @@ class BeritaController extends Controller
             'kategori'=>'required',
             'deskripsi'=>'nullable',
             'link'=>'required|url',
-            'cover'=>'nullable|image|max:20480'
+            'cover'=>'nullable|file|max:20480'
         ]);
 
         $berita = Berita::findOrFail($id);

@@ -12,6 +12,7 @@ use App\Http\Controllers\RepositoriController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('/', [BukuController::class, 'beranda']);
 Route::get('/koleksi', [BukuController::class, 'index'])->name('books.index');
 Route::get('/koleksi/{id}', [BukuController::class, 'show'])->name('books.show');
@@ -21,8 +22,9 @@ Route::get('/books/read/{id}', [BukuController::class, 'read'])->name('books.rea
 Route::get('/login', function () {return view('pages.login');})->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::middleware(['auth','role:super_admin,admin'])->group(function () {
 Route::get('/profil', function () {return view('pages.profil');})->name('profil');
-
+});
 
 
 Route::middleware(['auth','role:super_admin,admin'])->group(function () {
@@ -96,6 +98,8 @@ Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index
 Route::get('/artikel/{id}', [ArtikelController::class, 'show'])->name('artikel.show');
 Route::get('/artikel/{id}/read', [ArtikelController::class, 'read'])->name('artikel.read');
 
+Route::middleware(['auth'])->group(function () {
+
 Route::post('/books/{id}/favorite', [BukuController::class, 'toggleFavorite'])->name('books.favorite')->middleware('auth');
 Route::get('/favorite', [BukuController::class, 'favorit'])->name('books.favorit')->middleware('auth');
 
@@ -103,7 +107,7 @@ Route::get('/promkes', [PromkesController::class, 'index'])->name('promkes.index
 Route::get('/panduan', [PanduanController::class, 'index'])->name('panduan.index');
 Route::get('/layanan', function () {return view('pages.Layanan.layanan');})->name('Layanan.index');
 
-
+});
 
 
 Route::redirect('/e-office', '/eoffice');

@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\PanduanApiController;
 use App\Http\Controllers\Api\PromkesApiController;
 use App\Http\Controllers\Api\RepositoriApiController;
 
+Route::name('api.')->group(function () {
 
 Route::apiResource('books', BukuApiController::class);
 Route::apiResource('berita', BeritaApiController::class);
@@ -20,3 +21,4 @@ Route::apiResource('panduan', PanduanApiController::class);
 Route::apiResource('promkes', PromkesApiController::class);
 Route::apiResource('repositori', RepositoriApiController::class);
 
+});
