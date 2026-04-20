@@ -12,22 +12,24 @@ use App\Http\Controllers\RepositoriController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::get('/', [BukuController::class, 'beranda']);
 Route::get('/koleksi', [BukuController::class, 'index'])->name('books.index');
 Route::get('/koleksi/{id}', [BukuController::class, 'show'])->name('books.show');
 Route::get('/books/{id}/read', [BukuController::class, 'read'])->name('books.read');
 Route::get('/books/read/{id}', [BukuController::class, 'read'])->name('books.read');
 
-Route::get('/login', function () {return view('pages.login');})->name('login');
+Route::get('/login', function () {
+    return view('pages.login');
+})->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::middleware(['auth','role:super_admin,admin'])->group(function () {
-Route::get('/profil', function () {return view('pages.profil');})->name('profil');
+Route::middleware(['auth', 'role:super_admin,admin,sekretaris,karyawan,unit'])->group(function () {
+    Route::get('/profil', function () {
+        return view('pages.profil');
+    })->name('profil');
 });
 
-
-Route::middleware(['auth','role:super_admin,admin'])->group(function () {
+Route::middleware(['auth', 'role:super_admin,admin'])->group(function () {
 
     Route::get('/books/create', [BukuController::class, 'create'])->name('books.create');
     Route::post('/books', [BukuController::class, 'store'])->name('books.store');
@@ -67,7 +69,7 @@ Route::middleware(['auth','role:super_admin,admin'])->group(function () {
 
 });
 
-Route::middleware(['auth','role:super_admin'])->group(function () {
+Route::middleware(['auth', 'role:super_admin'])->group(function () {
     Route::get('/akun', [AkunController::class, 'index'])->name('akun.index');
     Route::get('/tambah-akun', [AkunController::class, 'create'])->name('akun.create');
     Route::post('/akun', [AkunController::class, 'store'])->name('akun.store');
@@ -83,7 +85,7 @@ Route::middleware(['auth','role:super_admin'])->group(function () {
     Route::delete('/repositori/{id}', [RepositoriController::class, 'destroy'])->name('repositori.destroy');
 });
 
-Route::middleware(['auth','role:super_admin,sekretaris'])->group(function () {
+Route::middleware(['auth', 'role:super_admin,sekretaris'])->group(function () {
 
     Route::get('/repositori', [RepositoriController::class, 'index'])->name('repositori.index');
 
@@ -100,15 +102,16 @@ Route::get('/artikel/{id}/read', [ArtikelController::class, 'read'])->name('arti
 
 Route::middleware(['auth'])->group(function () {
 
-Route::post('/books/{id}/favorite', [BukuController::class, 'toggleFavorite'])->name('books.favorite')->middleware('auth');
-Route::get('/favorite', [BukuController::class, 'favorit'])->name('books.favorit')->middleware('auth');
+    Route::post('/books/{id}/favorite', [BukuController::class, 'toggleFavorite'])->name('books.favorite')->middleware('auth');
+    Route::get('/favorite', [BukuController::class, 'favorit'])->name('books.favorit')->middleware('auth');
 
-Route::get('/promkes', [PromkesController::class, 'index'])->name('promkes.index');
-Route::get('/panduan', [PanduanController::class, 'index'])->name('panduan.index');
-Route::get('/layanan', function () {return view('pages.Layanan.layanan');})->name('Layanan.index');
+    Route::get('/promkes', [PromkesController::class, 'index'])->name('promkes.index');
+    Route::get('/panduan', [PanduanController::class, 'index'])->name('panduan.index');
+    Route::get('/layanan', function () {
+        return view('pages.Layanan.layanan');
+    })->name('Layanan.index');
 
 });
-
 
 Route::redirect('/e-office', '/eoffice');
 
@@ -147,7 +150,6 @@ Route::prefix('eoffice')
             Route::get('/{id}/baca', [\App\Http\Controllers\NotifikasiController::class, 'baca'])->name('baca');
         });
     });
-
 
 // Route::prefix('promkes')->name('promkes.')->group(function () {
 

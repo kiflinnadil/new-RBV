@@ -106,8 +106,9 @@ class SuratMasukController extends Controller
     {
         $nomorAgenda = '003/2026';
         $users = collect([
-            (object) ['id' => 1, 'nama_lengkap' => 'Unit IT'],
-            (object) ['id' => 2, 'nama_lengkap' => 'Unit Keuangan'],
+            (object) ['id_user' => 1, 'nama_lengkap' => 'Unit IT'],
+            (object) ['id_user' => 2, 'nama_lengkap' => 'Unit Keuangan'],
+            (object) ['id_user' => 3, 'nama_lengkap' => 'Unit Sarpras'],
         ]);
         $suratMasuk = new \Illuminate\Pagination\LengthAwarePaginator(collect([]), 0, 15);
 

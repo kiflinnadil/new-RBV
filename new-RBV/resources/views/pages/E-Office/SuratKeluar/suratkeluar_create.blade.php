@@ -3,18 +3,16 @@
 @section('content')
 <div class="min-h-screen bg-[#F0F4FF]">
 
-    <div class="bg-white border-b border-gray-100 shadow-sm">
-        <div class="max-w-4xl mx-auto px-4 sm:px-8 py-4 sm:py-5">
-            <div class="flex items-center gap-3">
-                <a href="{{ route('eoffice.surat-keluar.index') }}" class="text-gray-400 hover:text-[#2B3A8C] transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                    </svg>
-                </a>
-                <div>
-                    <h1 class="font-poppins text-xl sm:text-2xl font-extrabold text-[#2B3A8C]">Buat Surat Keluar</h1>
-                    <p class="text-gray-400 text-xs">Nomor surat otomatis terisi & urut</p>
-                </div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-8 py-6">
+        <div class="flex items-center gap-3">
+            <a href="{{ route('eoffice.surat-keluar.index') }}" class="text-gray-400 hover:text-[#2B3A8C] transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </a>
+            <div>
+                <h1 class="font-poppins text-xl sm:text-2xl font-extrabold text-[#2B3A8C]">Tambah Surat Keluar</h1>
+                <p class="text-gray-400 text-xs">Nomor surat otomatis terisi & urut</p>
             </div>
         </div>
     </div>
@@ -34,7 +32,7 @@
                         <p class="text-[10px] text-gray-400 ml-1 mt-1">*Otomatis terisi oleh sistem</p>
                     </div>
                     <div>
-                        <label class="block text-gray-500 text-xs sm:text-sm mb-1.5 ml-1">Tgl Keluar</label>
+                        <label class="block text-gray-500 text-xs sm:text-sm mb-1.5 ml-1">Tanggal Diterima</label>
                         <input type="date" name="tanggal_keluar" value="{{ now()->format('Y-m-d') }}" required
                             class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2B3A8C] border-none">
                     </div>
@@ -51,19 +49,19 @@
                     <input type="text" name="perihal" required placeholder="Perihal / subjek surat"
                         class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2B3A8C] border-none">
                 </div>
-
+{{-- 
                 <div>
                     <label class="block text-gray-500 text-xs sm:text-sm mb-1.5 ml-1">Isi Surat (Draft)</label>
                     <textarea name="isi" rows="6" placeholder="Tulis isi singkat atau draft surat di sini..."
                         class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2B3A8C] resize-none leading-relaxed border-none"></textarea>
-                </div>
+                </div> --}}
 
                 <div>
                     <label class="block text-gray-500 text-xs sm:text-sm mb-1.5 ml-1">
                         Keterangan 
                         <span class="text-gray-400 font-normal">(opsional)</span>
                     </label>
-                    <input type="text" name="keterangan" placeholder="Contoh: 3 TLD, Lampiran 2 lembar, dll."
+                    <input type="text" name="keterangan" placeholder="Contoh: Tagihan biaya perawatan pasien/keluarga BPJS Tenaga Kerja, dll."
                         class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2B3A8C] border-none">
                 </div>
 
@@ -76,7 +74,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-gray-400 group-hover:text-[#2B3A8C] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0l-4 4m4-4v12" />
                             </svg>
-                            <span class="text-xs text-gray-500 group-hover:text-[#2B3A8C]">Klik untuk upload scan surat (PDF/JPG)</span>
+                            <span class="text-xs text-gray-500 group-hover:text-[#2B3A8C]">Klik untuk upload scan surat (PDF/JPG) (Opsional)</span>
                         </div>
                     </div>
                     <p class="text-[10px] text-gray-400 mt-2 ml-1">*Penting untuk arsip digital jika surat sudah dicetak dan distempel manual.</p>

@@ -74,7 +74,7 @@
             <div class="hidden lg:flex items-center gap-3">
                 @auth
                     
-                    {{-- @if(auth()->user()->hasRole(['super_admin', 'sekretaris', 'kabag', 'unit']))
+                    @if(auth()->user()->hasRole(['super_admin', 'sekretaris', 'kabag', 'unit']))
                     <div class="relative" id="bellWrapper">
                         <button id="bellBtn" class="relative p-2 rounded-xl hover:bg-gray-100 transition">
                             <svg class="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -92,7 +92,7 @@
                             </div>
                         </div>
                     </div>
-                    @endif --}}
+                    @endif
                     
 
                     @if(auth()->user()->hasRole(['super_admin', 'admin', 'karyawan', 'unit', 'sekretaris']))
