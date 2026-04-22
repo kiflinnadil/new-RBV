@@ -3,19 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Notifications\Notifiable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
-
     protected $table = 'users';
-
     protected $primaryKey = 'id_user';
 
     public $incrementing = true;
-
     protected $keyType = 'int';
 
     protected $fillable = [
@@ -36,14 +31,21 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function getAuthIdentifierName()
+    public function getJWTIdentifier()
     {
-        return 'NIK';
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [
+            'role' => $this->role,
+        ];
     }
 
     public function favorites()
     {
-        return $this->hasMany(Favorite::class,'user_id');
+        return $this->hasMany(Favorite::class, 'id_user');
     }
 
     public function hasRole($roles)
