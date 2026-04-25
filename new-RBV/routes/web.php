@@ -9,6 +9,7 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\PanduanController;
 use App\Http\Controllers\PromkesController;
 use App\Http\Controllers\RepositoriController;
+use App\Http\Controllers\SuratMasukController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
@@ -130,9 +131,13 @@ Route::prefix('eoffice')
             // Approvve
             Route::post('/{id}/setujui', [\App\Http\Controllers\SuratMasukController::class, 'setujui'])->name('setujui');
             Route::post('/{id}/tolak', [\App\Http\Controllers\SuratMasukController::class, 'tolak'])->name('tolak');
+            Route::post('/{id}/pending', [SuratMasukController::class, 'pending'])->name('pending');
+            Route::get('/{id}/edit', [SuratMasukController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [SuratMasukController::class, 'update'])->name('update');
+
         });
 
-        Route::prefix('surat-keluar')->name('surat-keluar.')->group(function () {
+        Route::prefix('surat-keluar')->name('surat-keluar.')->middleware(['auth', 'role:sekretaris,admin,super_admin'])->group(function () {
             Route::get('/', [\App\Http\Controllers\SuratKeluarController::class, 'index'])->name('index');
             Route::get('/create', [\App\Http\Controllers\SuratKeluarController::class, 'create'])->name('create');
             Route::post('/', [\App\Http\Controllers\SuratKeluarController::class, 'store'])->name('store');
@@ -142,6 +147,8 @@ Route::prefix('eoffice')
             // Approve
             Route::post('/{id}/setujui', [\App\Http\Controllers\SuratKeluarController::class, 'setujui'])->name('setujui');
             Route::post('/{id}/tolak', [\App\Http\Controllers\SuratKeluarController::class, 'tolak'])->name('tolak');
+            Route::get('/{id}/edit', [SuratKeluarController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [SuratKeluarController::class, 'update'])->name('update');
         });
 
         Route::prefix('notifikasi')->name('notifikasi.')->group(function () {

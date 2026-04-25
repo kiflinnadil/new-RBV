@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-[#F0F4FF] py-8 sm:py-12"">
+<div class="min-h-screen bg-[#F0F4FF] py-8 sm:py-12">
 
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 mb-10">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -13,21 +13,19 @@
                 </a>
                 <div>
                     <h1 class="font-poppins text-4xl font-extrabold text-[#2B3A8C]">Detail Surat Masuk</h1>
-                    <p class="font-mono text-xm text-gray-400">{{ $surat->nomor_agenda }}</p>
+                    <p class="font-mono text-sm text-gray-400">{{ $surat->nomor_agenda }}</p>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
-                <a href="{{ route('eoffice.surat-masuk.export-pdf', $surat->id) }}"
-                    class="flex items-center gap-2 px-6 py-3 bg-white text-red-600 font-bold text-sm rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-                    </svg>
-                    <span>PDF</span>
-                </a>
-            </div>
+            <a href="{{ route('eoffice.surat-masuk.export-pdf', $surat->id) }}"
+                class="flex items-center gap-2 px-6 py-3 bg-white text-red-600 font-bold text-sm rounded-2xl
+                       shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 self-start">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                </svg>
+                PDF
+            </a>
         </div>
     </div>
-    
 
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 grid grid-cols-1 lg:grid-cols-3 gap-8">
 
@@ -75,9 +73,18 @@
                             <span class="text-xs px-2 py-1 rounded-lg font-semibold bg-red-100 text-red-700">🔴 Segera</span>
                         @elseif($surat->prioritas == 'sedang')
                             <span class="text-xs px-2 py-1 rounded-lg font-semibold bg-yellow-100 text-yellow-700">🟡 Sedang</span>
-                        @else
+                        @elseif($surat->prioritas == 'biasa')
                             <span class="text-xs px-2 py-1 rounded-lg font-semibold bg-green-100 text-green-700">🟢 Biasa</span>
+                        @else
+                            <span class="text-xs px-2 py-1 rounded-lg font-semibold bg-gray-100 text-gray-500">Belum diset</span>
                         @endif
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-400 mb-0.5">Pengirim</p>
+                        <p class="font-semibold text-gray-700">
+                            {{ $surat->pembuat->nama_lengkap ?? '-' }}
+                            <span class="text-gray-400 font-normal text-xs">({{ $surat->pembuat->unit_kerja ?? '' }})</span>
+                        </p>
                     </div>
                 </div>
 
@@ -94,11 +101,18 @@
                     <p class="text-sm text-red-700 bg-red-50 rounded-xl p-3">{{ $surat->catatan_tolak }}</p>
                 </div>
                 @endif
+
+                @if($surat->catatan_pending ?? null)
+                <div class="mt-4 pt-4 border-t border-gray-100">
+                    <p class="text-xs text-yellow-600 mb-1">Catatan Pending (Kabag)</p>
+                    <p class="text-sm text-yellow-700 bg-yellow-50 rounded-xl p-3">{{ $surat->catatan_pending }}</p>
+                </div>
+                @endif
             </div>
 
             @if($surat->tags->count())
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-                <h2 class="font-poppins font-bold text-gray-700 text-sm mb-3">Penerima Surat</h2>
+                <h2 class="font-poppins font-bold text-gray-700 text-sm mb-3">Penerima / Disposisi</h2>
                 <div class="flex flex-wrap gap-2">
                     @foreach($surat->tags as $tag)
                     <span class="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-xl text-xs font-semibold">
@@ -128,42 +142,127 @@
             </div>
             @endif
 
-            @php
-                $myRole = auth()->user()->role;
-                $roleApprover = match($myRole){ 'super_admin'=>'direktur','kabag'=>'kabag',default=>null };
-                $myPersetujuan = $roleApprover
-                    ? $surat->persetujuan->where('role_approver',$roleApprover)->first()
-                    : null;
-                $bisaApprove = $myPersetujuan && $myPersetujuan->status === 'menunggu'
-                    && in_array($surat->status,['menunggu_direktur','menunggu_kabag']);
-            @endphp
-
             @if($bisaApprove)
             <div class="bg-white rounded-2xl shadow-sm border border-yellow-200 p-5 sm:p-6">
-                <h2 class="font-poppins font-bold text-yellow-700 text-sm mb-4">
-                    Tindakan Persetujuan — Anda ({{ ucfirst($roleApprover) }})
-                </h2>
 
-                <form action="{{ route('eoffice.surat-masuk.setujui', $surat->id) }}" method="POST" class="mb-3">
-                    @csrf
-                    <textarea name="catatan" rows="2" placeholder="Catatan persetujuan (opsional)..."
-                        class="w-full bg-[#F3F4F6] rounded-xl py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 resize-none mb-3"></textarea>
-                    <button type="submit"
-                        class="w-full py-2.5 bg-green-600 text-white text-sm font-bold rounded-xl hover:bg-green-700 transition">
-                        ✅ Setujui Surat
-                    </button>
-                </form>
+                <div class="flex items-center gap-2 mb-5">
+                    <div class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></div>
+                    <h2 class="font-poppins font-bold text-yellow-700 text-sm">
+                        Tindakan Persetujuan — {{ ucfirst($jabatanApproval) }}
+                    </h2>
+                </div>
 
-                <form action="{{ route('eoffice.surat-masuk.tolak', $surat->id) }}" method="POST">
-                    @csrf
-                    <textarea name="catatan_tolak" rows="2" placeholder="Alasan penolakan (wajib diisi)..."
-                        class="w-full bg-[#F3F4F6] rounded-xl py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-red-400 resize-none mb-3"
-                        required></textarea>
-                    <button type="submit"
-                        class="w-full py-2.5 bg-red-600 text-white text-sm font-bold rounded-xl hover:bg-red-700 transition">
-                        ❌ Tolak Surat
-                    </button>
-                </form>
+                <div class="mb-5">
+                    <label class="block text-xs text-gray-500 mb-1.5 ml-1">Catatan</label>
+                    <textarea id="catatanApproval" rows="3"
+                        placeholder="Tulis catatan persetujuan atau alasan penolakan..."
+                        class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2B3A8C] resize-none"></textarea>
+                </div>
+
+                @if($jabatanApproval === 'direktur')
+                <div class="mb-5">
+                    <label class="block text-xs text-gray-500 mb-2 ml-1 font-bold">
+                        Tag Unit Terkait <span class="font-normal text-gray-400">(Opsional)</span>
+                    </label>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 bg-blue-50 p-3 rounded-2xl border border-blue-100">
+                        @foreach($unitsTerkait as $u)
+                        <label class="flex items-center gap-2 cursor-pointer group p-1.5 rounded-lg hover:bg-blue-100 transition">
+                            <input type="checkbox" name="tag_units_hidden[]" value="{{ $u->id_user }}"
+                                class="unit-checkbox w-4 h-4 rounded border-gray-300 text-[#2B3A8C] focus:ring-[#2B3A8C]">
+                            <div>
+                                <p class="text-xs font-semibold text-gray-700 group-hover:text-[#2B3A8C]">{{ $u->nama_lengkap }}</p>
+                                <p class="text-[10px] text-gray-400">{{ $u->unit_kerja }}</p>
+                            </div>
+                        </label>
+                        @endforeach
+                    </div>
+                    <p class="text-[10px] text-gray-400 mt-1.5 ml-1">*Unit yang dicentang akan mendapat notifikasi</p>
+                </div>
+                @endif
+
+                @if($jabatanApproval === 'direktur')
+                <div class="grid grid-cols-2 gap-3">
+
+                    <form action="{{ route('eoffice.surat-masuk.tolak', $surat->id) }}" method="POST"
+                          onsubmit="return transferCatatan(this,'catatan_tolak') && confirm('Tolak surat ini?')">
+                        @csrf
+                        <input type="hidden" name="catatan_tolak">
+                        <button type="submit"
+                            class="w-full py-3 bg-red-600 text-white text-sm font-bold rounded-xl
+                                   hover:bg-red-700 transition flex items-center justify-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                            Tolak
+                        </button>
+                    </form>
+
+                    <form action="{{ route('eoffice.surat-masuk.setujui', $surat->id) }}" method="POST"
+                          onsubmit="return transferCatatanDanUnit(this)">
+                        @csrf
+                        <input type="hidden" name="catatan">
+                        <div id="tagUnitsContainer"></div>
+                        <button type="submit"
+                            class="w-full py-3 bg-green-600 text-white text-sm font-bold rounded-xl
+                                   hover:bg-green-700 transition flex items-center justify-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Setuju
+                        </button>
+                    </form>
+
+                </div>
+                @endif
+
+                @if($jabatanApproval === 'kabag')
+                <div class="grid grid-cols-3 gap-3">
+
+                    <form action="{{ route('eoffice.surat-masuk.tolak', $surat->id) }}" method="POST"
+                          onsubmit="return transferCatatan(this,'catatan_tolak') && confirm('Tolak surat ini?')">
+                        @csrf
+                        <input type="hidden" name="catatan_tolak">
+                        <button type="submit"
+                            class="w-full py-3 bg-red-600 text-white text-sm font-bold rounded-xl
+                                   hover:bg-red-700 transition flex items-center justify-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                            Tolak
+                        </button>
+                    </form>
+
+                    <form action="{{ route('eoffice.surat-masuk.pending', $surat->id) }}" method="POST"
+                          onsubmit="return transferCatatan(this,'catatan_pending')">
+                        @csrf
+                        <input type="hidden" name="catatan_pending">
+                        <button type="submit"
+                            class="w-full py-3 bg-yellow-500 text-white text-sm font-bold rounded-xl
+                                   hover:bg-yellow-600 transition flex items-center justify-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            Pending
+                        </button>
+                    </form>
+
+                    <form action="{{ route('eoffice.surat-masuk.setujui', $surat->id) }}" method="POST"
+                          onsubmit="return transferCatatan(this,'catatan')">
+                        @csrf
+                        <input type="hidden" name="catatan">
+                        <button type="submit"
+                            class="w-full py-3 bg-green-600 text-white text-sm font-bold rounded-xl
+                                   hover:bg-green-700 transition flex items-center justify-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Setuju
+                        </button>
+                    </form>
+
+                </div>
+                @endif
+
             </div>
             @endif
 
@@ -175,17 +274,20 @@
                 <h2 class="font-poppins font-bold text-gray-700 text-sm mb-3">Status Surat</h2>
                 @php
                     $statusConfig = [
-                        'menunggu'           => ['bg-gray-100',   'text-gray-600',  'Menunggu'],
-                        'menunggu_direktur'  => ['bg-yellow-100', 'text-yellow-700','Menunggu Direktur'],
-                        'menunggu_kabag'     => ['bg-orange-100', 'text-orange-700','Menunggu Kabag'],
-                        'disetujui'          => ['bg-green-100',  'text-green-700', 'Disetujui'],
-                        'ditolak'            => ['bg-red-100',    'text-red-700',   'Ditolak'],
+                        'menunggu_sekretaris' => ['bg-orange-100','text-orange-700','⏳ Menunggu Sekretaris'],
+                        'menunggu_direktur'   => ['bg-yellow-100','text-yellow-700','⏳ Menunggu Direktur'],
+                        'menunggu_kabag'      => ['bg-blue-100',  'text-blue-700',  '⏳ Menunggu Kabag'],
+                        'pending'             => ['bg-yellow-50', 'text-yellow-600','🕐 Pending'],
+                        'disetujui'           => ['bg-green-100', 'text-green-700', '✅ Disetujui'],
+                        'ditolak'             => ['bg-red-100',   'text-red-700',   '❌ Ditolak'],
                     ];
                     [$bg, $tc, $label] = $statusConfig[$surat->status] ?? ['bg-gray-100','text-gray-600','—'];
                 @endphp
                 <div class="flex items-center gap-2 p-3 {{ $bg }} rounded-xl">
-                    <div class="w-2.5 h-2.5 rounded-full {{ $tc === 'text-green-700' ? 'bg-green-500' : ($tc === 'text-red-700' ? 'bg-red-500' : 'bg-yellow-500') }}
-                        {{ $surat->status === 'menunggu_direktur' || $surat->status === 'menunggu_kabag' ? 'animate-pulse' : '' }}"></div>
+                    <div class="w-2.5 h-2.5 rounded-full flex-shrink-0
+                        {{ in_array($surat->status,['menunggu_sekretaris','menunggu_direktur','menunggu_kabag']) ? 'animate-pulse' : '' }}
+                        {{ $tc === 'text-green-700' ? 'bg-green-500' : ($tc === 'text-red-700' ? 'bg-red-500' : 'bg-yellow-400') }}">
+                    </div>
                     <span class="text-sm font-semibold {{ $tc }}">{{ $label }}</span>
                 </div>
             </div>
@@ -194,18 +296,16 @@
                 <h2 class="font-poppins font-bold text-gray-700 text-sm mb-4">Alur Persetujuan</h2>
                 @php
                     $steps = [
-                        ['label'=>'Diterima Sekretaris', 'done'=>true],
-                        ['label'=>'Menunggu Direktur',   'done'=>in_array($surat->status,['menunggu_kabag','disetujui','ditolak'])],
-                        ['label'=>'Disetujui Direktur',  'done'=>in_array($surat->status,['menunggu_kabag','disetujui'])],
-                        ['label'=>'Menunggu Kabag',      'done'=>in_array($surat->status,['disetujui','ditolak']) && $surat->persetujuan->where('role_approver','kabag')->first()?->status !== 'menunggu'],
-                        ['label'=>'Selesai',             'done'=>$surat->status === 'disetujui'],
+                        ['label' => 'Dikirim Unit',       'done' => true],
+                        ['label' => 'Acc Sekretaris',     'done' => !in_array($surat->status, ['menunggu_sekretaris'])],
+                        ['label' => 'Menunggu Direktur',  'done' => in_array($surat->status, ['menunggu_kabag','pending','disetujui','ditolak'])],
+                        ['label' => 'Disetujui Direktur', 'done' => in_array($surat->status, ['menunggu_kabag','pending','disetujui'])],
+                        ['label' => 'Menunggu Kabag',     'done' => in_array($surat->status, ['disetujui','ditolak'])],
+                        ['label' => 'Selesai',            'done' => $surat->status === 'disetujui'],
                     ];
-                    if ($surat->status === 'ditolak') {
-                        $steps = array_map(fn($s) => array_merge($s,['tolak'=>true]), $steps);
-                    }
                 @endphp
                 <div class="space-y-0">
-                    @foreach($steps as $i => $step)
+                    @foreach($steps as $step)
                     <div class="flex gap-3 pb-3 relative">
                         @if(!$loop->last)
                         <div class="absolute left-3.5 top-7 bottom-0 w-0.5 {{ $step['done'] ? 'bg-[#2B3A8C]' : 'bg-gray-100' }}"></div>
@@ -213,11 +313,11 @@
                         <div class="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center z-10
                             {{ $step['done'] ? 'bg-[#2B3A8C]' : 'bg-gray-100' }}">
                             @if($step['done'])
-                                <svg class="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
-                                </svg>
+                            <svg class="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                            </svg>
                             @else
-                                <div class="w-2 h-2 rounded-full bg-gray-400"></div>
+                            <div class="w-2 h-2 rounded-full bg-gray-400"></div>
                             @endif
                         </div>
                         <div class="pt-1">
@@ -227,16 +327,24 @@
                         </div>
                     </div>
                     @endforeach
-                    @if($surat->status === 'ditolak')
+
+                    @if($surat->status === 'pending')
+                    <div class="flex gap-3 pt-1">
+                        <div class="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center bg-yellow-100">
+                            <svg class="w-3.5 h-3.5 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div class="pt-1"><p class="text-xs font-semibold text-yellow-600">Pending oleh Kabag</p></div>
+                    </div>
+                    @elseif($surat->status === 'ditolak')
                     <div class="flex gap-3 pt-1">
                         <div class="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center bg-red-100">
                             <svg class="w-3.5 h-3.5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                             </svg>
                         </div>
-                        <div class="pt-1">
-                            <p class="text-xs font-semibold text-red-600">Ditolak</p>
-                        </div>
+                        <div class="pt-1"><p class="text-xs font-semibold text-red-600">Ditolak</p></div>
                     </div>
                     @endif
                 </div>
@@ -245,12 +353,17 @@
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
                 <h2 class="font-poppins font-bold text-gray-700 text-sm mb-3">Log Persetujuan</h2>
                 <div class="space-y-2">
-                    @foreach($surat->persetujuan as $p)
+                    @forelse($surat->persetujuan as $p)
                     <div class="p-3 bg-[#F8FAFF] rounded-xl">
                         <div class="flex items-center justify-between mb-1">
-                            <p class="text-xs font-bold text-gray-700">{{ ucfirst($p->role_approver) }}: {{ $p->user->nama_lengkap ?? '-' }}</p>
+                            <p class="text-xs font-bold text-gray-700">
+                                {{ ucfirst($p->role_approver) }}: {{ $p->user->nama_lengkap ?? '-' }}
+                            </p>
                             <span class="text-[10px] px-1.5 py-0.5 rounded font-semibold
-                                {{ $p->status === 'disetujui' ? 'bg-green-100 text-green-700' : ($p->status === 'ditolak' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700') }}">
+                                {{ $p->status === 'disetujui' ? 'bg-green-100 text-green-700'
+                                :($p->status === 'ditolak'  ? 'bg-red-100 text-red-700'
+                                :($p->status === 'pending'  ? 'bg-yellow-100 text-yellow-700'
+                                : 'bg-gray-100 text-gray-500')) }}">
                                 {{ ucfirst($p->status) }}
                             </span>
                         </div>
@@ -261,7 +374,9 @@
                         <p class="text-[10px] text-gray-400 mt-0.5">{{ \Carbon\Carbon::parse($p->approved_at)->format('d/m/Y H:i') }}</p>
                         @endif
                     </div>
-                    @endforeach
+                    @empty
+                    <p class="text-xs text-gray-400 italic text-center py-3">Belum ada log</p>
+                    @endforelse
                 </div>
             </div>
 
@@ -295,4 +410,33 @@
         </div>
     </div>
 </div>
+
+<script>
+function transferCatatan(form, fieldName) {
+    const val    = document.getElementById('catatanApproval').value;
+    const hidden = form.querySelector(`input[name="${fieldName}"]`);
+    if (hidden) hidden.value = val;
+    return true;
+}
+
+function transferCatatanDanUnit(form) {
+    const val    = document.getElementById('catatanApproval').value;
+    const hidden = form.querySelector('input[name="catatan"]');
+    if (hidden) hidden.value = val;
+
+    const container = document.getElementById('tagUnitsContainer');
+    if (container) {
+        container.innerHTML = '';
+        document.querySelectorAll('.unit-checkbox:checked').forEach(cb => {
+            const input = document.createElement('input');
+            input.type  = 'hidden';
+            input.name  = 'tag_units[]';
+            input.value = cb.value;
+            container.appendChild(input);
+        });
+    }
+    return true;
+}
+</script>
+
 @endsection

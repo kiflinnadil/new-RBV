@@ -57,9 +57,9 @@
                                     </div>
                                     <div>
                                         <p class="text-sm font-semibold text-gray-700">Surat Keluar</p>
-                                        {{-- <p class="text-xs text-gray-400">Buat & kirim surat</p> --}}
                                     </div>
                                 </a>
+                                {{-- <p class="text-xs text-gray-400">Buat & kirim surat</p> --}}
                             </div>
                         </div>
                         @endif

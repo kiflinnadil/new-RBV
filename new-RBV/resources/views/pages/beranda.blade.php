@@ -246,7 +246,6 @@
 
             </div>
 
-            {{-- Chart --}}
             <div class="bg-white rounded-2xl border border-gray-200 p-4 sm:p-6 max-w-5xl mx-auto">
                 <div class="relative h-52 sm:h-64 lg:h-[380px]">
                     <canvas id="chartKunjungan"></canvas>
