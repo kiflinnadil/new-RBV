@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Video;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http; 
+use Illuminate\Support\Facades\Http;
 
 class VideoController extends Controller
 {
@@ -19,7 +19,6 @@ class VideoController extends Controller
     {
         return view('pages.Video.createvideo');
     }
-
 
     public function store(Request $request)
     {
@@ -39,28 +38,25 @@ class VideoController extends Controller
             if ($id) {
                 $thumbnail = "https://img.youtube.com/vi/$id/hqdefault.jpg";
             }
-        }
-
-        elseif (preg_match('/tiktok\.com/', $url)) {
+        } elseif (preg_match('/tiktok\.com/', $url)) {
             try {
-                $response = Http::get("https://www.tiktok.com/oembed?url=" . $url);
+                $response = Http::get('https://www.tiktok.com/oembed?url='.$url);
 
                 if ($response->successful()) {
                     $thumbnail = $response->json()['thumbnail_url'] ?? null;
                 }
-            } catch (\Exception $e) {}
-
-            if (!$thumbnail) {
-                $thumbnail = "https://via.placeholder.com/400x300?text=TikTok";
+            } catch (\Exception $e) {
             }
+
+            if (! $thumbnail) {
+                $thumbnail = 'https://via.placeholder.com/400x300?text=TikTok';
+            }
+        } elseif (preg_match('/instagram\.com/', $url)) {
+            $thumbnail = 'https://via.placeholder.com/400x300?text=Instagram';
         }
 
-        elseif (preg_match('/instagram\.com/', $url)) {
-            $thumbnail = "https://via.placeholder.com/400x300?text=Instagram";
-        }
-
-        if (!$thumbnail) {
-            $thumbnail = "https://via.placeholder.com/400x300?text=Video";
+        if (! $thumbnail) {
+            $thumbnail = 'https://via.placeholder.com/400x300?text=Video';
         }
 
         Video::create([
@@ -83,7 +79,6 @@ class VideoController extends Controller
     }
 
     public function edit($id)
-    
     {
         $video = Video::findOrFail($id);
 

@@ -27,9 +27,9 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                         <label class="block text-gray-500 text-xs sm:text-sm mb-1.5 ml-1">No. Surat</label>
-                        <input type="text" name="nomor_surat" value="{{ $nomorSurat }}" readonly
-                            class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 font-mono font-bold text-[#2B3A8C] text-sm focus:outline-none cursor-not-allowed border-none">
-                        <p class="text-[10px] text-gray-400 ml-1 mt-1">*Otomatis terisi oleh sistem</p>
+                        <input type="text" name="nomor_surat" value="{{ old('nomor_surat') }}"
+                            placeholder="Contoh: 001/RSCH/SK/IV/2026"
+                            class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
                     </div>
                     <div>
                         <label class="block text-gray-500 text-xs sm:text-sm mb-1.5 ml-1">Tanggal Diterima</label>

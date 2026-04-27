@@ -9,6 +9,7 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\PanduanController;
 use App\Http\Controllers\PromkesController;
 use App\Http\Controllers\RepositoriController;
+use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\SuratMasukController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
@@ -137,18 +138,15 @@ Route::prefix('eoffice')
 
         });
 
-        Route::prefix('surat-keluar')->name('surat-keluar.')->middleware(['auth', 'role:sekretaris,admin,super_admin'])->group(function () {
-            Route::get('/', [\App\Http\Controllers\SuratKeluarController::class, 'index'])->name('index');
-            Route::get('/create', [\App\Http\Controllers\SuratKeluarController::class, 'create'])->name('create');
-            Route::post('/', [\App\Http\Controllers\SuratKeluarController::class, 'store'])->name('store');
-            Route::get('/export/excel', [\App\Http\Controllers\SuratKeluarController::class, 'exportExcel'])->name('export-all');
-            Route::get('/{id}', [\App\Http\Controllers\SuratKeluarController::class, 'show'])->name('show');
-            Route::get('/{id}/pdf', [\App\Http\Controllers\SuratKeluarController::class, 'pdf'])->name('pdf');
-            // Approve
-            Route::post('/{id}/setujui', [\App\Http\Controllers\SuratKeluarController::class, 'setujui'])->name('setujui');
-            Route::post('/{id}/tolak', [\App\Http\Controllers\SuratKeluarController::class, 'tolak'])->name('tolak');
-            Route::get('/{id}/edit', [SuratKeluarController::class, 'edit'])->name('edit');
-            Route::put('/{id}', [SuratKeluarController::class, 'update'])->name('update');
+        Route::prefix('surat-keluar')->name('surat-keluar.')->middleware('role:sekretaris,admin,super_admin')->group(function () {
+            Route::get('/', [SuratKeluarController::class, 'index'])->name('index');
+            Route::get('/create', [SuratKeluarController::class, 'create'])->name('create');
+            Route::post('/', [SuratKeluarController::class, 'store'])->name('store');
+            Route::get('/export', [SuratKeluarController::class, 'exportAll'])->name('export-all');
+            Route::get('/{id}', [SuratKeluarController::class, 'show'])->name('show');
+            Route::get('/{id}/edit', [SuratKeluarController::class, 'edit'])->name('edit');   // ← tambah
+            Route::put('/{id}', [SuratKeluarController::class, 'update'])->name('update'); // ← tambah
+            Route::get('/{id}/pdf', [SuratKeluarController::class, 'pdf'])->name('pdf');
         });
 
         Route::prefix('notifikasi')->name('notifikasi.')->group(function () {

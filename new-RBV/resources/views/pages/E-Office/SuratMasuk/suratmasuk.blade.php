@@ -259,14 +259,9 @@
                                     @endif
 
                                     @if($surat->status === 'pending' && auth()->user()->jabatan === 'kabag')
-                                    <a href="{{ route('eoffice.surat-masuk.edit', $surat->id) }}"
-                                        class="inline-flex items-center gap-1.5 px-3 py-2.5 bg-yellow-500 text-white text-xs font-bold
-                                               rounded-xl hover:bg-yellow-600 transition"
-                                        title="Edit Surat Pending">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                                        </svg>
-                                        Edit
+                                    <a href="{{ route('eoffice.surat-masuk.edit', $surat->id) }}" 
+                                        class="p-1.5 bg-[#00A14C] text-white rounded-lg shadow hover:scale-110 transition">
+                                        <img src="{{ asset('images/Edit.svg') }}" class="w-4 h-4" style="min-width:20px;min-height:20px;">
                                     </a>
                                     @endif
 
@@ -275,7 +270,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="9" class="px-4 py-20 text-center text-gray-400 italic">
+                            <td colspan="9" class="px-4 py-20 text-center text-gray-400 italic"> 
                                 Belum ada data surat masuk.
                             </td>
                         </tr>
@@ -317,7 +312,7 @@ const unitPerKategori = {
         'Unit Rawat Inap Ruang Rosalina',
         'Unit Rawat Inap Ruang Alamanda',
         'Unit Rawat Inap Ruang Teratai',
-        'Unit Rawat Inap Ruang Anturium',
+        'Unit Rawat Inap Ruang Anturium', 
         'Unit Rawat Inap Ruang Tulip',
         'Unit Kamar Operasi',
         'Unit ICU',
@@ -367,7 +362,7 @@ function filterUnitByKategori(kategori) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => { 
     const initKategori = filterKategori.value;
     if (initKategori) {
         filterUnitByKategori(initKategori);

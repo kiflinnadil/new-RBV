@@ -162,21 +162,85 @@
                 @if($jabatanApproval === 'direktur')
                 <div class="mb-5">
                     <label class="block text-xs text-gray-500 mb-2 ml-1 font-bold">
-                        Tag Unit Terkait <span class="font-normal text-gray-400">(Opsional)</span>
+                        Tag Unit Terkait <span class="font-normal text-gray-400">(Opsional — bisa pilih lebih dari satu)</span>
                     </label>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 bg-blue-50 p-3 rounded-2xl border border-blue-100">
+
+                    <div class="flex rounded-xl overflow-hidden border border-gray-200 mb-3"
+                         x-data="{ openKat: false, aktifKat: '' }">
+
+                        <div class="relative">
+                            <button type="button"
+                                @click="openKat = !openKat"
+                                class="inline-flex items-center gap-1.5 h-full px-3 py-2.5 bg-[#F3F4F6] text-gray-600
+                                       text-xs font-semibold border-r border-gray-200 hover:bg-gray-200 transition whitespace-nowrap">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                                </svg>
+                                <span x-text="aktifKat || 'Semua Kategori'"></span>
+                                <svg class="w-3 h-3 transition-transform" :class="openKat ? 'rotate-180' : ''"
+                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"/>
+                                </svg>
+                            </button>
+
+                            <div x-show="openKat" @click.outside="openKat = false"
+                                 x-transition
+                                 class="absolute left-0 top-full mt-1 z-30 bg-white border border-gray-200
+                                        rounded-xl shadow-lg w-52 py-1">
+                                <button type="button"
+                                    @click="aktifKat = ''; openKat = false; filterKategoriUnit('')"
+                                    class="w-full text-left px-4 py-2 text-xs hover:bg-[#F3F4F6] text-gray-700 font-semibold">
+                                    Semua Kategori
+                                </button>
+                                @php
+                                    $kategoriUnitList = [
+                                        'Kabid Keperawatan',
+                                        'Kabid Pelayanan Medis',
+                                        'Kabid Penunjang Medis',
+                                        'Kabag Umum & Keuangan',
+                                    ];
+                                @endphp
+                                @foreach($kategoriUnitList as $kul)
+                                <button type="button"
+                                    @click="aktifKat = '{{ $kul }}'; openKat = false; filterKategoriUnit('{{ $kul }}')"
+                                    class="w-full text-left px-4 py-2 text-xs hover:bg-[#F3F4F6] text-gray-600">
+                                    {{ $kul }}
+                                </button>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <input type="text" id="searchUnit"
+                            oninput="searchUnitHandler(this.value)"
+                            placeholder="Cari nama atau unit..."
+                            class="flex-1 px-4 py-2.5 text-sm bg-[#F3F4F6] focus:outline-none focus:ring-2
+                                   focus:ring-[#2B3A8C] text-gray-700 placeholder:text-gray-400">
+
+                        <div class="px-3 py-2.5 bg-[#2B3A8C] flex items-center">
+                            <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div id="selectedTags" class="flex flex-wrap gap-2 mb-3 min-h-[28px]"></div>
+
+                    <div id="unitListContainer"
+                        class="max-h-48 overflow-y-auto bg-[#F8FAFF] rounded-xl border border-blue-100 p-2 space-y-1">
                         @foreach($unitsTerkait as $u)
-                        <label class="flex items-center gap-2 cursor-pointer group p-1.5 rounded-lg hover:bg-blue-100 transition">
+                        <label data-kategori="{{ $u->kategori_unit }}" data-nama="{{ strtolower($u->nama_lengkap) }} {{ strtolower($u->unit_kerja) }}"
+                            class="unit-item flex items-center gap-2.5 p-2 rounded-lg hover:bg-blue-100 cursor-pointer transition">
                             <input type="checkbox" name="tag_units_hidden[]" value="{{ $u->id_user }}"
+                                onchange="updateSelectedTags()"
                                 class="unit-checkbox w-4 h-4 rounded border-gray-300 text-[#2B3A8C] focus:ring-[#2B3A8C]">
-                            <div>
-                                <p class="text-xs font-semibold text-gray-700 group-hover:text-[#2B3A8C]">{{ $u->nama_lengkap }}</p>
+                            <div class="flex-1">
+                                <p class="text-xs font-semibold text-gray-700">{{ $u->nama_lengkap }}</p>
                                 <p class="text-[10px] text-gray-400">{{ $u->unit_kerja }}</p>
                             </div>
                         </label>
                         @endforeach
                     </div>
-                    <p class="text-[10px] text-gray-400 mt-1.5 ml-1">*Unit yang dicentang akan mendapat notifikasi</p>
+                    <p class="text-[10px] text-gray-400 mt-1.5 ml-1">*Unit yang dipilih akan mendapat notifikasi</p>
                 </div>
                 @endif
 
@@ -216,19 +280,17 @@
                 @endif
 
                 @if($jabatanApproval === 'kabag')
-                <div class="grid grid-cols-3 gap-3">
+                <div class="flex items-center gap-3">
 
                     <form action="{{ route('eoffice.surat-masuk.tolak', $surat->id) }}" method="POST"
                           onsubmit="return transferCatatan(this,'catatan_tolak') && confirm('Tolak surat ini?')">
                         @csrf
                         <input type="hidden" name="catatan_tolak">
                         <button type="submit"
-                            class="w-full py-3 bg-red-600 text-white text-sm font-bold rounded-xl
-                                   hover:bg-red-700 transition flex items-center justify-center gap-1.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                            </svg>
-                            Tolak
+                            class="p-1.5 bg-red-600 text-white rounded-lg shadow hover:scale-110 transition"
+                            title="Tolak Surat">
+                            <img src="{{ asset('images/Tolak.svg') }}" class="w-4 h-4"
+                                 onerror="this.outerHTML='<svg xmlns='http://www.w3.org/2000/svg' class='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 18L18 6M6 6l12 12'/></svg>'">
                         </button>
                     </form>
 
@@ -237,12 +299,10 @@
                         @csrf
                         <input type="hidden" name="catatan_pending">
                         <button type="submit"
-                            class="w-full py-3 bg-yellow-500 text-white text-sm font-bold rounded-xl
-                                   hover:bg-yellow-600 transition flex items-center justify-center gap-1.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            Pending
+                            class="p-1.5 bg-yellow-500 text-white rounded-lg shadow hover:scale-110 transition"
+                            title="Pending">
+                            <img src="{{ asset('images/Pending.svg') }}" class="w-4 h-4"
+                                 onerror="this.outerHTML='<svg xmlns='http://www.w3.org/2000/svg' class='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'/></svg>'">
                         </button>
                     </form>
 
@@ -251,12 +311,10 @@
                         @csrf
                         <input type="hidden" name="catatan">
                         <button type="submit"
-                            class="w-full py-3 bg-green-600 text-white text-sm font-bold rounded-xl
-                                   hover:bg-green-700 transition flex items-center justify-center gap-1.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-                            </svg>
-                            Setuju
+                            class="p-1.5 bg-[#00A14C] text-white rounded-lg shadow hover:scale-110 transition"
+                            title="Setujui Surat">
+                            <img src="{{ asset('images/Approve.svg') }}" class="w-4 h-4"
+                                 onerror="this.outerHTML='<svg xmlns='http://www.w3.org/2000/svg' class='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M5 13l4 4L19 7'/></svg>'">
                         </button>
                     </form>
 
@@ -412,6 +470,49 @@
 </div>
 
 <script>
+let activeKategori = '';
+
+function filterKategoriUnit(kategori) {
+    activeKategori = kategori;
+    applyUnitFilter();
+}
+
+function searchUnitHandler(val) {
+    applyUnitFilter();
+}
+
+function applyUnitFilter() {
+    const q    = document.getElementById('searchUnit').value.toLowerCase();
+    const items = document.querySelectorAll('.unit-item');
+    items.forEach(item => {
+        const nama     = item.dataset.nama || '';
+        const kategori = item.dataset.kategori || '';
+        const matchQ   = !q || nama.includes(q);
+        const matchK   = !activeKategori || kategori === activeKategori;
+        item.style.display = (matchQ && matchK) ? '' : 'none';
+    });
+}
+
+function updateSelectedTags() {
+    const container = document.getElementById('selectedTags');
+    container.innerHTML = '';
+    document.querySelectorAll('.unit-checkbox:checked').forEach(cb => {
+        const label    = cb.closest('label');
+        const nama     = label.querySelector('p:first-child').textContent.trim();
+        const tag      = document.createElement('span');
+        tag.className  = 'inline-flex items-center gap-1 px-2.5 py-1 bg-[#2B3A8C] text-white text-xs font-semibold rounded-lg';
+        tag.innerHTML  = nama + '<button type="button" onclick="removeTag(this,' + cb.value + ')" class="ml-1 hover:text-red-300 transition">×</button>';
+        container.appendChild(tag);
+    });
+}
+
+function removeTag(btn, val) {
+    const cb = document.querySelector('.unit-checkbox[value="' + val + '"]');
+    if (cb) {
+        cb.checked = false;
+        updateSelectedTags();
+    }
+}
 function transferCatatan(form, fieldName) {
     const val    = document.getElementById('catatanApproval').value;
     const hidden = form.querySelector(`input[name="${fieldName}"]`);
