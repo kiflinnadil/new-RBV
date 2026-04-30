@@ -48,6 +48,8 @@
                                     </div>
                                 </a>
 
+                                
+                                @if(auth()->user()->hasRole(['super_admin', 'sekretaris']))
                                 <a href="{{ route('eoffice.surat-keluar.index') }}"
                                     class="flex items-center gap-3 px-4 py-3 hover:bg-green-50 transition rounded-b-xl group">
                                     <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-600 transition flex-shrink-0">
@@ -59,6 +61,7 @@
                                         <p class="text-sm font-semibold text-gray-700">Surat Keluar</p>
                                     </div>
                                 </a>
+                                @endif
                                 {{-- <p class="text-xs text-gray-400">Buat & kirim surat</p> --}}
                             </div>
                         </div>
@@ -85,7 +88,7 @@
                         <div id="bellDropdown" class="absolute right-0 mt-3 w-80 bg-white shadow-xl rounded-2xl hidden z-[9999] border border-gray-100 overflow-hidden">
                             <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
                                 <p class="font-semibold text-sm text-gray-700">Notifikasi</p>
-                                <button id="bacaSemuaBtn" class="text-xs text-blue-600 hover:underline">Tandai semua dibaca</button>
+                                <button id="bacaSemuaBtn" onclick="bacaSemua()" class="text-xs text-blue-600 hover:underline">Tandai semua dibaca</button>
                             </div>
                             <div id="notifList" class="max-h-72 overflow-y-auto divide-y divide-gray-50 text-center py-4">
                                 <p class="text-xs text-gray-400">Memuat...</p>
@@ -121,15 +124,20 @@
                     <div id="profileDropdown"
                         class="absolute right-0 mt-3 w-44 bg-white shadow-xl rounded-xl hidden z-[9999] border border-gray-100">
                         
-                        <a href="/tambah-akun"
+                        {{-- <a href="/tambah-akun"
                             class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 rounded-t-xl">
                             Tambah Akun
-                        </a>
+                        </a> --}}
 
                         <a href="/profil"
                             class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 rounded-b-xl">
                             Profil
                         </a>
+                        <a href="{{ route('akun.index') }}"
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            Kelola Akun
+                        </a>
+                        
                     </div>
                 </div>
 
@@ -224,13 +232,12 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    
+
     function setupDropdown(btnId, dropId, wrapId) {
-        const btn = document.getElementById(btnId);
+        const btn  = document.getElementById(btnId);
         const drop = document.getElementById(dropId);
         const wrap = document.getElementById(wrapId);
         if (!btn || !drop || !wrap) return;
-
         btn.addEventListener('click', e => {
             e.stopPropagation();
             drop.classList.toggle('hidden');
@@ -245,10 +252,27 @@ document.addEventListener('DOMContentLoaded', function () {
     setupDropdown('profileBtn', 'profileDropdown', 'profileDropdownWrapper');
     @endif
     @endauth
-    setupDropdown('eofficeBtn', 'eofficeDropdown', 'eofficeDropdownWrapper');
-    setupDropdown('bellBtn', 'bellDropdown', 'bellWrapper');
 
-    const hamburger = document.getElementById('hamburgerBtn');
+    setupDropdown('eofficeBtn', 'eofficeDropdown', 'eofficeDropdownWrapper');
+
+    const bellBtn  = document.getElementById('bellBtn');
+    const bellDrop = document.getElementById('bellDropdown');
+    const bellWrap = document.getElementById('bellWrapper');
+
+    if (bellBtn && bellDrop) {
+        bellBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            const isHidden = bellDrop.classList.toggle('hidden');
+            if (!isHidden) loadNotifikasi(); 
+        });
+        document.addEventListener('click', e => {
+            if (bellWrap && !bellWrap.contains(e.target)) {
+                bellDrop.classList.add('hidden');
+            }
+        });
+    }
+
+    const hamburger  = document.getElementById('hamburgerBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     if (hamburger) {
         hamburger.addEventListener('click', () => {
@@ -259,32 +283,111 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     async function loadNotifikasi() {
-        const badge = document.getElementById('bellBadge');
-        const badgeMob = document.getElementById('bellBadgeMobile');
-        const list = document.getElementById('notifList');
-        if (!badge) return;
+        const badge  = document.getElementById('bellBadge');
+        const list   = document.getElementById('notifList');
+        if (!badge || !list) return;
 
         try {
-            const res = await fetch('{{ route("eoffice.notifikasi.index") }}', { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+            const res  = await fetch('{{ route("eoffice.notifikasi.index") }}', {
+                headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }
+            });
             const data = await res.json();
-            
+
             if (data.belum_dibaca > 0) {
-                const text = data.belum_dibaca > 9 ? '9+' : data.belum_dibaca;
-                [badge, badgeMob].forEach(b => { if(b) { b.textContent = text; b.classList.replace('hidden', 'flex'); }});
+                badge.textContent = data.belum_dibaca > 9 ? '9+' : data.belum_dibaca;
+                badge.classList.remove('hidden');
+                badge.classList.add('flex');
             } else {
-                [badge, badgeMob].forEach(b => { if(b) b.classList.replace('flex', 'hidden'); });
+                badge.classList.add('hidden');
+                badge.classList.remove('flex');
             }
 
-            list.innerHTML = data.notifikasi.length ? data.notifikasi.map(n => `
-                <a href="/eoffice/notifikasi/${n.id}/baca" class="block px-4 py-3 hover:bg-gray-50 transition text-left ${n.dibaca ? '' : 'bg-blue-50'}">
-                    <p class="text-xs font-bold text-gray-700">${n.judul}</p>
-                    <p class="text-[11px] text-gray-500 truncate">${n.pesan}</p>
-                </a>
-            `).join('') : '<p class="text-xs text-gray-400 py-6 text-center">Tidak ada notifikasi</p>';
-        } catch(e) { }
+            const dot = {
+                'sukses'    : 'bg-green-500',
+                'peringatan': 'bg-yellow-500',
+                'info'      : 'bg-blue-500',
+            };
+
+            if (!data.notifikasi || data.notifikasi.length === 0) {
+                list.innerHTML = '<p class="text-xs text-gray-400 text-center py-6">Tidak ada notifikasi</p>';
+                return;
+            }
+
+            list.innerHTML = data.notifikasi.map(n => `
+                <div onclick="tandaiBaca(${n.id}, '${n.url || ''}')"
+                    class="flex items-start gap-3 px-4 py-3 cursor-pointer hover:bg-[#F8FAFF] transition
+                           ${n.dibaca ? 'opacity-60' : 'bg-blue-50/40'}">
+                    <div class="w-2 h-2 rounded-full flex-shrink-0 mt-2 ${dot[n.tipe] || dot['info']}"></div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-xs font-bold ${n.dibaca ? 'text-gray-600' : 'text-[#2B3A8C]'}">${n.judul}</p>
+                        <p class="text-[11px] text-gray-500 mt-0.5 line-clamp-2">${n.pesan}</p>
+                        <p class="text-[10px] text-gray-400 mt-1">${n.created_at}</p>
+                    </div>
+                    ${!n.dibaca ? '<div class="w-2 h-2 rounded-full bg-[#2B3A8C] flex-shrink-0 mt-2"></div>' : ''}
+                </div>
+            `).join('');
+
+        } catch(e) {
+            if (document.getElementById('notifList')) {
+                document.getElementById('notifList').innerHTML =
+                    '<p class="text-xs text-gray-400 text-center py-6">Gagal memuat notifikasi.</p>';
+            }
+        }
     }
 
-    loadNotifikasi();
-    setInterval(loadNotifikasi, 30000);
+    window.tandaiBaca = async function(id, url) {
+        try {
+            await fetch(`/eoffice/notifikasi/${id}/baca`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN'    : document.querySelector('meta[name="csrf-token"]').content,
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept'          : 'application/json',
+                }
+            });
+        } catch(e) {}
+        if (url) window.location.href = url;
+    }
+
+    window.bacaSemua = async function() {
+        try {
+            await fetch('/eoffice/notifikasi/baca-semua', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN'    : document.querySelector('meta[name="csrf-token"]').content,
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept'          : 'application/json',
+                }
+            });
+        } catch(e) {}
+        loadNotifikasi();
+    }
+
+    async function fetchBadge() {
+        const badge = document.getElementById('bellBadge');
+        if (!badge) return;
+        try {
+            const res  = await fetch('{{ route("eoffice.notifikasi.index") }}', {
+                headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }
+            });
+            const data = await res.json();
+            if (data.belum_dibaca > 0) {
+                badge.textContent = data.belum_dibaca > 9 ? '9+' : data.belum_dibaca;
+                badge.classList.remove('hidden');
+                badge.classList.add('flex');
+            } else {
+                badge.classList.add('hidden');
+                badge.classList.remove('flex');
+            }
+        } catch(e) {}
+    }
+
+    fetchBadge();
+    setInterval(fetchBadge, 30000);
+
+    const bacaSemuaBtn = document.getElementById('bacaSemuaBtn');
+    if (bacaSemuaBtn) {
+        bacaSemuaBtn.addEventListener('click', () => bacaSemua());
+    }
 });
 </script>

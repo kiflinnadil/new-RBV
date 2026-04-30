@@ -3,6 +3,7 @@ import { initSlider } from './slider.js';
 import { initSwiper } from './swiper-init';
 import { initChart } from './chart';
 import { initSwiperFasilitas } from './swiperfasilitas';
+import './login-quote.js';
 
 
 document.addEventListener('DOMContentLoaded', () => {

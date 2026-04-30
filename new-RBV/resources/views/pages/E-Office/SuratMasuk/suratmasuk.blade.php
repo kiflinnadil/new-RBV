@@ -30,7 +30,7 @@
                 </a>
                 @endif
 
-                @if(!in_array(auth()->user()->jabatan, ['direktur', 'kabag']))
+                {{-- @if(!in_array(auth()->user()->jabatan, ['direktur', 'kabag'])) --}}
                 <a href="{{ route('eoffice.surat-masuk.create') }}"
                     class="flex items-center gap-2 px-5 py-3 bg-white text-[#2B3A8C] font-bold text-sm rounded-2xl
                            shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
@@ -43,7 +43,7 @@
                         <span>Kirim Surat</span>
                     @endif
                 </a>
-                @endif
+                {{-- @endif --}}
             </div>
         </div>
     </div>
@@ -151,7 +151,10 @@
                             <th class="text-left px-4 py-4 font-bold">Unit Pengirim</th>
                             <th class="text-left px-4 py-4 font-bold">Perihal</th>
                             <th class="text-left px-4 py-4 font-bold">Tgl Masuk</th>
+                            
+                            @if(auth()->user()->hasRole(['super_admin', 'sekretaris']))
                             <th class="text-left px-4 py-4 font-bold">Prioritas</th>
+                            @endif
                             <th class="text-left px-4 py-4 font-bold">Status</th>
                             <th class="text-center px-4 py-4 font-bold">Aksi</th>
                         </tr>
@@ -204,6 +207,7 @@
                                 {{ \Carbon\Carbon::parse($surat->tanggal_masuk)->translatedFormat('d M Y') }}
                             </td>
 
+                            @if(auth()->user()->hasRole(['super_admin', 'sekretaris']))
                             <td class="px-4 py-5">
                                 @if($surat->prioritas === 'segera')
                                     <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-red-100 text-red-600">🔴 SEGERA</span>
@@ -215,20 +219,21 @@
                                     <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-gray-100 text-gray-400">— Belum diset</span>
                                 @endif
                             </td>
+                            @endif
 
                             <td class="px-4 py-5">
                                 @php
                                     $sm = [
-                                        'menunggu_sekretaris' => ['bg-orange-100 text-orange-700', 'Menunggu Acc'],
-                                        'menunggu_direktur'   => ['bg-yellow-100 text-yellow-700', 'Menunggu Direktur'],
-                                        'menunggu_kabag'      => ['bg-blue-100 text-blue-700',     'Menunggu Kabag'],
-                                        'pending'             => ['bg-yellow-50 text-yellow-600',  'Pending'],
-                                        'disetujui'           => ['bg-green-100 text-green-700',   'Disetujui'],
-                                        'ditolak'             => ['bg-red-100 text-red-700',       'Ditolak'],
+                                        'menunggu_sekretaris' => ['text-orange-700', 'Menunggu Acc'],
+                                        'menunggu_direktur'   => ['text-yellow-700', 'Menunggu Direktur'],
+                                        'menunggu_kabag'      => ['text-blue-700',     'Menunggu Kabag'],
+                                        'pending'             => ['text-yellow-600',  'Pending'],
+                                        'disetujui'           => ['text-green-700',   'Disetujui'],
+                                        'ditolak'             => ['text-red-700',       'Ditolak'],
                                     ];
-                                    [$cls, $lbl] = $sm[$surat->status] ?? ['bg-gray-100 text-gray-500', ucfirst($surat->status)];
+                                    [$cls, $lbl] = $sm[$surat->status] ?? ['text-red-700', ucfirst($surat->status)];
                                 @endphp
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold {{ $cls }}
+                                <span class="px-2.5 py-1 rounded-full text-[12px] font-poppins font-bold {{ $cls }}
                                     {{ $surat->status === 'menunggu_sekretaris' ? 'animate-pulse' : '' }}">
                                     {{ $lbl }}
                                 </span>

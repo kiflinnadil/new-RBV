@@ -168,7 +168,7 @@
                     <div class="flex rounded-xl overflow-hidden border border-gray-200 mb-3"
                          x-data="{ openKat: false, aktifKat: '' }">
 
-                        <div class="relative">
+                        {{-- <div class="relative">
                             <button type="button"
                                 @click="openKat = !openKat"
                                 class="inline-flex items-center gap-1.5 h-full px-3 py-2.5 bg-[#F3F4F6] text-gray-600
@@ -208,7 +208,7 @@
                                 </button>
                                 @endforeach
                             </div>
-                        </div>
+                        </div> --}}
 
                         <input type="text" id="searchUnit"
                             oninput="searchUnitHandler(this.value)"

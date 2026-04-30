@@ -6,9 +6,7 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-8 py-6">
         <div class="flex items-center gap-3">
             <a href="{{ route('eoffice.surat-masuk.index') }}" class="text-gray-400 hover:text-[#2B3A8C] transition">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
+                <img src="{{ asset('images/kembali.svg') }}" class="w-6 h-6" fill=none  viewBox="0 0 24 24" stroke="currentColor">
             </a>
             <div>
                 @if(in_array(auth()->user()->role, ['sekretaris','super_admin','admin']))
@@ -21,20 +19,6 @@
             </div>
         </div>
     </div>
-
-    @if(in_array(auth()->user()->role, ['unit','karyawan']))
-    <div class="max-w-4xl mx-auto px-4 sm:px-8 mb-4">
-        <div class="flex items-start gap-3 bg-blue-50 border border-blue-100 rounded-2xl p-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <p class="text-xs text-blue-700">
-                <span class="font-bold">Alur:</span>
-                Kamu kirim → Sekretaris proses (set prioritas + teruskan) → Direktur → Kabag → Selesai
-            </p>
-        </div>
-    </div>
-    @endif
 
     <div class="max-w-4xl mx-auto px-4 sm:px-8 pb-10">
         <form action="{{ route('eoffice.surat-masuk.store') }}" method="POST" enctype="multipart/form-data">
@@ -112,13 +96,10 @@
                         class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2B3A8C] resize-none"></textarea>
                 </div>
 
+                @if(!in_array(auth()->user()->role, ['unit','karyawan']))
                 <div>
                     <label class="block text-gray-700 font-bold text-xs sm:text-sm mb-3 ml-1">
-                        @if(in_array(auth()->user()->role, ['unit','karyawan']))
-                            Kirim ke Sekretaris
-                        @else
-                            Disposisi ke
-                        @endif
+                        Disposisi ke
                     </label>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-blue-50 p-4 rounded-2xl border border-blue-100">
                         @foreach($usersTag as $u)
@@ -132,14 +113,9 @@
                         </label>
                         @endforeach
                     </div>
-                    <p class="text-[10px] text-gray-400 mt-2 ml-1">
-                        @if(in_array(auth()->user()->role, ['unit','karyawan']))
-                            *Sekretaris yang dipilih akan menerima dan memproses surat ini
-                        @else
-                            *Yang dipilih akan menerima surat untuk ditindaklanjuti
-                        @endif
-                    </p>
+                    <p class="text-[10px] text-gray-400 mt-2 ml-1">*Yang dipilih akan menerima surat untuk ditindaklanjuti</p>
                 </div>
+                @endif
 
                 <div>
                     <label class="block text-gray-500 text-xs sm:text-sm mb-1.5 ml-1">
@@ -184,7 +160,7 @@
 <script>
 document.getElementById('fileScan').addEventListener('change', function(e) {
     const f = e.target.files[0];
-    if (f) document.getElementById('fileLabel').textContent = f.name; 
+    if (f) document.getElementById('fileLabel').textContent = f.name;
 });
 </script>
 

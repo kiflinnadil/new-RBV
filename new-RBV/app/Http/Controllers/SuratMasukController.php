@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notifikasi;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -123,6 +125,67 @@ class SuratMasukController extends Controller
                 'tracking' => collect([
                     (object) ['aksi' => 'Surat dikirim oleh unit',               'user' => (object) ['nama_lengkap' => 'Apt. Dewi'],   'created_at' => Carbon::now()->subDays(3), 'keterangan' => null],
                     (object) ['aksi' => 'Diteruskan ke Direktur oleh Sekretaris', 'user' => (object) ['nama_lengkap' => 'Siti Rahayu'], 'created_at' => Carbon::now()->subDay(),  'keterangan' => 'Prioritas: Sedang'],
+                ]),
+            ],
+            (object) [
+                'id' => 5,
+                'nomor_agenda' => '005/2026',
+                'nomor_surat' => '005/RSCH/SM/IV/2026',
+                'tanggal_surat' => Carbon::now()->subDays(1),
+                'tanggal_masuk' => Carbon::now(),
+                'asal_surat' => 'Unit Informasi & TI',
+                'perihal' => 'Permohonan Pengadaan Perangkat Komputer',
+                'jenis' => 'internal',
+                'prioritas' => null,
+                'status' => 'menunggu_sekretaris',
+                'catatan' => null,
+                'catatan_tolak' => null,
+                'catatan_pending' => null,
+                'file_scan' => null,
+                'pembuat' => (object) [
+                    'id_user' => 3,
+                    'nama_lengkap' => 'Doni Staff IT',
+                    'unit_kerja' => 'Unit Informasi & TI',
+                    'kategori_unit' => 'Kabag Umum & Keuangan',
+                    'role' => 'unit',
+                ],
+                'tags' => collect([]),
+                'persetujuan' => collect([]),
+                'tracking' => collect([
+                    (object) ['aksi' => 'Surat dikirim oleh unit', 'user' => (object) ['nama_lengkap' => 'Doni Staff IT'], 'created_at' => Carbon::now(), 'keterangan' => null],
+                ]),
+            ],
+            (object) [
+                'id' => 6,
+                'nomor_agenda' => '006/2026',
+                'nomor_surat' => '006/RSCH/SM/IV/2026',
+                'tanggal_surat' => Carbon::now()->subDays(5),
+                'tanggal_masuk' => Carbon::now()->subDays(4),
+                'asal_surat' => 'Unit Informasi & TI',
+                'perihal' => 'Laporan Gangguan Jaringan Internet RS',
+                'jenis' => 'internal',
+                'prioritas' => 'segera',
+                'status' => 'menunggu_direktur',
+                'catatan' => 'Mohon segera ditindaklanjuti karena mengganggu operasional.',
+                'catatan_tolak' => null,
+                'catatan_pending' => null,
+                'file_scan' => null,
+                'pembuat' => (object) [
+                    'id_user' => 3,
+                    'nama_lengkap' => 'Doni Staff IT',
+                    'unit_kerja' => 'Unit Informasi & TI',
+                    'kategori_unit' => 'Kabag Umum & Keuangan',
+                    'role' => 'unit',
+                ],
+                'tags' => collect([
+                    (object) ['user' => (object) ['nama_lengkap' => 'Dr. Budi (Direktur)', 'role' => 'super_admin']],
+                ]),
+                'persetujuan' => collect([
+                    (object) ['role_approver' => 'direktur', 'user' => (object) ['nama_lengkap' => 'Dr. Budi'], 'status' => 'menunggu', 'catatan' => null, 'approved_at' => null],
+                ]),
+                'tracking' => collect([
+                    (object) ['aksi' => 'Surat dikirim oleh unit',               'user' => (object) ['nama_lengkap' => 'Doni Staff IT'], 'created_at' => Carbon::now()->subDays(4), 'keterangan' => null],
+                    (object) ['aksi' => 'Diteruskan ke Direktur oleh Sekretaris', 'user' => (object) ['nama_lengkap' => 'Siti Rahayu'],  'created_at' => Carbon::now()->subDays(3), 'keterangan' => 'Prioritas: Segera'],
                 ]),
             ],
             (object) [
@@ -292,6 +355,17 @@ class SuratMasukController extends Controller
         }
 
         $request->validate($rules);
+
+        if ($isUnit) {
+            $idSekretaris = User::where('role', 'sekretaris')->pluck('id_user')->toArray();
+            Notifikasi::kirimKe(
+                $idSekretaris,
+                'Surat Masuk Baru',
+                'Surat baru dari '.Auth::user()->unit_kerja.': "'.$request->perihal.'" menunggu diproses.',
+                '/eoffice/surat-masuk',
+                'info'
+            );
+        }
 
         return redirect()->route('eoffice.surat-masuk.index')
             ->with('success', $isUnit

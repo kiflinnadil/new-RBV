@@ -6,36 +6,42 @@ use Illuminate\Database\Eloquent\Model;
 
 class Notifikasi extends Model
 {
+    protected $table = 'notifikasi';
+
     protected $fillable = [
-        'user_id', 'judul', 'pesan', 'url', 'dibaca', 'surat_type', 'surat_id',
+        'id_user',
+        'judul',
+        'pesan',
+        'url',
+        'tipe',
+        'dibaca',
     ];
 
-    protected $casts = ['dibaca' => 'boolean'];
+    protected $casts = [
+        'dibaca' => 'boolean',
+    ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 
-    public function surat()
+    public static function kirim(int $idUser, string $judul, string $pesan, ?string $url = null, string $tipe = 'info'): void
     {
-        return $this->morphTo();
+        self::create([
+            'id_user' => $idUser,
+            'judul' => $judul,
+            'pesan' => $pesan,
+            'url' => $url,
+            'tipe' => $tipe,
+            'dibaca' => false,
+        ]);
     }
 
-    public static function kirim(array $userIds, string $judul, string $pesan, string $url, $surat)
+    public static function kirimKe(array $idUsers, string $judul, string $pesan, ?string $url = null, string $tipe = 'info'): void
     {
-        foreach (array_unique($userIds) as $userId) {
-            if (! $userId) {
-                continue;
-            }
-            self::create([
-                'user_id' => $userId,
-                'judul' => $judul,
-                'pesan' => $pesan,
-                'url' => $url,
-                'surat_type' => get_class($surat),
-                'surat_id' => $surat->id,
-            ]);
+        foreach ($idUsers as $idUser) {
+            self::kirim($idUser, $judul, $pesan, $url, $tipe);
         }
     }
 }

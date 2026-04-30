@@ -6,9 +6,7 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-8 py-6">
         <div class="flex items-center gap-3">
             <a href="{{ route('eoffice.surat-keluar.index') }}" class="text-gray-400 hover:text-[#2B3A8C] transition">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
+                <img src="{{ asset('images/kembali.svg') }}" class="w-6 h-6" fill=none  viewBox="0 0 24 24" stroke="currentColor">
             </a>
             <div>
                 <h1 class="font-poppins text-xl sm:text-2xl font-extrabold text-[#2B3A8C]">Tambah Surat Keluar</h1>

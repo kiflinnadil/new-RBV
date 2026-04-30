@@ -31,6 +31,23 @@ Route::middleware(['auth', 'role:super_admin,admin,sekretaris,karyawan,unit'])->
     })->name('profil');
 });
 
+Route::prefix('notifikasi')->name('notifikasi.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\NotifikasiController::class, 'index'])->name('index');
+    Route::post('/baca-semua', [\App\Http\Controllers\NotifikasiController::class, 'bacaSemua'])->name('baca-semua');
+    Route::get('/{id}/baca', [\App\Http\Controllers\NotifikasiController::class, 'baca'])->name('baca');
+    Route::post('/{id}/baca', [\App\Http\Controllers\NotifikasiController::class, 'baca'])->name('baca-post');
+});
+
+Route::prefix('akun')->name('akun.')->middleware('auth')->group(function () {
+    Route::get('/', [AkunController::class, 'index'])->name('index');
+    Route::get('/create', [AkunController::class, 'create'])->name('create');
+    Route::post('/', [AkunController::class, 'store'])->name('store');
+    Route::post('/reset-all-password', [AkunController::class, 'resetAllPassword'])->name('reset-all-password');
+    Route::get('/{id}/edit', [AkunController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [AkunController::class, 'update'])->name('update');
+    Route::delete('/{id}', [AkunController::class, 'destroy'])->name('destroy');
+});
+
 Route::middleware(['auth', 'role:super_admin,admin'])->group(function () {
 
     Route::get('/books/create', [BukuController::class, 'create'])->name('books.create');

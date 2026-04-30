@@ -11,7 +11,6 @@
             </div>
 
             <div class="flex items-center gap-3">
-                {{-- Export --}}
                 <a href="{{ route('eoffice.surat-keluar.export-all') }}"
                     class="flex items-center gap-2 px-5 py-3 bg-white text-green-600 font-bold text-sm rounded-2xl
                            shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
@@ -21,7 +20,6 @@
                     <span>Export</span>
                 </a>
 
-                {{-- Buat Surat: hanya sekretaris & super_admin --}}
                 @auth
                 @if(in_array(auth()->user()->role, ['super_admin', 'sekretaris']))
                 <a href="{{ route('eoffice.surat-keluar.create') }}"
@@ -30,7 +28,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
                     </svg>
-                    <span>Buat Surat</span>
+                    <span>Tambah Surat</span>
                 </a>
                 @endif
                 @endauth
@@ -41,7 +39,6 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
         <div class="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-6 sm:p-8">
 
-            {{-- Search --}}
             <div class="mb-8">
                 <form method="GET" action="{{ route('eoffice.surat-keluar.index') }}">
                     <div class="flex gap-4">
@@ -57,8 +54,6 @@
                     </div>
                 </form>
             </div>
-
-            {{-- Tabel --}}
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
                     <thead>
