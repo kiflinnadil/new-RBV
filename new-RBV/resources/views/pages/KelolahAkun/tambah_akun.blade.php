@@ -58,11 +58,73 @@
                             class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
                     </div>
 
-                    <div>
-                        <label class="block text-gray-500 text-sm mb-1 ml-1">Jabatan</label>
-                        <input type="text" name="jabatan" value="{{ old('jabatan') }}"
-                            class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
-                    </div>
+<div>
+
+    <label class="block text-gray-500 text-sm mb-1 ml-1">Jabatan</label>
+
+    <div class="relative">
+
+        <select name="id_jabatan"
+
+            class="w-full appearance-none bg-[#F3F4F6] rounded-xl
+
+                    py-3 pl-5 pr-10 text-gray-700
+
+                    focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
+
+            <option value="">Pilih Jabatan</option>
+
+            @foreach($jabatans as $jabatan)
+
+                <option value="{{ $jabatan->id_jabatan }}"
+
+                    {{ old('id_jabatan') == $jabatan->id_jabatan ? 'selected' : '' }}>
+
+                    {{ $jabatan->nama_jabatan }}
+
+                </option>
+
+            @endforeach
+
+        </select>
+
+        <div class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+
+            <svg xmlns="http://www.w3.org/2000/svg"
+
+                class="w-4 h-4"
+
+                fill="none"
+
+                viewBox="0 0 24 24"
+
+                stroke="currentColor">
+
+                <path stroke-linecap="round"
+
+                    stroke-linejoin="round"
+
+                    stroke-width="2"
+
+                    d="M19 9l-7 7-7-7"/>
+
+            </svg>
+
+        </div>
+
+    </div>
+
+    @error('id_jabatan')
+
+        <p class="text-red-500 text-xs mt-1 ml-1">
+
+            {{ $message }}
+
+        </p>
+
+    @enderror
+
+</div>
 
                     <div class="mb-5">
                         <label class="block text-gray-500 text-sm mb-1 ml-1">Unit Kerja</label>
