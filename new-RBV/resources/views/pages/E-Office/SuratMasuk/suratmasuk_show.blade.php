@@ -227,18 +227,39 @@
 
                     <div id="unitListContainer"
                         class="max-h-48 overflow-y-auto bg-[#F8FAFF] rounded-xl border border-blue-100 p-2 space-y-1">
-                        @foreach($unitsTerkait as $u)
-                        <label data-kategori="{{ $u->kategori_unit }}" data-nama="{{ strtolower($u->nama_lengkap) }} {{ strtolower($u->unit_kerja) }}"
-                            class="unit-item flex items-center gap-2.5 p-2 rounded-lg hover:bg-blue-100 cursor-pointer transition">
-                            <input type="checkbox" name="tag_units_hidden[]" value="{{ $u->id_user }}"
-                                onchange="updateSelectedTags()"
-                                class="unit-checkbox w-4 h-4 rounded border-gray-300 text-[#2B3A8C] focus:ring-[#2B3A8C]">
-                            <div class="flex-1">
-                                <p class="text-xs font-semibold text-gray-700">{{ $u->nama_lengkap }}</p>
-                                <p class="text-[10px] text-gray-400">{{ $u->unit_kerja }}</p>
+                    @foreach($unitsTerkait as $u)
+                    <label
+                        data-kategori="{{ strtolower($u->unitKerjaRelation->kabid ?? '') }}"
+                        data-nama="{{ strtolower(
+                            ($u->nama_lengkap ?? '') . ' ' .
+                            ($u->unit_kerja ?? '') . ' ' .
+                            ($u->unitKerjaRelation->kabid ?? '')
+                        ) }}"
+                        class="unit-item flex items-center gap-2.5 p-2 rounded-lg hover:bg-blue-100 cursor-pointer transition">
+                        <input
+                            type="checkbox"
+                            name="tag_units_hidden[]"
+                            value="{{ $u->id_user }}"
+                            onchange="updateSelectedTags()"
+                            class="unit-checkbox w-4 h-4 rounded border-gray-300 text-[#2B3A8C] focus:ring-[#2B3A8C]">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <p class="text-xs font-semibold text-gray-700">
+                                    {{ $u->nama_lengkap }}
+                                </p>
+                                @if($u->unitKerjaRelation?->kabid)
+                                <span class="px-2 py-0.5 rounded-full text-[9px] font-bold
+                                    bg-blue-100 text-blue-700">
+                                    {{ $u->unitKerjaRelation->kabid }}
+                                </span>
+                                @endif
                             </div>
-                        </label>
-                        @endforeach
+                            <p class="text-[10px] text-gray-400">
+                                {{ $u->unit_kerja }}
+                            </p>
+                        </div>
+                    </label>
+                    @endforeach
                     </div>
                     <p class="text-[10px] text-gray-400 mt-1.5 ml-1">*Unit yang dipilih akan mendapat notifikasi</p>
                 </div>
@@ -248,12 +269,12 @@
                 <div class="grid grid-cols-2 gap-3">
 
                     <form action="{{ route('eoffice.surat-masuk.tolak', $surat->id) }}" method="POST"
-                          onsubmit="return transferCatatan(this,'catatan_tolak') && confirm('Tolak surat ini?')">
+                        onsubmit="return transferCatatan(this,'catatan_tolak') && confirm('Tolak surat ini?')">
                         @csrf
                         <input type="hidden" name="catatan_tolak">
                         <button type="submit"
                             class="w-full py-3 bg-red-600 text-white text-sm font-bold rounded-xl
-                                   hover:bg-red-700 transition flex items-center justify-center gap-1.5">
+                                hover:bg-red-700 transition flex items-center justify-center gap-1.5">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                             </svg>
