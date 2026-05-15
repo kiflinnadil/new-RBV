@@ -210,17 +210,21 @@
                             </td>
 
                             <td class="px-4 py-5">
-                                @php
-                                    $kategoriColor = [
-                                        'Pelayanan Medis'  => 'bg-blue-50 text-blue-700',
-                                        'Penunjang Medis'  => 'bg-purple-50 text-purple-700',
-                                        'Keperawatan'      => 'bg-pink-50 text-pink-700',
-                                        'Umum'             => 'bg-gray-100 text-gray-600',
-                                        'Keuangan'         => 'bg-green-50 text-green-700',
-                                    ];
-                                    $kat = $surat->pembuat->kategori_unit ?? '-';
-                                    $kColor = $kategoriColor[$kat] ?? 'bg-gray-100 text-gray-500';
-                                @endphp
+                            @php
+                                $kategoriColor = [
+                                    'Kabid Pelayanan Medis'  => 'bg-blue-50 text-blue-700',
+                                    'Kabid Penunjang Medis'  => 'bg-purple-50 text-purple-700',
+                                    'Kabid Keperawatan'      => 'bg-pink-50 text-pink-700',
+                                    'Kabag Umum & Keuangan'  => 'bg-green-50 text-green-700',
+                                ];
+
+                                $kat = $surat->pembuat->unitKerjaRelation->kabid ?? '-';
+
+                                $kColor = $kategoriColor[$kat]
+
+                                    ?? 'bg-gray-100 text-gray-500';
+
+                            @endphp
                                 <span class="text-xs px-2.5 py-1 rounded-lg font-semibold {{ $kColor }} whitespace-nowrap">
                                     {{ $kat }}
                                 </span>
@@ -228,7 +232,7 @@
 
                             <td class="px-4 py-5">
                                 <div>
-                                    <p class="text-xs font-semibold text-gray-700">{{ $surat->pembuat->unit_kerja ?? '-' }}</p>
+                                    <p class="text-xs font-semibold text-gray-700">{{ $surat->pembuat->unitKerjaRelation->nama_unit ?? '-' }}</p>
                                     <p class="text-[10px] text-gray-400 mt-0.5">{{ $surat->pembuat->nama_lengkap ?? '' }}</p>
                                 </div>
                             </td>

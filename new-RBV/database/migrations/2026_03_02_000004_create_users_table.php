@@ -10,7 +10,6 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
 
-            // PRIMARY KEY
             $table->id('id_user');
             $table->string('NIK')->unique();
             $table->string('nama_lengkap');

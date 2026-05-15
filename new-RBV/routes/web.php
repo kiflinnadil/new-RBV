@@ -134,10 +134,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::redirect('/e-office', '/eoffice');
 
-Route::prefix('eoffice')
-    ->name('eoffice.')
-    ->middleware(['auth'])
-    ->group(function () {
+Route::prefix('eoffice')->name('eoffice.')->middleware(['auth'])->group(function () {
 
         Route::prefix('surat-masuk')->name('surat-masuk.')->group(function () {
             Route::get('/', [\App\Http\Controllers\SuratMasukController::class, 'index'])->name('index');
@@ -161,8 +158,8 @@ Route::prefix('eoffice')
             Route::post('/', [SuratKeluarController::class, 'store'])->name('store');
             Route::get('/export', [SuratKeluarController::class, 'exportAll'])->name('export-all');
             Route::get('/{id}', [SuratKeluarController::class, 'show'])->name('show');
-            Route::get('/{id}/edit', [SuratKeluarController::class, 'edit'])->name('edit');   // ← tambah
-            Route::put('/{id}', [SuratKeluarController::class, 'update'])->name('update'); // ← tambah
+            Route::get('/{id}/edit', [SuratKeluarController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [SuratKeluarController::class, 'update'])->name('update');
             Route::get('/{id}/pdf', [SuratKeluarController::class, 'pdf'])->name('pdf');
         });
 
@@ -172,97 +169,3 @@ Route::prefix('eoffice')
             Route::get('/{id}/baca', [\App\Http\Controllers\NotifikasiController::class, 'baca'])->name('baca');
         });
     });
-
-// Route::prefix('promkes')->name('promkes.')->group(function () {
-
-//     // Akses publik — semua user (termasuk tamu) bisa melihat daftar
-//     Route::get('/', [PromkesController::class, 'index'])->name('index');
-
-//     // Hanya admin & super_admin yang bisa tambah/edit/hapus
-//     Route::middleware(['auth'])->group(function () {
-//         Route::get('/create', [PromkesController::class, 'create'])->name('create');
-//         Route::post('/', [PromkesController::class, 'store'])->name('store');
-//         Route::get('/{id}/edit', [PromkesController::class, 'edit'])->name('edit');
-//         Route::put('/{id}', [PromkesController::class, 'update'])->name('update');
-//         Route::delete('/{id}', [PromkesController::class, 'destroy'])->name('destroy');
-//     });
-// });
-
-// ─── REPOSITORI ─────────────────────────────────────────────────────────────
-// Route::prefix('repositori')->name('repositori.')->group(function () {
-
-//     Route::get('/', [RepositoriController::class, 'index'])->name('index');
-
-//     Route::middleware(['auth'])->group(function () {
-//         Route::get('/create', [RepositoriController::class, 'create'])->name('create');
-//         Route::post('/', [RepositoriController::class, 'store'])->name('store');
-//         Route::get('/{id}/edit', [RepositoriController::class, 'edit'])->name('edit');
-//         Route::put('/{id}', [RepositoriController::class, 'update'])->name('update');
-//         Route::delete('/{id}', [RepositoriController::class, 'destroy'])->name('destroy');
-//     });
-// });
-
-// // ─── PANDUAN, PEDOMAN & SOP ─────────────────────────────────────────────────
-// Route::prefix('panduan')->name('panduan.')->group(function () {
-
-//     Route::get('/', [PanduanController::class, 'index'])->name('index');
-
-//     Route::middleware(['auth'])->group(function () {
-//         Route::get('/create', [PanduanController::class, 'create'])->name('create');
-//         Route::post('/', [PanduanController::class, 'store'])->name('store');
-//         Route::get('/{id}/edit', [PanduanController::class, 'edit'])->name('edit');
-//         Route::put('/{id}', [PanduanController::class, 'update'])->name('update');
-//         Route::delete('/{id}', [PanduanController::class, 'destroy'])->name('destroy');
-//     });
-// });
-// -------------- //
-// Route::get('/', [BukuController::class, 'beranda']);
-
-// Route::get('/koleksi', [BukuController::class, 'index'])->name('books.index');
-// Route::get('/koleksi/{id}', [BukuController::class, 'show'])->name('books.show');
-// Route::get('/books/{id}/read', [BukuController::class, 'read'])->name('books.read');
-// Route::get('/books/{id}/edit', [BukuController::class, 'edit'])->name('books.edit');
-// Route::put('/books/{id}', [BukuController::class, 'update'])->name('books.update');
-// Route::delete('/books/{id}', [BukuController::class, 'delete'])->name('books.delete');
-// Route::get('/books/create', [BukuController::class, 'create'])->name('books.create');
-// Route::post('/books', [BukuController::class, 'store'])->name('books.store');
-// Route::post('/koleksi/{id}/favorite', [BukuController::class, 'toggleFavorite'])->name('books.favorite');
-// Route::get('/favorite', [BukuController::class, 'favorit'])->name('books.favorit');
-
-// Route::get('/berita', [BeritaController::class, 'berita'])->name('berita.index');
-// Route::get('/berita/create', [BeritaController::class, 'create'])->name('berita.create');
-// Route::post('/berita', [BeritaController::class, 'store'])->name('berita.store');
-// Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show');
-// Route::get('/berita/{id}/edit', [BeritaController::class, 'edit'])->name('berita.edit');
-// Route::put('/berita/{id}', [BeritaController::class, 'update'])->name('berita.update');
-// // Route::delete('/berita/{id}', [BeritaController::class, 'delete'])->name('berita.delete');
-// Route::delete('/berita/{id}', [BeritaController::class, 'destroy'])->name('berita.destroy');
-
-// Route::get('/video', [VideoController::class, 'index'])->name('video.index');
-// Route::get('/video/create', [VideoController::class, 'create'])->name('video.create');
-// Route::post('/video', [VideoController::class, 'store'])->name('video.store');
-// Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
-// Route::get('/video/{id}/edit', [VideoController::class, 'edit'])->name('video.edit');
-// Route::put('/video/{id}', [VideoController::class, 'update'])->name('video.update');
-// Route::delete('/video/{id}', [VideoController::class, 'destroy'])->name('video.destroy');
-
-// Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
-// Route::get('/artikel/create', [ArtikelController::class, 'create'])->name('artikel.create');
-// Route::get('/artikel/{id}', [ArtikelController::class, 'show'])->name('artikel.show');
-// Route::get('/artikel/{id}/edit', [ArtikelController::class, 'edit'])->name('artikel.edit');
-// Route::put('/artikel/{id}', [ArtikelController::class, 'update'])->name('artikel.update');
-// Route::delete('/artikel/{id}', [ArtikelController::class, 'destroy'])->name('artikel.delete');
-// Route::post('/artikel', [ArtikelController::class, 'store'])->name('artikel.store');
-
-// Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-// Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-
-// Route::get('register', function () {
-//     return view('pages.register');
-
-// });
-
-// Route::get('/profil', [AuthController::class, 'profile'])->name('profil');
-// Route::get('/profil', [ProfileController::class, 'index'])->name('profil.index');
-// // Route::post('/logout', [ProfileController::class, 'logout'])->name('profile.logout');
-// Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

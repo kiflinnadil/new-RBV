@@ -17,146 +17,71 @@ use App\Models\UnitKerja;
 
 class SuratMasukController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | INDEX
-    |--------------------------------------------------------------------------
-    */
-
     public function index(Request $request)
     {
         $user = Auth::user();
+        $query = SuratMasuk::with([
+            'pembuat.unitKerjaRelation'
+        ]);
 
-        $query = SuratMasuk::query();
-
-        /*
-        |--------------------------------------------------------------------------
-        | FILTER BERDASARKAN ROLE
-        |--------------------------------------------------------------------------
-        */
+        // FILTER BERDASARKAN ROLE
 
         if ($user->role == 'unit' || $user->role == 'karyawan') {
-
             $query->where('dibuat_oleh', $user->id_user);
-
         } elseif ($user->id_jabatan == 1) {
-
             // Direktur
             $query->whereHas('persetujuans', function ($q) use ($user) {
-
                 $q->where('user_id', $user->id_user);
-
             });
 
         } elseif ($user->id_jabatan == 2) {
-
             // Kepala Bagian
             $query->whereHas('persetujuans', function ($q) use ($user) {
-
                 $q->where('user_id', $user->id_user);
-
             });
-
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | SEARCH
-        |--------------------------------------------------------------------------
-        */
-
         if ($request->search) {
-
             $query->where(function ($q) use ($request) {
-
                 $q->where('nomor_agenda', 'like', '%' . $request->search . '%')
                     ->orWhere('nomor_surat', 'like', '%' . $request->search . '%')
                     ->orWhere('perihal', 'like', '%' . $request->search . '%');
-
             });
-
         }
-
-        /*
-        |--------------------------------------------------------------------------
-        | FILTER PRIORITAS
-        |--------------------------------------------------------------------------
-        */
 
         if ($request->prioritas) {
-
             $query->where('prioritas', $request->prioritas);
-
         }
-
-        /*
-        |--------------------------------------------------------------------------
-        | FILTER STATUS
-        |--------------------------------------------------------------------------
-        */
 
         if ($request->status) {
-
             $query->where('status', $request->status);
-
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | FILTER UNIT
-        |--------------------------------------------------------------------------
-        */
-
         if ($request->unit) {
-
             $query->whereHas('pembuat', function ($q) use ($request) {
-
                 $q->where('unit_kerja', $request->unit);
-
             });
 
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | DATA SURAT
-        |--------------------------------------------------------------------------
-        */
+        // DATA SURAT
 
         $suratMasuk = $query
             ->latest()
             ->paginate(10);
 
-        /*
-        |--------------------------------------------------------------------------
-        | DATA KATEGORI UNIT
-        |--------------------------------------------------------------------------
-        */
+        //  DATA KATEGORI UNIT
 
         $kategoriList = UnitKerja::all()
             ->groupBy('kabid')
             ->map(function ($items) {
-
                 return $items->pluck('nama_unit')->unique()->values();
-
             });
-
-        /*
-        |--------------------------------------------------------------------------
-        | SURAT MENUNGGU
-        |--------------------------------------------------------------------------
-        */
 
         $suratMenunggu = SuratMasuk::where(
             'status',
             'menunggu_sekretaris'
         )->count();
-
-        /*
-        |--------------------------------------------------------------------------
-        | RETURN VIEW
-        |--------------------------------------------------------------------------
-        */
 
         return view(
             'pages.E-Office.SuratMasuk.suratmasuk',
@@ -168,32 +93,18 @@ class SuratMasukController extends Controller
         );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | CREATE
-    |--------------------------------------------------------------------------
-    */
-
     public function create()
     {
         $usersTag = User::whereIn('id_jabatan', [1, 2])->get();
-
         return view(
             'pages.E-Office.SuratMasuk.suratmasuk_create',
             compact('usersTag')
         );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | EDIT
-    |--------------------------------------------------------------------------
-    */
-
     public function edit($id)
     {
         $surat = SuratMasuk::findOrFail($id);
-
         $usersTag = User::whereIn('id_jabatan', [1, 2])->get();
 
         return view(
@@ -205,106 +116,73 @@ class SuratMasukController extends Controller
         );
     }
 
-    /*
+    public function show($id)
+    {
+        $user = Auth::user();
+        $surat = SuratMasuk::with([
+            'pembuat',
+            'tags.user',
+            'persetujuans.user',
+            'tracking.user',
+        ])->findOrFail($id);
 
-|--------------------------------------------------------------------------
+        // CEK APAKAH USER BISA APPROVE
 
-| SHOW
+        $bisaApprove = false;
+        $jabatanApproval = null;
 
-|--------------------------------------------------------------------------
+        // Direktur
+        if (
+            $user->id_jabatan == 1 &&
+            $surat->status == 'menunggu_direktur'
+        ) {
+            $bisaApprove = true;
+            $jabatanApproval = 'direktur';
+        }
 
-*/
+        // Kabag
+        if (
+            $user->id_jabatan == 2 &&
+            in_array($surat->status, [
+                'menunggu_kabag',
+                'pending'
+            ])
+        ) {
 
-public function show($id)
-{
-    $user = Auth::user();
+            $bisaApprove = true;
+            $jabatanApproval = 'kabag';
+        }
 
-    $surat = SuratMasuk::with([
-        'pembuat',
-        'tags.user',
-        'persetujuans.user',
-        'tracking.user',
-    ])->findOrFail($id);
+        // UNIT TERKAIT
 
-    /*
-    |--------------------------------------------------------------------------
-    | CEK APAKAH USER BISA APPROVE
-    |--------------------------------------------------------------------------
-    */
-
-    $bisaApprove = false;
-    $jabatanApproval = null;
-
-    // Direktur
-    if (
-        $user->id_jabatan == 1 &&
-        $surat->status == 'menunggu_direktur'
-    ) {
-
-        $bisaApprove = true;
-        $jabatanApproval = 'direktur';
-
+        $unitsTerkait = User::where('id_jabatan', 3)->get();
+        return view(
+            'pages.E-Office.SuratMasuk.suratmasuk_show',
+            compact(
+                'surat',
+                'bisaApprove',
+                'jabatanApproval',
+                'unitsTerkait'
+            )
+        );
     }
-
-    // Kabag
-    if (
-        $user->id_jabatan == 2 &&
-        in_array($surat->status, [
-            'menunggu_kabag',
-            'pending'
-        ])
-    ) {
-
-        $bisaApprove = true;
-        $jabatanApproval = 'kabag';
-
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | UNIT TERKAIT
-    |--------------------------------------------------------------------------
-    */
-
-    $unitsTerkait = User::where('id_jabatan', 3)->get();
-
-    return view(
-        'pages.E-Office.SuratMasuk.suratmasuk_show',
-        compact(
-            'surat',
-            'bisaApprove',
-            'jabatanApproval',
-            'unitsTerkait'
-        )
-    );
-}
-
-    /*
-    |--------------------------------------------------------------------------
-    | STORE
-    |--------------------------------------------------------------------------
-    */
 
     public function store(Request $request)
     {
         $user = Auth::user();
-
         $request->validate([
             'nomor_agenda' => 'required',
             'nomor_surat' => 'nullable',
             'tanggal_surat' => 'nullable|date',
             'tanggal_masuk' => 'nullable|date',
             'asal_surat' => 'required',
+            'prioritas' => 'nullable|in:biasa,sedang,segera',
             'jenis' => 'required|in:internal,external',
             'perihal' => 'required',
             'file_scan' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | VALIDASI JENIS SURAT
-        |--------------------------------------------------------------------------
-        */
+        // VALIDASI JENIS SURAT
 
         if (
             in_array($user->role, ['unit', 'karyawan']) &&
@@ -316,49 +194,28 @@ public function show($id)
                 ->withErrors([
                     'jenis' => 'Karyawan/unit hanya dapat membuat surat internal.'
                 ]);
-
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | UPLOAD FILE
-        |--------------------------------------------------------------------------
-        */
+        // UPLOAD FILE
 
         $file = null;
-
         if ($request->hasFile('file_scan')) {
-
             $file = $request->file('file_scan')
                 ->store('surat-masuk', 'public');
-
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | STATUS AWAL
-        |--------------------------------------------------------------------------
-        */
+        // STATUS AWAL
 
         $status = 'menunggu_sekretaris';
 
-        // Jika sekretaris membuat surat external
-        // langsung ke direktur
+        // Jika sekretaris membuat surat external langsung ke direktur
 
         if (
             $user->id_jabatan == 4 &&
             $request->jenis == 'external'
         ) {
-
             $status = 'menunggu_direktur';
-
         }
-
-        /*
-        |--------------------------------------------------------------------------
-        | CREATE SURAT
-        |--------------------------------------------------------------------------
-        */
 
         $surat = SuratMasuk::create([
             'nomor_agenda' => $request->nomor_agenda,
@@ -368,16 +225,13 @@ public function show($id)
             'asal_surat' => $request->asal_surat,
             'jenis' => $request->jenis,
             'perihal' => $request->perihal,
+            'prioritas' => $request->prioritas,
             'file_scan' => $file,
             'status' => $status,
             'dibuat_oleh' => $user->id_user,
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | TRACKING
-        |--------------------------------------------------------------------------
-        */
+        // TRACKING
 
         TrackingSurat::create([
             'surat_id' => $surat->id,
@@ -386,11 +240,7 @@ public function show($id)
             'aksi' => 'Surat dibuat',
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | INTERNAL -> KE SEKRETARIS
-        |--------------------------------------------------------------------------
-        */
+        //  INTERNAL -> KE SEKRETARIS
 
         if ($status == 'menunggu_sekretaris') {
 
@@ -405,35 +255,22 @@ public function show($id)
                 '/eoffice/surat-masuk/' . $surat->id,
                 'info'
             );
-
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | EXTERNAL SEKRETARIS -> DIREKTUR/KABAG
-        |--------------------------------------------------------------------------
-        */
+        //  EXTERNAL SEKRETARIS -> DIREKTUR/KABAG
 
         if ($status == 'menunggu_direktur') {
-
             foreach ($request->tag_users ?? [] as $userId) {
-
                 SuratTag::create([
                     'surat_id' => $surat->id,
                     'surat_type' => SuratMasuk::class,
                     'user_id' => $userId,
                 ]);
-
                 $tagUser = User::find($userId);
 
-                /*
-                |--------------------------------------------------------------------------
-                | DIREKTUR
-                |--------------------------------------------------------------------------
-                */
+                // DIREKTUR
 
                 if ($tagUser && $tagUser->id_jabatan == 1) {
-
                     Persetujuan::create([
                         'surat_id' => $surat->id,
                         'surat_type' => SuratMasuk::class,
@@ -441,17 +278,11 @@ public function show($id)
                         'role_approver' => 'direktur',
                         'status' => 'menunggu',
                     ]);
-
                 }
 
-                /*
-                |--------------------------------------------------------------------------
-                | KABAG
-                |--------------------------------------------------------------------------
-                */
+                // KABAG
 
                 if ($tagUser && $tagUser->id_jabatan == 2) {
-
                     Persetujuan::create([
                         'surat_id' => $surat->id,
                         'surat_type' => SuratMasuk::class,
@@ -459,9 +290,7 @@ public function show($id)
                         'role_approver' => 'kabag',
                         'status' => 'menunggu',
                     ]);
-
                 }
-
             }
 
             $penerima = User::whereIn('id_jabatan', [1, 2])
@@ -473,9 +302,8 @@ public function show($id)
                 'Surat Menunggu Persetujuan',
                 'Ada surat baru menunggu approval',
                 '/eoffice/surat-masuk/' . $surat->id,
-                'warning'
+                'peringatan'
             );
-
         }
 
         return redirect()
@@ -483,64 +311,41 @@ public function show($id)
             ->with('success', 'Surat berhasil dikirim.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | UPDATE
-    |--------------------------------------------------------------------------
-    */
-
     public function update(Request $request, $id)
     {
         $user = Auth::user();
-
         $surat = SuratMasuk::findOrFail($id);
+        $request->validate([
+            'prioritas' => 'required|in:biasa,sedang,segera',
+        ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | HANYA SEKRETARIS
-        |--------------------------------------------------------------------------
-        */
+        // HANYA SEKRETARIS
 
         if ($user->id_jabatan != 4) {
-
             abort(403);
-
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | UPDATE STATUS
-        |--------------------------------------------------------------------------
-        */
+        // UPDATE STATUS
 
         $surat->update([
             'status' => 'menunggu_direktur',
+            'prioritas' => $request->prioritas,
+            'catatan'   => $request->catatan,
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | TAG USER
-        |--------------------------------------------------------------------------
-        */
+        //  TAG USER
 
         foreach ($request->tag_users ?? [] as $userId) {
-
             SuratTag::create([
                 'surat_id' => $surat->id,
                 'surat_type' => SuratMasuk::class,
                 'user_id' => $userId,
             ]);
-
             $tagUser = User::find($userId);
 
-            /*
-            |--------------------------------------------------------------------------
-            | DIREKTUR
-            |--------------------------------------------------------------------------
-            */
+            // DIREKTUR
 
             if ($tagUser && $tagUser->id_jabatan == 1) {
-
                 Persetujuan::create([
                     'surat_id' => $surat->id,
                     'surat_type' => SuratMasuk::class,
@@ -548,17 +353,11 @@ public function show($id)
                     'role_approver' => 'direktur',
                     'status' => 'menunggu',
                 ]);
-
             }
 
-            /*
-            |--------------------------------------------------------------------------
-            | KABAG
-            |--------------------------------------------------------------------------
-            */
+            //  KABAG
 
             if ($tagUser && $tagUser->id_jabatan == 2) {
-
                 Persetujuan::create([
                     'surat_id' => $surat->id,
                     'surat_type' => SuratMasuk::class,
@@ -566,16 +365,10 @@ public function show($id)
                     'role_approver' => 'kabag',
                     'status' => 'menunggu',
                 ]);
-
             }
-
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | TRACKING
-        |--------------------------------------------------------------------------
-        */
+        //  TRACKING
 
         TrackingSurat::create([
             'surat_id' => $surat->id,
@@ -584,11 +377,7 @@ public function show($id)
             'aksi' => 'Surat diteruskan ke direktur dan kabag',
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | NOTIF
-        |--------------------------------------------------------------------------
-        */
+        // NOTIF
 
         $penerima = User::whereIn('id_jabatan', [1, 2])
             ->pluck('id_user')
@@ -599,7 +388,7 @@ public function show($id)
             'Surat Menunggu Persetujuan',
             'Ada surat baru menunggu approval',
             '/eoffice/surat-masuk/' . $surat->id,
-            'warning'
+            'peringatan'
         );
 
         return redirect()
@@ -607,23 +396,12 @@ public function show($id)
             ->with('success', 'Surat berhasil diteruskan.');
     }
 
-    /*
-|--------------------------------------------------------------------------
-| SETUJUI
-|--------------------------------------------------------------------------
-*/
-
     public function setujui(Request $request, $id)
     {
         $user = Auth::user();
-
         $surat = SuratMasuk::findOrFail($id);
 
-        /*
-        |--------------------------------------------------------------------------
-        | CARI DATA PERSETUJUAN USER
-        |--------------------------------------------------------------------------
-        */
+        // CARI DATA PERSETUJUAN USER
 
         $persetujuan = Persetujuan::where([
             'surat_id'   => $surat->id,
@@ -640,11 +418,7 @@ public function show($id)
 
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | UPDATE APPROVAL
-        |--------------------------------------------------------------------------
-        */
+        // UPDATE APPROVAL
 
         $persetujuan->update([
             'status'      => 'disetujui',
@@ -652,11 +426,7 @@ public function show($id)
             'approved_at' => now(),
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | JIKA DIREKTUR SETUJU
-        |--------------------------------------------------------------------------
-        */
+        // JIKA DIREKTUR SETUJU
 
         if ($user->id_jabatan == 1) {
 
@@ -664,29 +434,42 @@ public function show($id)
                 'status' => 'menunggu_kabag',
             ]);
 
-            /*
-            |--------------------------------------------------------------------------
-            | TAG UNIT TERKAIT
-            |--------------------------------------------------------------------------
-            */
+            // TAG UNIT TERKAIT
 
             foreach ($request->tag_units ?? [] as $unitUserId) {
-
                 SuratTag::create([
                     'surat_id'   => $surat->id,
                     'surat_type' => SuratMasuk::class,
                     'user_id'    => $unitUserId,
                 ]);
 
+                // NOTIF KE UNIT YANG DI TAG
+
+                Notifikasi::kirim(
+                    $unitUserId,
+                    'Kamu Ditandai Dalam Surat',
+                    'Direktur menandai kamu pada surat yang perlu ditindaklanjuti.',
+                    '/eoffice/surat-masuk/' . $surat->id,
+                    'info'
+                );
             }
 
+            // NOTIF KE KABAG
+
+            $kabag = User::where('id_jabatan', 2)
+                ->pluck('id_user')
+                ->toArray();
+
+            Notifikasi::kirimKe(
+                $kabag,
+                'Surat Menunggu Persetujuan Kabag',
+                'Ada surat yang sudah disetujui direktur dan menunggu approval kabag.',
+                '/eoffice/surat-masuk/' . $surat->id,
+                'info'
+            );
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | JIKA KABAG SETUJU
-        |--------------------------------------------------------------------------
-        */
+        // JIKA KABAG SETUJU
 
         if ($user->id_jabatan == 2) {
 
@@ -694,13 +477,18 @@ public function show($id)
                 'status' => 'disetujui',
             ]);
 
+            // NOTIF KE PEMBUAT SURAT
+
+            Notifikasi::kirim(
+                $surat->dibuat_oleh,
+                'Surat Disetujui',
+                'Surat yang kamu kirim telah disetujui.',
+                '/eoffice/surat-masuk/' . $surat->id,
+                'sukses'
+            );
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | TRACKING
-        |--------------------------------------------------------------------------
-        */
+        // TRACKING
 
         TrackingSurat::create([
             'surat_id'   => $surat->id,
@@ -716,5 +504,65 @@ public function show($id)
                 'success',
                 'Surat berhasil disetujui.'
             );
+    }
+
+    public function pending(Request $request, $id)
+    {
+        $user = Auth::user();
+        $surat = SuratMasuk::findOrFail($id);
+
+        // HANYA KABAG
+
+        if ($user->id_jabatan != 2) {
+            abort(403);
+        }
+
+        // UPDATE STATUS
+
+        $surat->update([
+            'status'  => 'pending',
+            'catatan' => $request->catatan,
+        ]);
+
+        // UPDATE PERSETUJUAN
+
+        $persetujuan = Persetujuan::where([
+            'surat_id'   => $surat->id,
+            'surat_type' => SuratMasuk::class,
+            'user_id'    => $user->id_user,
+        ])->first();
+
+        if ($persetujuan) {
+
+            $persetujuan->update([
+                'status'  => 'pending',
+                'catatan' => $request->catatan,
+            ]);
+
+        }
+
+        // NOTIF KE PEMBUAT SURAT
+
+        Notifikasi::kirim(
+            $surat->dibuat_oleh,
+            'Surat Dipending',
+            'Surat dipending oleh Kabag. Catatan: ' . $request->catatan,
+            '/eoffice/surat-masuk/' . $surat->id,
+            'peringatan'
+        );
+
+        //  TRACKING
+
+        TrackingSurat::create([
+            'surat_id'   => $surat->id,
+            'surat_type' => SuratMasuk::class,
+            'user_id'    => $user->id_user,
+            'aksi'       => 'Surat dipending',
+            'keterangan' => $request->catatan,
+        ]);
+
+        return redirect()
+            ->route('eoffice.surat-masuk.show', $surat->id)
+            ->with('success', 'Surat berhasil dipending.');
     }
 }
