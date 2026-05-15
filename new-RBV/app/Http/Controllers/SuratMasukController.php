@@ -328,72 +328,102 @@ class SuratMasukController extends Controller
         // UPDATE STATUS
 
         $surat->update([
-            'status' => 'menunggu_direktur',
+            'status'     => 'menunggu_direktur',
             'prioritas' => $request->prioritas,
             'catatan'   => $request->catatan,
         ]);
 
+        // TANDAI NOTIF SEKRETARIS SUDAH DIBACA
+
+        Notifikasi::where('id_user', $user->id_user)
+            ->where('url', '/eoffice/surat-masuk/' . $surat->id)
+            ->where('dibaca', false)
+            ->update([
+                'dibaca' => true
+            ]);
+
+        // HAPUS TAG & PERSETUJUAN LAMA
+
+        SuratTag::where([
+            'surat_id'   => $surat->id,
+            'surat_type' => SuratMasuk::class,
+        ])->delete();
+
+        Persetujuan::where([
+            'surat_id'   => $surat->id,
+            'surat_type' => SuratMasuk::class,
+        ])->delete();
+
         //  TAG USER
 
         foreach ($request->tag_users ?? [] as $userId) {
+
             SuratTag::create([
-                'surat_id' => $surat->id,
+                'surat_id'   => $surat->id,
                 'surat_type' => SuratMasuk::class,
-                'user_id' => $userId,
+                'user_id'    => $userId,
             ]);
+
             $tagUser = User::find($userId);
 
-            // DIREKTUR
-
             if ($tagUser && $tagUser->id_jabatan == 1) {
+
                 Persetujuan::create([
-                    'surat_id' => $surat->id,
-                    'surat_type' => SuratMasuk::class,
-                    'user_id' => $userId,
+                    'surat_id'      => $surat->id,
+                    'surat_type'    => SuratMasuk::class,
+                    'user_id'       => $userId,
                     'role_approver' => 'direktur',
-                    'status' => 'menunggu',
+                    'status'        => 'menunggu',
                 ]);
+
+                //  NOTIF DIREKTUR
+
+                Notifikasi::kirim(
+                    $userId,
+                    'Surat Menunggu Persetujuan',
+                    'Ada surat baru menunggu approval direktur.',
+                    '/eoffice/surat-masuk/' . $surat->id,
+                    'peringatan'
+                );
             }
 
-            //  KABAG
-
             if ($tagUser && $tagUser->id_jabatan == 2) {
+
                 Persetujuan::create([
-                    'surat_id' => $surat->id,
-                    'surat_type' => SuratMasuk::class,
-                    'user_id' => $userId,
+                    'surat_id'      => $surat->id,
+                    'surat_type'    => SuratMasuk::class,
+                    'user_id'       => $userId,
                     'role_approver' => 'kabag',
-                    'status' => 'menunggu',
+                    'status'        => 'menunggu',
                 ]);
+
+                // NOTIF KABAG
+
+                Notifikasi::kirim(
+                    $userId,
+                    'Surat Menunggu Persetujuan',
+                    'Ada surat baru menunggu approval kabag.',
+                    '/eoffice/surat-masuk/' . $surat->id,
+                    'peringatan'
+                );
             }
         }
 
-        //  TRACKING
+        // TRACKING
 
         TrackingSurat::create([
-            'surat_id' => $surat->id,
+            'surat_id'   => $surat->id,
             'surat_type' => SuratMasuk::class,
-            'user_id' => $user->id_user,
-            'aksi' => 'Surat diteruskan ke direktur dan kabag',
+            'user_id'    => $user->id_user,
+            'aksi'       => 'Surat diteruskan ke direktur dan kabag',
         ]);
-
-        // NOTIF
-
-        $penerima = User::whereIn('id_jabatan', [1, 2])
-            ->pluck('id_user')
-            ->toArray();
-
-        Notifikasi::kirimKe(
-            $penerima,
-            'Surat Menunggu Persetujuan',
-            'Ada surat baru menunggu approval',
-            '/eoffice/surat-masuk/' . $surat->id,
-            'peringatan'
-        );
 
         return redirect()
             ->route('eoffice.surat-masuk.index')
-            ->with('success', 'Surat berhasil diteruskan.');
+            ->with(
+                'success',
+                'Surat berhasil diteruskan.'
+            );
     }
 
     public function setujui(Request $request, $id)
@@ -426,6 +456,15 @@ class SuratMasukController extends Controller
             'approved_at' => now(),
         ]);
 
+        //  TANDAI NOTIF LAMA SUDAH DIBACA
+
+        Notifikasi::where('id_user', $user->id_user)
+            ->where('url', '/eoffice/surat-masuk/' . $surat->id)
+            ->where('dibaca', false)
+            ->update([
+                'dibaca' => true
+            ]);
+
         // JIKA DIREKTUR SETUJU
 
         if ($user->id_jabatan == 1) {
@@ -437,6 +476,7 @@ class SuratMasukController extends Controller
             // TAG UNIT TERKAIT
 
             foreach ($request->tag_units ?? [] as $unitUserId) {
+
                 SuratTag::create([
                     'surat_id'   => $surat->id,
                     'surat_type' => SuratMasuk::class,
@@ -452,6 +492,7 @@ class SuratMasukController extends Controller
                     '/eoffice/surat-masuk/' . $surat->id,
                     'info'
                 );
+
             }
 
             // NOTIF KE KABAG
@@ -467,6 +508,7 @@ class SuratMasukController extends Controller
                 '/eoffice/surat-masuk/' . $surat->id,
                 'info'
             );
+
         }
 
         // JIKA KABAG SETUJU
@@ -486,6 +528,7 @@ class SuratMasukController extends Controller
                 '/eoffice/surat-masuk/' . $surat->id,
                 'sukses'
             );
+
         }
 
         // TRACKING
@@ -540,6 +583,13 @@ class SuratMasukController extends Controller
             ]);
 
         }
+
+        Notifikasi::where('id_user', $user->id_user)
+        ->where('url', '/eoffice/surat-masuk/' . $surat->id)
+        ->where('dibaca', false)
+        ->update([
+            'dibaca' => true
+        ]);
 
         // NOTIF KE PEMBUAT SURAT
 
