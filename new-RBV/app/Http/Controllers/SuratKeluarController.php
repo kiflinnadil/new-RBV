@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use App\Exports\SuratKeluarExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\SuratKeluar;
 
@@ -84,7 +86,6 @@ class SuratKeluarController extends Controller
             'tanggal_keluar' => $request->tanggal_keluar,
             'tujuan'         => $request->tujuan,
 
-            // JANGAN KETUKER
             'perihal'        => $request->perihal,
             'keterangan'     => $request->keterangan,
 
@@ -184,50 +185,13 @@ class SuratKeluarController extends Controller
             );
     }
 
-public function exportAll()
-{
-    $fileName = 'surat_keluar_' . date('Ymd_His') . '.csv';
-
-    $suratKeluar = SuratKeluar::latest()->get();
-
-    $headers = [
-        'Content-type'        => 'text/csv',
-        'Content-Disposition' => "attachment; filename=$fileName",
-        'Pragma'              => 'no-cache',
-        'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
-        'Expires'             => '0',
-    ];
-
-    $columns = [
-        'Tanggal',
-        'No. Surat',
-        'Ditujukan Kepada',
-        'Perihal',
-        'Keterangan',
-    ];
-
-    $callback = function () use ($suratKeluar, $columns) {
-
-        $file = fopen('php://output', 'w');
-
-        fputcsv($file, $columns);
-
-        foreach ($suratKeluar as $surat) {
-
-            fputcsv($file, [
-                \Carbon\Carbon::parse($surat->tanggal_keluar)->format('d/m/Y'),
-                $surat->nomor_surat,
-                $surat->tujuan,
-                $surat->perihal,
-                $surat->keterangan,
-            ]);
-        }
-
-        fclose($file);
-    };
-
-    return response()->stream($callback, 200, $headers);
-}
+    public function exportAll()
+    {
+        return Excel::download(
+            new SuratKeluarExport,
+            'surat-keluar.xlsx'
+        );
+    }
 
     public function pdf($id)
     {
