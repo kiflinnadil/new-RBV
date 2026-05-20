@@ -41,22 +41,31 @@
 
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 space-y-6">
 
-                {{-- NOMOR SURAT + TANGGAL --}}
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5"> 
 
                     <div>
-
                         <label class="block text-gray-500 text-xs sm:text-sm mb-1.5 ml-1">
-                            No. Surat
+                            No. Surat <span class="text-red-500">*</span>
                         </label>
 
-                        <input type="text"
-                               name="nomor_surat"
-                               value="{{ old('nomor_surat') }}"
-                               placeholder="Contoh: 001/RSCH/SK/IV/2026"
-                               class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 text-sm
-                                      focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
+                         <input type="text"
+                            name="nomor_surat"
+                            value="{{ old('nomor_surat') }}"
+                            required
+                            placeholder="001/RSCH/SM/IV/2026"
+                            oninvalid="this.setCustomValidity('Nomor surat wajib diisi.')"
+                            oninput="this.setCustomValidity('')"
+                            class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 text-sm
+                                    focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]
+                                    @error('nomor_surat') ring-2 ring-red-400 @enderror">
 
+                        @error('nomor_surat')
+                            <p class="text-xs text-red-500 mt-1 ml-1">{{ $message }}</p>
+                        @else
+                            <p class="text-[10px] text-gray-400 mt-1 ml-1">
+                                No/RSCH/SK/BulanRomawi/Tahun
+                            </p>
+                        @enderror
                     </div>
 
                     <div>
@@ -76,7 +85,6 @@
 
                 </div>
 
-                {{-- TUJUAN --}}
                 <div>
 
                     <label class="block text-gray-500 text-xs sm:text-sm mb-1.5 ml-1">
@@ -85,14 +93,12 @@
 
                     <input type="text"
                            name="tujuan"
-                           required
                            placeholder="Nama instansi / orang yang dituju"
                            class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 text-sm
                                   focus:outline-none focus:ring-2 focus:ring-[#2B3A8C] border-none">
 
                 </div>
 
-                {{-- PERIHAL --}}
                 <div>
 
                     <label class="block text-gray-500 text-xs sm:text-sm mb-1.5 ml-1">
@@ -108,7 +114,6 @@
 
                 </div>
 
-                {{-- KETERANGAN --}}
                 <div>
 
                     <label class="block text-gray-500 text-xs sm:text-sm mb-1.5 ml-1">
@@ -125,7 +130,6 @@
 
                 </div>
 
-                {{-- FILE --}}
                 <div>
 
                     <label class="block text-gray-500 text-xs sm:text-sm mb-1.5 ml-1 font-semibold text-[#2B3A8C]">
@@ -173,7 +177,6 @@
 
                 </div>
 
-                {{-- BUTTON --}}
                 <div class="flex justify-end gap-3 pt-4 border-t border-gray-50">
 
                     <a href="{{ route('eoffice.surat-keluar.index') }}"

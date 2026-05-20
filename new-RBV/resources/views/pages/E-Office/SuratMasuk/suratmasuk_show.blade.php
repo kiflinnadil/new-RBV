@@ -541,7 +541,17 @@
                     <div class="p-3 bg-[#F8FAFF] rounded-xl">
                         <div class="flex items-center justify-between mb-1">
                             <p class="text-xs font-bold text-gray-700">
-                                {{ ucfirst($p->role_approver) }}: {{ $p->user->nama_lengkap ?? '-' }}
+                               {{ ucfirst($p->role_approver) }}: 
+                                @if($p->user)
+                                    {{ $p->user->nama_lengkap }}
+                                @else
+                                    @php
+                                        $namaApprover = \DB::table('users')
+                                            ->where('id_user', $p->user_id)
+                                            ->value('nama_lengkap');
+                                    @endphp
+                                    {{ $namaApprover ?? '-' }}
+                                @endif
                             </p>
                             <span class="text-[10px] px-1.5 py-0.5 rounded font-semibold
                                 {{ $p->status === 'disetujui' ? 'bg-green-100 text-green-700'

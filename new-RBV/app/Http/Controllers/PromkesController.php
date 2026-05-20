@@ -13,7 +13,14 @@ class PromkesController extends Controller
         $query = Promkes::query();
 
         if ($request->search) {
-            $query->where('judul', 'like', '%' . $request->search . '%');
+            $query->where('judul', 'like', '%'.$request->search.'%');
+        }
+
+        if (Auth::check()) {
+            \App\Models\Kunjungan::create([
+                'id_user' => Auth::id(),
+                'halaman' => 'layanan',
+            ]);
         }
 
         $promkes = $query->latest()->paginate(10);
@@ -45,7 +52,7 @@ class PromkesController extends Controller
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
             'link' => $request->link,
-            'file' => $filePath
+            'file' => $filePath,
         ]);
 
         return redirect()->route('promkes.index')->with('success', 'Data berhasil ditambahkan');
@@ -54,6 +61,7 @@ class PromkesController extends Controller
     public function edit($id)
     {
         $promkes = Promkes::findOrFail($id);
+
         return view('pages.Layanan.promkes.promkesedit', compact('promkes'));
     }
 

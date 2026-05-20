@@ -30,8 +30,8 @@
                 </a>
                 @endif
 
-                {{-- @if(!in_array(auth()->user()->jabatan, ['direktur','kabag']) && auth()->user()->role !== 'super_admin') --}}
-                @if(!in_array(auth()->user()->jabatan, ['direktur','kabag']) && !in_array(auth()->user()->role, ['super_admin','admin']))
+                {{-- @if(!in_array(auth()->user()->jabatan, ['direktur','kabag']) && !in_array(auth()->user()->role, ['super_admin','admin'])) --}}
+                @if(!in_array(auth()->user()->jabatan, ['direktur','kabag']) && auth()->user()->role != 'admin')
                 <a href="{{ route('eoffice.surat-masuk.create') }}"
                     class="flex items-center gap-2 px-5 py-3 bg-white text-[#2B3A8C] font-bold text-sm rounded-2xl
                            shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
@@ -39,7 +39,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
                     </svg>
                     {{-- @if(in_array(auth()->user()->role, ['sekretaris','kepala unit'])) --}}
-                    @if(in_array(auth()->user()->role, ['sekretaris']) || auth()->user()->jabatan === 'kepala unit')
+                    @if(in_array(auth()->user()->role, ['sekretaris','super_admin']) || auth()->user()->jabatan === 'kepala unit')
                         <span>Tambah Surat</span>
                     @else
                         <span>Kirim Surat</span>

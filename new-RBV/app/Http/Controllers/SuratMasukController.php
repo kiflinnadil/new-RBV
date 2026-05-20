@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Exports\SuratMasukExport;
+use App\Models\Notifikasi;
+use App\Models\Persetujuan;
+use App\Models\SuratMasuk;
+use App\Models\SuratTag;
+use App\Models\TrackingSurat;
+use App\Models\UnitKerja;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-
-use App\Models\SuratMasuk;
-use App\Models\User;
-use App\Models\Persetujuan;
-use App\Models\TrackingSurat;
-use App\Models\SuratTag;
-use App\Models\Notifikasi;
-use App\Models\UnitKerja;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\SuratMasukExport;
 
 class SuratMasukController extends Controller
 {
@@ -23,7 +20,7 @@ class SuratMasukController extends Controller
     {
         $user = Auth::user();
         $query = SuratMasuk::with([
-            'pembuat.unitKerjaRelation'
+            'pembuat.unitKerjaRelation',
         ]);
 
         // FILTER BERDASARKAN ROLE
@@ -45,9 +42,9 @@ class SuratMasukController extends Controller
 
         if ($request->search) {
             $query->where(function ($q) use ($request) {
-                $q->where('nomor_agenda', 'like', '%' . $request->search . '%')
-                    ->orWhere('nomor_surat', 'like', '%' . $request->search . '%')
-                    ->orWhere('perihal', 'like', '%' . $request->search . '%');
+                $q->where('nomor_agenda', 'like', '%'.$request->search.'%')
+                    ->orWhere('nomor_surat', 'like', '%'.$request->search.'%')
+                    ->orWhere('perihal', 'like', '%'.$request->search.'%');
             });
         }
 
@@ -98,6 +95,7 @@ class SuratMasukController extends Controller
     public function create()
     {
         $usersTag = User::whereIn('id_jabatan', [1, 2])->get();
+
         return view(
             'pages.E-Office.SuratMasuk.suratmasuk_create',
             compact('usersTag')
@@ -121,10 +119,10 @@ class SuratMasukController extends Controller
 
         // Tandai notif edit dibaca
         Notifikasi::where('id_user', $user->id_user)
-            ->where('url', '/eoffice/surat-masuk/' . $id . '/edit')
+            ->where('url', '/eoffice/surat-masuk/'.$id.'/edit')
             ->where('dibaca', false)
             ->update([
-                'dibaca' => true
+                'dibaca' => true,
             ]);
 
         $usersTag = User::whereIn('id_jabatan', [1, 2])->get();
@@ -145,13 +143,13 @@ class SuratMasukController extends Controller
         // Tandai notif detail sebagai dibaca
         Notifikasi::where('id_user', $user->id_user)
             ->where(function ($q) use ($id) {
-                $q->where('url', '/eoffice/surat-masuk/' . $id)
-                ->orWhere('url', '/eoffice/surat-masuk/' . $id . '#approval');
+                $q->where('url', '/eoffice/surat-masuk/'.$id)
+                    ->orWhere('url', '/eoffice/surat-masuk/'.$id.'#approval');
             })
 
             ->where('dibaca', false)
             ->update([
-                'dibaca' => true
+                'dibaca' => true,
             ]);
 
         $surat = SuratMasuk::with([
@@ -178,7 +176,7 @@ class SuratMasukController extends Controller
             $user->id_jabatan == 2 &&
             in_array($surat->status, [
                 'menunggu_kabag',
-                'pending'
+                'pending',
             ]) &&
 
             $surat->persetujuans()
@@ -214,7 +212,7 @@ class SuratMasukController extends Controller
             'asal_surat' => 'required',
             'prioritas' => 'nullable|in:biasa,sedang,segera',
             'jenis' => 'required|in:internal,external',
-            'perihal' => 'required',
+            'perihal' => 'nulable|string',
             'file_scan' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
         ]);
 
@@ -228,7 +226,7 @@ class SuratMasukController extends Controller
             return back()
                 ->withInput()
                 ->withErrors([
-                    'jenis' => 'Karyawan/unit hanya dapat membuat surat internal.'
+                    'jenis' => 'Karyawan/unit hanya dapat membuat surat internal.',
                 ]);
         }
 
@@ -250,7 +248,7 @@ class SuratMasukController extends Controller
 
             )->get();
             $adaDirektur = $tagUsers->contains('id_jabatan', 1);
-            $adaKabag    = $tagUsers->contains('id_jabatan', 2);
+            $adaKabag = $tagUsers->contains('id_jabatan', 2);
             if ($adaDirektur) {
                 $status = 'menunggu_direktur';
             } elseif ($adaKabag) {
@@ -265,7 +263,7 @@ class SuratMasukController extends Controller
         }
 
         $surat = SuratMasuk::create([
-            'nomor_agenda'  => $nomorAgenda,
+            'nomor_agenda' => $nomorAgenda,
             'nomor_surat' => $request->nomor_surat,
             'tanggal_surat' => $request->tanggal_surat,
             'tanggal_masuk' => $request->tanggal_masuk,
@@ -299,14 +297,14 @@ class SuratMasukController extends Controller
                 $sekretaris,
                 'Surat Masuk Baru',
                 'Ada surat baru menunggu proses sekretaris',
-                '/eoffice/surat-masuk/' . $surat->id . '/edit',                
+                '/eoffice/surat-masuk/'.$surat->id.'/edit',
                 'info'
             );
         }
 
         //  EXTERNAL SEKRETARIS -> DIREKTUR/KABAG
 
-        if (in_array($status, ['menunggu_direktur', 'menunggu_kabag']) ) {
+        if (in_array($status, ['menunggu_direktur', 'menunggu_kabag'])) {
             foreach ($request->tag_users ?? [] as $userId) {
                 SuratTag::create([
                     'surat_id' => $surat->id,
@@ -340,13 +338,13 @@ class SuratMasukController extends Controller
                 }
             }
 
-            $penerima = $request->tag_users ?? [];  
+            $penerima = $request->tag_users ?? [];
 
             Notifikasi::kirimKe(
                 $penerima,
                 'Surat Menunggu Persetujuan',
                 'Ada surat baru menunggu approval',
-                '/eoffice/surat-masuk/' . $surat->id,
+                '/eoffice/surat-masuk/'.$surat->id,
                 'peringatan'
             );
         }
@@ -356,11 +354,11 @@ class SuratMasukController extends Controller
             ->with('success', 'Surat berhasil dikirim.');
     }
 
-/*
-|--------------------------------------------------------------------------
-| UPDATE SURAT OLEH SEKRETARIS
-|--------------------------------------------------------------------------
-*/
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE SURAT OLEH SEKRETARIS
+    |--------------------------------------------------------------------------
+    */
 
     public function update(Request $request, $id)
     {
@@ -382,7 +380,7 @@ class SuratMasukController extends Controller
         $status = 'menunggu_direktur';
         $tagUsers = User::whereIn('id_user', $request->tag_users ?? [])->get();
         $adaDirektur = $tagUsers->contains('id_jabatan', 1);
-        $adaKabag    = $tagUsers->contains('id_jabatan', 2);
+        $adaKabag = $tagUsers->contains('id_jabatan', 2);
 
         // LOGIC STATUS
 
@@ -396,9 +394,9 @@ class SuratMasukController extends Controller
 
         $surat->update([
             'nomor_agenda' => $request->nomor_agenda,
-            'status'       => $status,
-            'prioritas'    => $request->prioritas,
-            'catatan'      => $request->catatan,
+            'status' => $status,
+            'prioritas' => $request->prioritas,
+            'catatan' => $request->catatan,
         ]);
 
         /*
@@ -408,10 +406,10 @@ class SuratMasukController extends Controller
         */
 
         Notifikasi::where('id_user', $user->id_user)
-            ->where('url', '/eoffice/surat-masuk/' . $surat->id . '/edit')
+            ->where('url', '/eoffice/surat-masuk/'.$surat->id.'/edit')
             ->where('dibaca', false)
             ->update([
-                'dibaca' => true
+                'dibaca' => true,
             ]);
 
         /*
@@ -432,44 +430,44 @@ class SuratMasukController extends Controller
         foreach ($request->tag_users ?? [] as $userId) {
 
             SuratTag::create([
-                'surat_id'   => $surat->id,
+                'surat_id' => $surat->id,
                 'surat_type' => SuratMasuk::class,
-                'user_id'    => $userId,
+                'user_id' => $userId,
             ]);
 
             $tagUser = User::find($userId);
 
-        /*
+            /*
 
-        |--------------------------------------------------------------------------
+            |--------------------------------------------------------------------------
 
-        | DIREKTUR
+            | DIREKTUR
 
-        |--------------------------------------------------------------------------
+            |--------------------------------------------------------------------------
 
-        */
+            */
 
-        if ($tagUser && $tagUser->id_jabatan == 1) {
-            Persetujuan::create([
-                'surat_id'      => $surat->id,
-                'surat_type'    => SuratMasuk::class,
-                'user_id'       => $userId,
-                'role_approver' => 'direktur',
-                'status'        => 'menunggu',
-            ]);
+            if ($tagUser && $tagUser->id_jabatan == 1) {
+                Persetujuan::create([
+                    'surat_id' => $surat->id,
+                    'surat_type' => SuratMasuk::class,
+                    'user_id' => $userId,
+                    'role_approver' => 'direktur',
+                    'status' => 'menunggu',
+                ]);
 
-            Notifikasi::where('id_user', $userId)
-                ->where('url', '/eoffice/surat-masuk/' . $surat->id)
-                ->delete();
+                Notifikasi::where('id_user', $userId)
+                    ->where('url', '/eoffice/surat-masuk/'.$surat->id)
+                    ->delete();
 
-            Notifikasi::kirim(
-                $userId,
-                'Surat Menunggu Persetujuan',
-                'Ada surat baru menunggu approval direktur.',
-                '/eoffice/surat-masuk/' . $surat->id,
-                'peringatan'
-            );
-        }
+                Notifikasi::kirim(
+                    $userId,
+                    'Surat Menunggu Persetujuan',
+                    'Ada surat baru menunggu approval direktur.',
+                    '/eoffice/surat-masuk/'.$surat->id,
+                    'peringatan'
+                );
+            }
 
             /*
 
@@ -484,11 +482,11 @@ class SuratMasukController extends Controller
             if ($tagUser && $tagUser->id_jabatan == 2) {
 
                 Persetujuan::create([
-                    'surat_id'      => $surat->id,
-                    'surat_type'    => SuratMasuk::class,
-                    'user_id'       => $userId,
+                    'surat_id' => $surat->id,
+                    'surat_type' => SuratMasuk::class,
+                    'user_id' => $userId,
                     'role_approver' => 'kabag',
-                    'status'        => 'menunggu',
+                    'status' => 'menunggu',
 
                 ]);
 
@@ -497,8 +495,8 @@ class SuratMasukController extends Controller
                 Notifikasi::where('id_user', $userId)
 
                     ->where(function ($q) use ($surat) {
-                        $q->where('url', '/eoffice/surat-masuk/' . $surat->id)
-                        ->orWhere('url', '/eoffice/surat-masuk/' . $surat->id . '#approval');
+                        $q->where('url', '/eoffice/surat-masuk/'.$surat->id)
+                            ->orWhere('url', '/eoffice/surat-masuk/'.$surat->id.'#approval');
 
                     })
 
@@ -511,7 +509,7 @@ class SuratMasukController extends Controller
                     $userId,
                     'Surat Menunggu Persetujuan Kabag',
                     'Ada surat baru menunggu approval kabag.',
-                    '/eoffice/surat-masuk/' . $surat->id . '#approval',
+                    '/eoffice/surat-masuk/'.$surat->id.'#approval',
                     'peringatan'
 
                 );
@@ -526,7 +524,7 @@ class SuratMasukController extends Controller
         */
 
         Notifikasi::where('id_user', $surat->dibuat_oleh)
-            ->where('url', '/eoffice/surat-masuk/' . $surat->id)
+            ->where('url', '/eoffice/surat-masuk/'.$surat->id)
             ->where('judul', 'Surat Diproses Sekretaris')
             ->delete();
 
@@ -549,7 +547,7 @@ class SuratMasukController extends Controller
             $surat->dibuat_oleh,
             'Surat Diproses Sekretaris',
             $pesanPengirim,
-            '/eoffice/surat-masuk/' . $surat->id,
+            '/eoffice/surat-masuk/'.$surat->id,
             'info'
         );
 
@@ -569,10 +567,10 @@ class SuratMasukController extends Controller
         }
 
         TrackingSurat::create([
-            'surat_id'   => $surat->id,
+            'surat_id' => $surat->id,
             'surat_type' => SuratMasuk::class,
-            'user_id'    => $user->id_user,
-            'aksi'       => $aksiTracking,
+            'user_id' => $user->id_user,
+            'aksi' => $aksiTracking,
         ]);
 
         return redirect()
@@ -582,7 +580,6 @@ class SuratMasukController extends Controller
                 'Surat berhasil diteruskan.'
             );
     }
-
 
     /*
     |--------------------------------------------------------------------------
@@ -597,12 +594,12 @@ class SuratMasukController extends Controller
         $surat = SuratMasuk::findOrFail($id);
 
         $persetujuan = Persetujuan::where([
-            'surat_id'   => $surat->id,
+            'surat_id' => $surat->id,
             'surat_type' => SuratMasuk::class,
-            'user_id'    => $user->id_user,
+            'user_id' => $user->id_user,
         ])->first();
 
-        if (!$persetujuan) {
+        if (! $persetujuan) {
 
             return back()->with(
                 'error',
@@ -617,8 +614,8 @@ class SuratMasukController extends Controller
         */
 
         $persetujuan->update([
-            'status'      => 'disetujui',
-            'catatan'     => $request->catatan,
+            'status' => 'disetujui',
+            'catatan' => $request->catatan,
             'approved_at' => now(),
         ]);
 
@@ -629,10 +626,10 @@ class SuratMasukController extends Controller
         */
 
         Notifikasi::where('id_user', $user->id_user)
-            ->where('url', '/eoffice/surat-masuk/' . $surat->id)
+            ->where('url', '/eoffice/surat-masuk/'.$surat->id)
             ->where('dibaca', false)
             ->update([
-                'dibaca' => true
+                'dibaca' => true,
             ]);
 
         /*
@@ -642,22 +639,22 @@ class SuratMasukController extends Controller
         */
 
         if ($user->id_jabatan == 1) {
-        $adaKabag = Persetujuan::where([
-            'surat_id'   => $surat->id,
-            'surat_type' => SuratMasuk::class,
-            'role_approver' => 'kabag',
-        ])->exists();
+            $adaKabag = Persetujuan::where([
+                'surat_id' => $surat->id,
+                'surat_type' => SuratMasuk::class,
+                'role_approver' => 'kabag',
+            ])->exists();
 
-        $surat->update([
-            'status' => $adaKabag
-                ? 'menunggu_kabag'
-                : 'disetujui',
+            $surat->update([
+                'status' => $adaKabag
+                    ? 'menunggu_kabag'
+                    : 'disetujui',
 
-        ]);
+            ]);
 
             // HAPUS TAG UNIT LAMA
             SuratTag::where([
-                'surat_id'   => $surat->id,
+                'surat_id' => $surat->id,
                 'surat_type' => SuratMasuk::class,
             ])->whereHas('user', function ($q) {
                 $q->where('id_jabatan', 3);
@@ -667,9 +664,9 @@ class SuratMasukController extends Controller
             foreach ($request->tag_units ?? [] as $unitId) {
 
                 SuratTag::create([
-                    'surat_id'   => $surat->id,
+                    'surat_id' => $surat->id,
                     'surat_type' => SuratMasuk::class,
-                    'user_id'    => $unitId,
+                    'user_id' => $unitId,
                 ]);
 
                 // KIRIM NOTIF KE UNIT
@@ -677,7 +674,7 @@ class SuratMasukController extends Controller
                     $unitId,
                     'Surat Ditugaskan Direktur',
                     'Ada surat yang ditugaskan direktur untuk unit Anda.',
-                    '/eoffice/surat-masuk/' . $surat->id,
+                    '/eoffice/surat-masuk/'.$surat->id,
                     'info'
                 );
             }
@@ -689,18 +686,18 @@ class SuratMasukController extends Controller
             */
 
             Notifikasi::where('id_user', $surat->dibuat_oleh)
-                ->where('url', '/eoffice/surat-masuk/' . $surat->id)
+                ->where('url', '/eoffice/surat-masuk/'.$surat->id)
                 ->where('judul', 'Surat Disetujui Direktur')
                 ->delete();
 
-                // HAPUS SEMUA NOTIF LAMA PEMBUAT SURAT
+            // HAPUS SEMUA NOTIF LAMA PEMBUAT SURAT
 
-                Notifikasi::where('id_user', $surat->dibuat_oleh)
-                    ->where(function ($q) use ($surat) {
-                        $q->where('url', '/eoffice/surat-masuk/' . $surat->id)
-                        ->orWhere('url', '/eoffice/surat-masuk/' . $surat->id . '/edit');
-                    })
-                    ->delete();
+            Notifikasi::where('id_user', $surat->dibuat_oleh)
+                ->where(function ($q) use ($surat) {
+                    $q->where('url', '/eoffice/surat-masuk/'.$surat->id)
+                        ->orWhere('url', '/eoffice/surat-masuk/'.$surat->id.'/edit');
+                })
+                ->delete();
             /*
             |--------------------------------------------------------------------------
             | NOTIF KE PENGIRIM
@@ -711,7 +708,7 @@ class SuratMasukController extends Controller
                 $surat->dibuat_oleh,
                 'Surat Disetujui Direktur',
                 'Surat yang kamu kirim telah disetujui direktur.',
-                '/eoffice/surat-masuk/' . $surat->id,
+                '/eoffice/surat-masuk/'.$surat->id,
                 'sukses'
             );
 
@@ -722,21 +719,21 @@ class SuratMasukController extends Controller
             */
 
             $kabagIds = Persetujuan::where([
-                'surat_id'   => $surat->id,
+                'surat_id' => $surat->id,
                 'surat_type' => SuratMasuk::class,
                 'role_approver' => 'kabag',
             ])->pluck('user_id')->toArray();
 
-            if (!empty($kabagIds)) {
+            if (! empty($kabagIds)) {
                 Notifikasi::whereIn('id_user', $kabagIds)
-                    ->where('url', '/eoffice/surat-masuk/' . $surat->id)
+                    ->where('url', '/eoffice/surat-masuk/'.$surat->id)
                     ->delete();
 
                 Notifikasi::kirimKe(
                     $kabagIds,
                     'Surat Menunggu Persetujuan Kabag',
                     'Ada surat menunggu approval kabag.',
-                    '/eoffice/surat-masuk/' . $surat->id . '#approval',
+                    '/eoffice/surat-masuk/'.$surat->id.'#approval',
                     'info'
 
                 );
@@ -747,7 +744,7 @@ class SuratMasukController extends Controller
                 ->toArray();
 
             Notifikasi::whereIn('id_user', $sekretaris)
-                ->where('url', '/eoffice/surat-masuk/' . $surat->id)
+                ->where('url', '/eoffice/surat-masuk/'.$surat->id)
                 ->delete();
 
             Notifikasi::kirimKe(
@@ -756,7 +753,7 @@ class SuratMasukController extends Controller
                 $adaKabag
                     ? 'Surat telah disetujui direktur dan diteruskan ke kabag.'
                     : 'Surat telah disetujui direktur dan selesai.',
-                '/eoffice/surat-masuk/' . $surat->id,
+                '/eoffice/surat-masuk/'.$surat->id,
                 'sukses'
 
             );
@@ -781,10 +778,10 @@ class SuratMasukController extends Controller
             */
 
             Notifikasi::where('id_user', $user->id_user)
-                ->where('url', '/eoffice/surat-masuk/' . $surat->id)
+                ->where('url', '/eoffice/surat-masuk/'.$surat->id)
                 ->where('dibaca', false)
                 ->update([
-                    'dibaca' => true
+                    'dibaca' => true,
                 ]);
 
             /*
@@ -794,7 +791,7 @@ class SuratMasukController extends Controller
             */
 
             Notifikasi::where('id_user', $surat->dibuat_oleh)
-                ->where('url', '/eoffice/surat-masuk/' . $surat->id)
+                ->where('url', '/eoffice/surat-masuk/'.$surat->id)
                 ->where('judul', 'Surat Disetujui Kabag')
                 ->delete();
 
@@ -808,7 +805,7 @@ class SuratMasukController extends Controller
                 $surat->dibuat_oleh,
                 'Surat Disetujui Kabag',
                 'Surat yang kamu kirim telah disetujui kabag.',
-                '/eoffice/surat-masuk/' . $surat->id,
+                '/eoffice/surat-masuk/'.$surat->id,
                 'sukses'
             );
 
@@ -819,14 +816,14 @@ class SuratMasukController extends Controller
             // HAPUS NOTIF LAMA SEKRETARIS
 
             Notifikasi::whereIn('id_user', $sekretaris)
-                ->where('url', '/eoffice/surat-masuk/' . $surat->id)
+                ->where('url', '/eoffice/surat-masuk/'.$surat->id)
                 ->delete();
 
             Notifikasi::kirimKe(
                 $sekretaris,
                 'Surat Disetujui Kabag',
                 'Surat telah disetujui kabag.',
-                '/eoffice/surat-masuk/' . $surat->id,
+                '/eoffice/surat-masuk/'.$surat->id,
                 'sukses'
 
             );
@@ -839,10 +836,10 @@ class SuratMasukController extends Controller
         */
 
         TrackingSurat::create([
-            'surat_id'   => $surat->id,
+            'surat_id' => $surat->id,
             'surat_type' => SuratMasuk::class,
-            'user_id'    => $user->id_user,
-            'aksi'       => 'Surat disetujui',
+            'user_id' => $user->id_user,
+            'aksi' => 'Surat disetujui',
             'keterangan' => $request->catatan,
         ]);
 
@@ -868,41 +865,41 @@ class SuratMasukController extends Controller
         // UPDATE STATUS
 
         $surat->update([
-            'status'  => 'pending',
+            'status' => 'pending',
             'catatan' => $request->catatan,
         ]);
 
         // UPDATE PERSETUJUAN
 
         $persetujuan = Persetujuan::where([
-            'surat_id'   => $surat->id,
+            'surat_id' => $surat->id,
             'surat_type' => SuratMasuk::class,
-            'user_id'    => $user->id_user,
+            'user_id' => $user->id_user,
         ])->first();
 
         if ($persetujuan) {
 
             $persetujuan->update([
-                'status'  => 'pending',
+                'status' => 'pending',
                 'catatan' => $request->catatan,
             ]);
 
         }
 
         Notifikasi::where('id_user', $user->id_user)
-        ->where('url', '/eoffice/surat-masuk/' . $surat->id)
-        ->where('dibaca', false)
-        ->update([
-            'dibaca' => true
-        ]);
+            ->where('url', '/eoffice/surat-masuk/'.$surat->id)
+            ->where('dibaca', false)
+            ->update([
+                'dibaca' => true,
+            ]);
 
         // NOTIF KE PEMBUAT SURAT
 
         Notifikasi::kirim(
             $surat->dibuat_oleh,
             'Surat Dipending',
-            'Surat dipending oleh Kabag. Catatan: ' . $request->catatan,
-            '/eoffice/surat-masuk/' . $surat->id,
+            'Surat dipending oleh Kabag. Catatan: '.$request->catatan,
+            '/eoffice/surat-masuk/'.$surat->id,
             'peringatan'
         );
         $sekretaris = User::where('id_jabatan', 4)
@@ -915,17 +912,17 @@ class SuratMasukController extends Controller
             $sekretaris,
             'Surat Dipending',
             'Surat dipending oleh kabag.',
-            '/eoffice/surat-masuk/' . $surat->id,
+            '/eoffice/surat-masuk/'.$surat->id,
             'peringatan'
         );
 
         //  TRACKING
 
         TrackingSurat::create([
-            'surat_id'   => $surat->id,
+            'surat_id' => $surat->id,
             'surat_type' => SuratMasuk::class,
-            'user_id'    => $user->id_user,
-            'aksi'       => 'Surat dipending',
+            'user_id' => $user->id_user,
+            'aksi' => 'Surat dipending',
             'keterangan' => $request->catatan,
         ]);
 

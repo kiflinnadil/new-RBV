@@ -13,7 +13,14 @@ class RepositoriController extends Controller
         $query = Repositori::query();
 
         if ($request->search) {
-            $query->where('judul', 'like', '%' . $request->search . '%');
+            $query->where('judul', 'like', '%'.$request->search.'%');
+        }
+
+        if (Auth::check()) {
+            \App\Models\Kunjungan::create([
+                'id_user' => Auth::id(),
+                'halaman' => 'layanan',
+            ]);
         }
 
         $repositoris = $query->latest()->paginate(10);
@@ -42,7 +49,7 @@ class RepositoriController extends Controller
         Repositori::create([
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
-            'file' => $path
+            'file' => $path,
         ]);
 
         return redirect()->route('repositori.index')
@@ -68,7 +75,7 @@ class RepositoriController extends Controller
 
         $data = [
             'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi
+            'deskripsi' => $request->deskripsi,
         ];
 
         if ($request->file('file')) {

@@ -270,6 +270,65 @@
             if (!isInside) dialog.close();
         });
     });
+
+    window.addEventListener('load', function () {
+        const ctx = document.getElementById('chartKunjungan').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: window.labels,
+                datasets: [{
+                    label: 'Jumlah Kunjungan',
+                    data: window.kunjunganData,
+                    borderColor: '#2B3A8C',
+                    backgroundColor: 'rgba(43, 58, 140, 0.1)',
+                    borderWidth: 2.5,
+                    pointBackgroundColor: '#2B3A8C',
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    fill: true,
+                    tension: 0.4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            font: { family: 'Poppins', size: 12 },
+                            color: '#2B3A8C'
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => ' ' + ctx.parsed.y + ' kunjungan'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: {
+                            font: { family: 'Poppins', size: 11 },
+                            color: '#6B7280'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                            font: { family: 'Poppins', size: 11 },
+                            color: '#6B7280'
+                        },
+                        grid: { color: 'rgba(0,0,0,0.05)' }
+                    }
+                }
+            }
+        });
+    });
     </script>
+    
 
 @endsection

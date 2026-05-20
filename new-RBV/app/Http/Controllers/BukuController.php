@@ -3,21 +3,49 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Favorite;
+use App\Models\Kunjungan;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BukuController extends Controller
-{ 
+{
     public function beranda()
     {
         $books = Buku::latest()->take(4)->get();
 
-        $labels = ['2025-09', '2025-10', '2025-11', '2025-12', '2026-01'];
-        $dataKunjungan = [25, 130, 365, 20, 110];
+        $kunjunganHariIni = Kunjungan::where('halaman', 'login')
+            ->whereDate('created_at', today())
+            ->count();
 
-        return view('pages.beranda', compact('books','labels','dataKunjungan'));
+        $aksesLayanan = \App\Models\Kunjungan::where('halaman', 'layanan')
+            ->whereDate('created_at', today())
+            ->count();
+
+        $trendBuku = Favorite::count();
+
+        $labels = [];
+        $dataKunjungan = [];
+
+        for ($i = 5; $i >= 0; $i--) {
+            $bulan = Carbon::now()->subMonths($i);
+            $labels[] = $bulan->translatedFormat('M Y');
+            $dataKunjungan[] = Kunjungan::where('halaman', 'login')
+                ->whereYear('created_at', $bulan->year)
+                ->whereMonth('created_at', $bulan->month)
+                ->count();
+        }
+
+        return view('pages.beranda', compact(
+            'books',
+            'kunjunganHariIni',
+            'aksesLayanan',
+            'trendBuku',
+            'labels',
+            'dataKunjungan'
+        ));
     }
 
     public function index(Request $request)
@@ -26,15 +54,15 @@ class BukuController extends Controller
 
         if ($request->search) {
             $query->where(function ($q) use ($request) {
-                $q->where('judul', 'like', '%' . $request->search . '%')
-                ->orWhere('penulis', 'like', '%' . $request->search . '%')
-                ->orWhere('kategori', 'like', '%' . $request->search . '%');
+                $q->where('judul', 'like', '%'.$request->search.'%')
+                    ->orWhere('penulis', 'like', '%'.$request->search.'%')
+                    ->orWhere('kategori', 'like', '%'.$request->search.'%');
             });
         }
 
         $books = $query->latest()->get();
 
-        if(Auth::check()){
+        if (Auth::check()) {
             $favorites = Favorite::where('id_user', Auth::user()->id_user)
                 ->pluck('id_buku')
                 ->toArray();
@@ -50,14 +78,17 @@ class BukuController extends Controller
     public function show($id)
     {
         $book = Buku::findOrFail($id);
+
         return view('pages.DaftarBuku.detaildaftarbuku', compact('book'));
     }
 
     public function read($id)
     {
         $buku = Buku::findOrFail($id);
+
         return response()->file(storage_path('app/public/'.$buku->file_pdf));
     }
+
     public function create()
     {
         return view('pages.DaftarBuku.createbuku');
@@ -66,62 +97,63 @@ class BukuController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul'=>'required',
-            'pengarang'=>'required',
-            'kategori'=>'required',
-            'tahun_terbit'=>'required',
-            'deskripsi'=>'nullable',
-            'file_pdf'=>'required|file|mimes:pdf|max:20480',
-            'cover'=>'required|file|max:20480'
+            'judul' => 'required',
+            'pengarang' => 'required',
+            'kategori' => 'required',
+            'tahun_terbit' => 'required',
+            'deskripsi' => 'nullable',
+            'file_pdf' => 'required|file|mimes:pdf|max:20480',
+            'cover' => 'required|file|max:20480',
         ]);
 
-        $pdf = $request->file('file_pdf')->store('books','public');
-        $cover = $request->file('cover')->store('covers','public');
+        $pdf = $request->file('file_pdf')->store('books', 'public');
+        $cover = $request->file('cover')->store('covers', 'public');
 
         Buku::create([
-            'judul'=>$request->judul,
-            'penulis'=>$request->pengarang,
-            'kategori'=>$request->kategori,
-            'tahun'=>$request->tahun_terbit,
-            'deskripsi'=>$request->deskripsi,
-            'file_pdf'=>$pdf,
-            'cover'=>$cover
+            'judul' => $request->judul,
+            'penulis' => $request->pengarang,
+            'kategori' => $request->kategori,
+            'tahun' => $request->tahun_terbit,
+            'deskripsi' => $request->deskripsi,
+            'file_pdf' => $pdf,
+            'cover' => $cover,
         ]);
 
-        return redirect()->route('books.index')->with('success','Buku berhasil ditambahkan');
+        return redirect()->route('books.index')->with('success', 'Buku berhasil ditambahkan');
     }
 
     public function edit($id)
     {
         $book = Buku::findOrFail($id);
+
         return view('pages.DaftarBuku.editbuku', compact('book'));
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $buku = Buku::findOrFail($id);
 
         $data = [
-            'judul'=>$request->judul,
-            'penulis'=>$request->pengarang,
-            'kategori'=>$request->kategori,
-            'tahun'=>$request->tahun_terbit,
-            'deskripsi'=>$request->deskripsi
+            'judul' => $request->judul,
+            'penulis' => $request->pengarang,
+            'kategori' => $request->kategori,
+            'tahun' => $request->tahun_terbit,
+            'deskripsi' => $request->deskripsi,
         ];
 
-        if($request->file('file_pdf')){
+        if ($request->file('file_pdf')) {
             Storage::disk('public')->delete($buku->file_pdf);
-            $data['file_pdf'] = $request->file('file_pdf')->store('books','public');
+            $data['file_pdf'] = $request->file('file_pdf')->store('books', 'public');
         }
 
-        if($request->file('cover')){
+        if ($request->file('cover')) {
             Storage::disk('public')->delete($buku->cover);
-            $data['cover'] = $request->file('cover')->store('covers','public');
+            $data['cover'] = $request->file('cover')->store('covers', 'public');
         }
 
         $buku->update($data);
 
-        return redirect()->route('books.index')->with('success','Buku berhasil diupdate');
+        return redirect()->route('books.index')->with('success', 'Buku berhasil diupdate');
     }
 
     public function destroy($id)
@@ -133,23 +165,23 @@ class BukuController extends Controller
 
         $book->delete();
 
-        return redirect()->route('books.index')->with('success','Buku berhasil dihapus');
+        return redirect()->route('books.index')->with('success', 'Buku berhasil dihapus');
     }
 
     public function toggleFavorite($id)
     {
         $userId = Auth::user()->id_user;
 
-        $fav = Favorite::where('id_user',$userId)
-            ->where('id_buku',$id)
+        $fav = Favorite::where('id_user', $userId)
+            ->where('id_buku', $id)
             ->first();
 
-        if($fav){
+        if ($fav) {
             $fav->delete();
         } else {
             Favorite::create([
-                'id_user'=>$userId,
-                'id_buku'=>$id
+                'id_user' => $userId,
+                'id_buku' => $id,
             ]);
         }
 
@@ -158,7 +190,7 @@ class BukuController extends Controller
 
     public function favorit()
     {
-        $books = Buku::whereHas('favorites', function($q){
+        $books = Buku::whereHas('favorites', function ($q) {
             $q->where('id_user', Auth::user()->id_user);
         })->latest()->get();
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Panduan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PanduanController extends Controller
@@ -13,10 +14,17 @@ class PanduanController extends Controller
         $query = Panduan::query();
 
         if ($request->search) {
-            $query->where('judul', 'like', '%' . $request->search . '%');
+            $query->where('judul', 'like', '%'.$request->search.'%');
         }
 
         $panduans = $query->latest()->paginate(10);
+
+        if (Auth::check()) {
+            \App\Models\Kunjungan::create([
+                'id_user' => Auth::id(),
+                'halaman' => 'layanan',
+            ]);
+        }
 
         return view('pages.Layanan.panduan,pedoman dan SOP.panduan', compact('panduans'));
     }

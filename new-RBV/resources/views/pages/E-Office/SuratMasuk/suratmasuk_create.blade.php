@@ -41,7 +41,6 @@
 
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 space-y-6">
 
-                {{-- ERROR --}}
                 @if($errors->any())
                     <div class="bg-red-50 border border-red-200 rounded-xl p-4">
                         <ul class="text-sm text-red-600 space-y-1">
@@ -52,7 +51,6 @@
                     </div>
                 @endif
 
-                {{-- NO AGENDA + PRIORITAS --}}
                 <div class="grid grid-cols-1 {{ in_array(auth()->user()->role, ['sekretaris','super_admin','admin']) ? 'sm:grid-cols-2' : '' }} gap-5">
                 @if(in_array(auth()->user()->role, ['sekretaris','super_admin','admin']))
                     <div>
@@ -62,12 +60,14 @@
                         </label>
 
                         <input type="text"
-                               name="nomor_agenda"
-                               value="{{ old('nomor_agenda') }}"
-                               placeholder="Contoh: 001/2026"
-                               required
-                               class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 text-sm
-                                      focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
+                            name="nomor_agenda"
+                            value="{{ old('nomor_agenda') }}"
+                            placeholder="Contoh: 001/2026"
+                            required
+                            oninvalid="this.setCustomValidity('Nomor agenda wajib diisi.')"
+                            oninput="this.setCustomValidity('')"
+                            class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 text-sm
+                                    focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
                     </div>
                 @endif
 
@@ -91,27 +91,33 @@
 
                 </div>
 
-                {{-- NOMOR SURAT + ASAL --}}
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
                     <div>
                         <label class="block text-gray-500 text-xs sm:text-sm mb-1.5 ml-1">
-                            Nomor Surat
+                            Nomor Surat <span class="text-red-500">*</span>
                         </label>
 
                         <input type="text"
-                               name="nomor_surat"
-                               value="{{ old('nomor_surat') }}"
-                               placeholder="001/RSCH/SM/IV/2026"
-                               class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 text-sm
-                                      focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
+                            name="nomor_surat"
+                            value="{{ old('nomor_surat') }}"
+                            required
+                            placeholder="001/RSCH/SM/IV/2026"
+                            oninvalid="this.setCustomValidity('Nomor surat wajib diisi.')"
+                            oninput="this.setCustomValidity('')"
+                            class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 text-sm
+                                    focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]
+                                    @error('nomor_surat') ring-2 ring-red-400 @enderror">
 
-                        <p class="text-[10px] text-gray-400 mt-1 ml-1">
-                            No/RSCH/Kode/BulanRomawi/Tahun
-                        </p>
+                        @error('nomor_surat')
+                            <p class="text-xs text-red-500 mt-1 ml-1">{{ $message }}</p>
+                        @else
+                            <p class="text-[10px] text-gray-400 mt-1 ml-1">
+                                No/RSCH/Kode/BulanRomawi/Tahun
+                            </p>
+                        @enderror
                     </div>
 
-                    {{-- KEPALA UNIT / KARYAWAN --}}
                     @if(
                         in_array(auth()->user()->role, ['unit','karyawan'])
                         || auth()->user()->id_jabatan == 3
@@ -144,6 +150,8 @@
                                    value="{{ old('asal_surat') }}"
                                    required
                                    placeholder="Contoh: Dinas Kesehatan / Unit Keuangan"
+                                   oninvalid="this.setCustomValidity('Asal surat wajib diisi.')"
+                                   oninput="this.setCustomValidity('')"
                                    class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 text-sm
                                           focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
                         </div>
@@ -152,7 +160,6 @@
 
                 </div>
 
-                {{-- TANGGAL --}}
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
 
                     <div>
@@ -179,7 +186,6 @@
                                       focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
                     </div>
 
-                    {{-- KEPALA UNIT / KARYAWAN --}}
                     @if(
                         in_array(auth()->user()->role, ['unit','karyawan'])
                         || auth()->user()->id_jabatan == 3
@@ -221,7 +227,6 @@
 
                 </div>
 
-                {{-- PERIHAL --}}
                 <div>
                     <label class="block text-gray-500 text-xs sm:text-sm mb-1.5 ml-1">
                         Perihal / Isi Ringkas
@@ -230,13 +235,11 @@
 
                     <textarea name="perihal"
                               rows="3"
-                              required
                               placeholder="Tuliskan inti dari surat..."
                               class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5 text-sm
                                      focus:outline-none focus:ring-2 focus:ring-[#2B3A8C] resize-none">{{ old('perihal') }}</textarea>
                 </div>
 
-                {{-- DISPOSISI --}}
                 @if(
                     auth()->user()->id_jabatan == 4
                 )
@@ -246,7 +249,8 @@
                         Disposisi ke
                     </label>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-blue-50 p-4 rounded-2xl border border-blue-100">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-blue-50 p-4 rounded-2xl border
+                        {{ $errors->has('tag_users') ? 'border-red-300 bg-red-50' : 'border-blue-100' }}">
 
                         @foreach($usersTag as $u)
 
@@ -270,6 +274,15 @@
                         </label>
 
                         @endforeach
+                        @error('tag_users')
+                            <p class="text-xs text-red-500 mt-1.5 ml-1 font-semibold">{{ $message }}</p>
+                        @enderror
+                        <div id="errorDisposisi" class="hidden mt-1.5 ml-1 flex items-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-red-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <p class="text-xs text-red-500 font-semibold">Disposisi wajib dipilih.</p>
+                        </div>
 
                     </div>
 
@@ -280,7 +293,6 @@
                 </div>
                 @endif
 
-                {{-- FILE --}}
                 <div>
 
                     <label class="block text-gray-500 text-xs sm:text-sm mb-1.5 ml-1">
@@ -327,7 +339,6 @@
 
                 </div>
 
-{{-- BUTTON --}}
 <div class="flex justify-end gap-3 pt-2">
 
     <a href="{{ route('eoffice.surat-masuk.index') }}"
@@ -360,7 +371,6 @@
 
 </div>
 
-{{-- MODAL SIMPAN --}}
 <div id="modalSimpan"
      class="hidden fixed inset-0 z-50 flex items-center justify-center">
 
@@ -429,7 +439,6 @@
 
 </div>
 
-{{-- MODAL BATAL --}}
 <div id="modalBatal"
      class="hidden fixed inset-0 z-50 flex items-center justify-center">
 
@@ -459,7 +468,7 @@
 
             <div>
 
-                <h3 class="font-poppins font-bold text-gray-800 text-lg">
+                <h3 class="font-poppins font-bold text-gray-800 text-lg"> 
 
                     Batalkan Proses
 
@@ -500,6 +509,37 @@
 
 <script>
 function bukaModalSimpan() {
+    const form = document.querySelector('form');
+
+    const inputs = form.querySelectorAll('[required]');
+    let valid = true;
+
+    for (let input of inputs) {
+        if (!input.checkValidity()) {
+            input.reportValidity();
+            valid = false;
+            break;
+        }
+    }
+
+    if (!valid) return;
+
+    const checkboxes = form.querySelectorAll('input[name="tag_users[]"]');
+    if (checkboxes.length > 0) {
+        const adaYangDiceklis = Array.from(checkboxes).some(cb => cb.checked);
+        if (!adaYangDiceklis) {
+            const errorDiv = document.getElementById('errorDisposisi');
+            if (errorDiv) {
+                errorDiv.classList.remove('hidden');
+                errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            return;
+        } else {
+            const errorDiv = document.getElementById('errorDisposisi');
+            if (errorDiv) errorDiv.classList.add('hidden');
+        }
+    }
+
     document.getElementById('modalSimpan').classList.remove('hidden');
 }
 
@@ -529,6 +569,18 @@ document.getElementById('fileScan').addEventListener('change', function(e) {
         document.getElementById('fileLabel').textContent = f.name;
     }
 
+});
+document.querySelectorAll('input[name="tag_users[]"]').forEach(cb => {
+    cb.addEventListener('change', function() {
+        const adaDiceklis = Array.from(
+            document.querySelectorAll('input[name="tag_users[]"]')
+        ).some(c => c.checked);
+
+        const errorDiv = document.getElementById('errorDisposisi');
+        if (errorDiv) {
+            errorDiv.classList.toggle('hidden', adaDiceklis);
+        }
+    });
 });
 </script>
 
