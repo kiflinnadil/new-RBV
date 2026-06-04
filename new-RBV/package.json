@@ -15,6 +15,8 @@
         "vite": "^7.0.7"
     },
     "dependencies": {
+        "alpine": "^0.2.1",
+        "alpinejs": "^3.15.12",
         "chart.js": "^4.5.1",
         "slider": "^1.0.4",
         "swiper": "^12.1.2"

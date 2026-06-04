@@ -1,4 +1,9 @@
 import './bootstrap';
+import Alpine from 'alpinejs'
+
+window.Alpine = Alpine
+
+Alpine.start()
 import { initSlider } from './slider.js';
 import { initSwiper } from './swiper-init';
 import { initChart } from './chart';

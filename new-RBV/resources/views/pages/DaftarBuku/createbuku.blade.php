@@ -161,7 +161,7 @@ document.getElementById('cover').addEventListener('change', function(e){
         document.getElementById('coverName').textContent = fileName;
         document.getElementById('coverName').classList.remove('text-gray-400');
         document.getElementById('coverName').classList.add('text-gray-700');
-        document.getElementById('errCover').classList.add('hidden');
+        // document.getElementById('errCover').classList.add('hidden');
     }
 });
 
@@ -193,8 +193,8 @@ function validasiForm() {
     const filePdf = document.getElementById('file_pdf').files.length;
     if (!filePdf) { showErr('errFilePdf'); valid = false; } else { hideErr('errFilePdf'); }
 
-    const cover = document.getElementById('cover').files.length;
-    if (!cover) { showErr('errCover'); valid = false; } else { hideErr('errCover'); }
+    // const cover = document.getElementById('cover').files.length;
+    // if (!cover) { showErr('errCover'); valid = false; } else { hideErr('errCover'); }
 
     if (valid) {
         document.getElementById('formUpload').submit();

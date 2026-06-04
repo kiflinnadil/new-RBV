@@ -115,7 +115,6 @@ document.getElementById('coverInput').addEventListener('change', function (e) {
     if (file) {
         document.getElementById('fileText').innerText = file.name;
 
-        // Show image preview
         const reader = new FileReader();
         reader.onload = function (ev) {
             document.getElementById('previewImg').src = ev.target.result;

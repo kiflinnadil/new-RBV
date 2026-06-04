@@ -58,7 +58,7 @@
                         <textarea name="deskripsi" id="deskripsi" rows="4"
                             class="w-full bg-gray-100 border-none rounded-xl py-3 px-5 font-montserrat focus:ring-2 focus:ring-[#2B3A8C] outline-none"
                             placeholder="Masukkan deskripsi artikel">{{ old('deskripsi') }}</textarea>
-                        {{-- <p id="errDeskripsi" class="hidden text-xs text-red-500 mt-1 ml-1">Deskripsi wajib diisi.</p> --}}
+                        <p id="errDeskripsi" class="hidden text-xs text-red-500 mt-1 ml-1">Deskripsi wajib diisi.</p>
                     </div>
 
                     <div>
