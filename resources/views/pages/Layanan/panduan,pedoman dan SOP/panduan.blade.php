@@ -65,7 +65,7 @@
         @forelse ($panduans as $item)
         <div class="flex items-center gap-4 py-4 border-b border-gray-200">
 
-            <div onclick="window.open('{{ $item->file ? Storage::disk('minio')->url($item->file) : '#' }}', '_blank')"
+            <div onclick="window.open('{{ $item->file ? Storage::disk(config('filesystems.default'))->url($item->file) : '#' }}', '_blank')"
                 class="flex items-center gap-4 flex-grow cursor-pointer group">
 
                 <div class="flex-shrink-0 w-14 h-14">
@@ -101,7 +101,7 @@
             <div class="flex items-center gap-8 flex-shrink-0">
 
                 @if($item->file)
-                <a href="{{ Storage::disk('minio')->url($item->file) }}"
+                <a href="{{ Storage::disk(config('filesystems.default'))->url($item->file) }}"
                     download
                     class="p-2 bg-gray-300 text-white rounded-lg shadow hover:bg-gray-400 hover:scale-110 transition">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

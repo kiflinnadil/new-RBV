@@ -159,7 +159,7 @@
                                 File saat ini:
                             </p>
 
-                            <a href="{{ Storage::disk('minio')->url($surat->file_scan) }}"
+                            <a href="{{ Storage::disk(config('filesystems.default'))->url($surat->file_scan) }}"
                                target="_blank"
                                class="text-xs text-[#2B3A8C] hover:underline">
 

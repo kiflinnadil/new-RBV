@@ -84,7 +84,7 @@
             <div class="relative aspect-square bg-[#EFF4FF] rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden flex flex-col">
     
                 <div class="relative h-[40%] w-full">
-                    <img src="{{ Storage::disk('minio')->url($berita->cover) }}"
+                    <img src="{{ Storage::disk(config('filesystems.default'))->url($berita->cover) }}"
                         class="w-full h-full object-cover"
                         onerror="this.src='https://via.placeholder.com/400x300'">
 

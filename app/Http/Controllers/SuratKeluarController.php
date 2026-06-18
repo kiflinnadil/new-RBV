@@ -76,7 +76,7 @@ class SuratKeluarController extends Controller
         if ($request->hasFile('file_scan')) {
 
             $file = $request->file('file_scan')
-                ->store('surat-keluar', 'minio');
+                ->store('surat-keluar', (config('filesystems.default')));
 
         }
 
@@ -130,13 +130,13 @@ class SuratKeluarController extends Controller
 
             if ($surat->file_scan) {
 
-                Storage::disk('minio')
+                Storage::disk((config('filesystems.default')))
                     ->delete($surat->file_scan);
 
             }
 
             $file = $request->file('file_scan')
-                ->store('surat-keluar', 'minio');
+                ->store('surat-keluar', (config('filesystems.default')));
 
         }
 
@@ -168,7 +168,7 @@ class SuratKeluarController extends Controller
 
         if ($surat->file_scan) {
 
-            Storage::disk('minio')
+            Storage::disk((config('filesystems.default')))
                 ->delete($surat->file_scan);
 
         }

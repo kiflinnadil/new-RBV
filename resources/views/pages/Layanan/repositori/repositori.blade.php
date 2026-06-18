@@ -65,7 +65,7 @@
         @forelse ($repositoris as $item)
         <div class="flex items-center gap-4 py-4 border-b border-gray-200">
 
-            <div onclick="window.open('{{ $item->file ? Storage::disk('minio')->url($item->file) : '#' }}', '_blank')"
+            <div onclick="window.open('{{ $item->file ? Storage::disk(config('filesystems.default'))->url($item->file) : '#' }}', '_blank')"
                 class="flex items-center gap-4 flex-grow cursor-pointer group">
 
                 <div class="flex-shrink-0 w-14 h-14">

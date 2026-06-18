@@ -35,7 +35,7 @@
             <div class="relative aspect-square bg-[#EFF4FF] rounded-2xl shadow-lg overflow-hidden flex flex-col">
 
                 <div class="relative h-[40%] w-full">
-                    <img src="{{ Storage::disk('minio')->url($artikel->cover) }}"
+                    <img src="{{ Storage::disk(config('filesystems.default'))->url($artikel->cover) }}"
                         class="w-full h-full object-cover"
                         onerror="this.src='https://via.placeholder.com/400x300'">
 

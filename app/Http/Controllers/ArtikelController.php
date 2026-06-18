@@ -28,8 +28,8 @@ class ArtikelController extends Controller
             'file_pdf'  => 'required|file|max:20480'
         ]);
 
-        $cover = $request->file('cover')->store('artikel', 'minio');
-        $pdf   = $request->file('file_pdf')->store('artikel', 'minio');
+        $cover = $request->file('cover')->store('artikel', (config('filesystems.default')));
+        $pdf   = $request->file('file_pdf')->store('artikel', (config('filesystems.default')));
 
         Artikel::create([
             'judul'     => $request->judul,
@@ -48,7 +48,7 @@ class ArtikelController extends Controller
         $artikel = Artikel::findOrFail($id);
 
         return redirect(
-            Storage::disk('minio')->url($artikel->file_pdf)
+            Storage::disk(config((config('filesystems.default'))))->url($artikel->file_pdf)
         );
     }
 
@@ -68,17 +68,17 @@ class ArtikelController extends Controller
         ];
 
         if ($request->file('cover')) {
-            Storage::disk('minio')->delete($artikel->cover);
+            Storage::disk((config('filesystems.default')))->delete($artikel->cover);
 
             $data['cover'] = $request->file('cover')
-                ->store('artikel', 'minio');
+                ->store('artikel', (config('filesystems.default')));
         }
 
         if ($request->file('file_pdf')) {
-            Storage::disk('minio')->delete($artikel->file_pdf);
+            Storage::disk((config('filesystems.default')))->delete($artikel->file_pdf);
 
             $data['file_pdf'] = $request->file('file_pdf')
-                ->store('artikel', 'minio');
+                ->store('artikel', (config('filesystems.default')));
         }
 
         $artikel->update($data);
@@ -91,8 +91,8 @@ class ArtikelController extends Controller
     {
         $artikel = Artikel::findOrFail($id);
 
-        Storage::disk('minio')->delete($artikel->cover);
-        Storage::disk('minio')->delete($artikel->file_pdf);
+        Storage::disk((config('filesystems.default')))->delete($artikel->cover);
+        Storage::disk((config('filesystems.default')))->delete($artikel->file_pdf);
 
         $artikel->delete();
 

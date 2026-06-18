@@ -87,7 +87,7 @@ class BukuController extends Controller
         $buku = Buku::findOrFail($id);
 
         return redirect(
-            Storage::disk('minio')->url($buku->file_pdf)
+            Storage::disk(config('filesystems.default'))->url($buku->file_pdf)
         );
     }
 
@@ -108,8 +108,8 @@ class BukuController extends Controller
             'cover' => 'required|file|max:20480',
         ]);
 
-        $pdf = $request->file('file_pdf')->store('books', 'minio');
-        $cover = $request->file('cover')->store('covers', 'minio');
+        $pdf = $request->file('file_pdf')->store('books', (config('filesystems.default')));
+        $cover = $request->file('cover')->store('covers', (config('filesystems.default')));
 
         Buku::create([
             'judul' => $request->judul,
@@ -144,13 +144,13 @@ class BukuController extends Controller
         ];
 
         if ($request->file('file_pdf')) {
-            Storage::disk('minio')->delete($buku->file_pdf);
-            $data['file_pdf'] = $request->file('file_pdf')->store('books', 'minio');
+            Storage::disk(config('filesystems.default'))->delete($buku->file_pdf);
+            $data['file_pdf'] = $request->file('file_pdf')->store('books', (config('filesystems.default')));
         }
 
         if ($request->file('cover')) {
-            Storage::disk('minio')->delete($buku->cover);
-            $data['cover'] = $request->file('cover')->store('covers', 'minio');
+            Storage::disk(config('filesystems.default'))->delete($buku->cover);
+            $data['cover'] = $request->file('cover')->store('covers', (config('filesystems.default')));
         }
 
         $buku->update($data);
@@ -162,8 +162,8 @@ class BukuController extends Controller
     {
         $book = Buku::findOrFail($id);
 
-        Storage::disk('minio')->delete($book->file_pdf);
-        Storage::disk('minio')->delete($book->cover);
+        Storage::disk(config('filesystems.default'))->delete($book->file_pdf);
+        Storage::disk(config('filesystems.default'))->delete($book->cover);
 
         $book->delete();
 

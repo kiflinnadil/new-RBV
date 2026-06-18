@@ -45,7 +45,7 @@
 
             @if($surat->file_scan)
 
-            <a href="{{ Storage::disk('minio')->url($surat->file_scan) }}"
+            <a href="{{ Storage::disk(config('filesystems.default'))->url($surat->file_scan) }}"
                 target="_blank"
                 class="flex items-center gap-2 px-6 py-3 bg-white text-red-600
                        font-bold text-sm rounded-2xl shadow-sm hover:shadow-xl
@@ -168,7 +168,7 @@
                     File Surat
                 </h2>
 
-                <a href="{{ Storage::disk('minio')->url($surat->file_scan) }}"
+                <a href="{{ Storage::disk(config('filesystems.default'))->url($surat->file_scan) }}"
                     target="_blank"
                     class="flex items-center gap-3 p-3 bg-[#F8FAFF]
                            rounded-xl hover:bg-blue-50 transition">

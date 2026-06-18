@@ -36,7 +36,7 @@ class BeritaController extends Controller
             'cover'=>'required|file|max:20480'
         ]);
 
-        $cover = $request->file('cover')->store('berita','minio');
+        $cover = $request->file('cover')->store('berita',(config('filesystems.default')));
 
         Berita::create([
             'judul'=>$request->judul,
@@ -77,8 +77,8 @@ class BeritaController extends Controller
         ];
 
         if($request->file('cover')){
-            Storage::disk('minio')->delete($berita->cover);
-            $data['cover'] = $request->file('cover')->store('berita','minio');
+            Storage::disk((config('filesystems.default')))->delete($berita->cover);
+            $data['cover'] = $request->file('cover')->store('berita',(config('filesystems.default')));
         }
 
         $berita->update($data);
@@ -91,7 +91,7 @@ class BeritaController extends Controller
     {
         $berita = Berita::findOrFail($id);
 
-        Storage::disk('minio')->delete($berita->cover);
+        Storage::disk((config('filesystems.default')))->delete($berita->cover);
         $berita->delete();
 
         return redirect()->route('berita.index')

@@ -16,7 +16,7 @@
                     {{-- <p class="font-mono text-sm text-gray-400">{{ $surat->nomor_agenda }}</p> --}}
                 </div>
             </div>
-                <a href="{{ Storage::disk('minio')->url($surat->file_scan) }}"
+                <a href="{{ Storage::disk(config('filesystems.default'))->url($surat->file_scan) }}"
 
                 target="_blank"
 

@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
-
 class RepositoriController extends Controller
 {
     public function index(Request $request)
@@ -43,10 +42,10 @@ class RepositoriController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string|max:500',
-            'file' => 'required|file|mimes:pdf|max:20480',
+            'file' => 'required|file|mimes:pdf|max:20480', 
         ]);
 
-        $path = $request->file('file')->store('repositori', 'public');
+        $path = $request->file('file')->store('repositori', (config('filesystems.default')));
 
         Repositori::create([
             'judul' => $request->judul,
@@ -80,9 +79,11 @@ class RepositoriController extends Controller
             'deskripsi' => $request->deskripsi,
         ];
 
-        if ($request->file('file')) {
-            Storage::disk('public')->delete($repositori->file);
-            $data['file'] = $request->file('file')->store('repositori', 'public');
+        if ($request->hasFile('file')) {
+            if ($repositori->file) {
+                Storage::disk(config('filesystems.default'))->delete($repositori->file);
+            }
+            $data['file'] = $request->file('file')->store('repositori', (config('filesystems.default')));
         }
 
         $repositori->update($data);
@@ -95,7 +96,10 @@ class RepositoriController extends Controller
     {
         $repositori = Repositori::findOrFail($id);
 
-        Storage::disk('public')->delete($repositori->file);
+        if ($repositori->file) {
+            Storage::disk(config('filesystems.default'))->delete($repositori->file);
+        }
+        
         $repositori->delete();
 
         return redirect()->route('repositori.index')

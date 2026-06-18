@@ -46,7 +46,7 @@ class PromkesController extends Controller
         $filePath = null;
 
         if ($request->hasFile('file')) {
-            $filePath = $request->file('file')->store('promkes', 'minio');
+            $filePath = $request->file('file')->store('promkes', (config('filesystems.default')));
         }
 
         Promkes::create([
@@ -85,10 +85,10 @@ class PromkesController extends Controller
 
         if ($request->hasFile('file')) {
             if ($promkes->file) {
-                Storage::disk('minio')->delete($promkes->file);
+                Storage::disk(config('filesystems.default'))->delete($promkes->file);
             }
 
-            $data['file'] = $request->file('file')->store('promkes', 'minio');
+            $data['file'] = $request->file('file')->store('promkes', (config('filesystems.default')));
         }
 
         $promkes->update($data);
@@ -101,7 +101,7 @@ class PromkesController extends Controller
         $promkes = Promkes::findOrFail($id);
 
         if ($promkes->file) {
-            Storage::disk('minio')->delete($promkes->file);
+            Storage::disk(config('filesystems.default'))->delete($promkes->file);
         }
 
         $promkes->delete();

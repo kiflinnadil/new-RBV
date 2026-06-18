@@ -26,7 +26,7 @@ Route::get('/books/read/{id}', [BukuController::class, 'read'])->name('books.rea
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
 
 Route::get('video', [VideoController::class, 'index'])->name('video.index');
-Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
+Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show')->where('id', '[0-9]+');
 
 Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
 Route::get('/artikel/{id}', [ArtikelController::class, 'show'])->name('artikel.show');

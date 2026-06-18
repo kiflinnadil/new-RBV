@@ -7,7 +7,7 @@
     <div class="bg-white rounded-2xl shadow-lg p-10 grid md:grid-cols-2 gap-12">
 
         <div>
-            <img src="{{ Storage::disk('minio')->url($artikel->cover) }}"
+            <img src="{{ Storage::disk(config('filesystems.default'))->url($artikel->cover) }}"
                     class="rounded-xl shadow-md w-full object-cover">
         </div>
 
