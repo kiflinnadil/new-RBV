@@ -14,9 +14,19 @@ use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BackupController;
 
-Route::view('/login', 'pages.login')->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+if (config('iam.enabled')) {
+    Route::get('/login', function (\Illuminate\Http\Request $request) {
+        if (\Illuminate\Support\Facades\Auth::check()) {
+            return redirect('/');
+        }
+        return app(\Juniyasyos\IamClient\Http\Controllers\SsoLoginRedirectController::class)($request);
+    })->name('login');
+    Route::post('/logout', \Juniyasyos\IamClient\Http\Controllers\LogoutController::class)->name('logout');
+} else {
+    Route::view('/login', 'pages.login')->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+}
 
 Route::get('/', [BukuController::class, 'beranda']);
 Route::get('/koleksi', [BukuController::class, 'index'])->name('books.index');
@@ -32,7 +42,8 @@ Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index
 Route::get('/artikel/{id}', [ArtikelController::class, 'show'])->name('artikel.show');
 Route::get('/artikel/{id}/read', [ArtikelController::class, 'read'])->name('artikel.read');
 
-Route::middleware(['auth'])->group(function () {
+$authMiddleware = config('iam.enabled') ? 'iam.auth:web' : 'auth';
+Route::middleware([$authMiddleware])->group(function () {
 
     Route::view('/profil', 'pages.profil')->name('profil');
     Route::view('/layanan', 'pages.Layanan.layanan')->name('Layanan.index');
