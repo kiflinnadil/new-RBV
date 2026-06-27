@@ -15,9 +15,9 @@ class AkunController extends Controller
     public function index(Request $request)
     {
         $query = User::with([
-            'roleRelation',
-            'unitKerjaRelation',
-            'jabatanRelation'
+            'roles',
+            'unitKerjas',
+            'jabatans'
         ])->latest();
 
         if ($request->filled('search')) {
@@ -26,24 +26,24 @@ class AkunController extends Controller
 
             $query->where(function ($q) use ($search) {
 
-                $q->where('nama_lengkap', 'like', "%{$search}%")
+                $q->where('name', 'like', "%{$search}%")
                     ->orWhere('NIK', 'like', "%{$search}%")
 
-                    ->orWhereHas('jabatanRelation', function ($jabatan) use ($search) {
+                    ->orWhereHas('jabatans', function ($jabatan) use ($search) {
 
                         $jabatan->where('nama_jabatan', 'like', "%{$search}%");
                     })
 
-                    ->orWhereHas('unitKerjaRelation', function ($unit) use ($search) {
+                    ->orWhereHas('unitKerjas', function ($unit) use ($search) {
 
-                        $unit->where('nama_unit', 'like', "%{$search}%");
+                        $unit->where('unit_name', 'like', "%{$search}%");
                     });
             });
         }
 
         if ($request->filled('role')) {
 
-            $query->whereHas('roleRelation', function ($q) use ($request) {
+            $query->whereHas('roles', function ($q) use ($request) {
 
                 $q->where('nama_role', $request->role);
             });
@@ -56,7 +56,7 @@ class AkunController extends Controller
 
     public function create()
     {
-        $units = UnitKerja::orderBy('nama_unit')->get();
+        $units = UnitKerja::orderBy('unit_name')->get();
 
         $roles = Role::orderBy('nama_role')->get();
 
@@ -72,30 +72,26 @@ class AkunController extends Controller
     {
         $request->validate([
             'NIK' => 'required|unique:users,NIK',
-            'nama_lengkap' => 'required',
+            'name' => 'required',
 
             'id_jabatan' => 'required|exists:jabatans,id_jabatan',
 
             'id_role' => 'required|exists:roles,id_role',
 
-            'id_unit_kerja' => 'required|exists:unit_kerjas,id_unit_kerja',
+            'id_unit_kerja' => 'required|exists:unit_kerja,id',
 
             'password' => 'required|confirmed|min:6',
         ]);
 
-        User::create([
+        $user = User::create([
             'NIK' => $request->NIK,
-
-            'nama_lengkap' => $request->nama_lengkap,
-
-            'id_jabatan' => $request->id_jabatan,
-
-            'id_role' => $request->id_role,
-
-            'id_unit_kerja' => $request->id_unit_kerja,
-
+            'name' => $request->name,
             'password' => Hash::make($request->password),
         ]);
+        
+        $user->roles()->sync([$request->id_role]);
+        $user->jabatans()->sync([$request->id_jabatan]);
+        $user->unitKerjas()->sync([$request->id_unit_kerja]);
 
         return redirect()
             ->route('akun.index')
@@ -106,7 +102,7 @@ class AkunController extends Controller
     {
         $user = User::findOrFail($id);
 
-        $unitKerjas = UnitKerja::orderBy('nama_unit')->get();
+        $unitKerjas = UnitKerja::orderBy('unit_name')->get();
 
         $roles = Role::orderBy('nama_role')->get();
 
@@ -130,29 +126,25 @@ class AkunController extends Controller
         $request->validate([
             'NIK' => 'required|unique:users,NIK,' . $id . ',id_user',
 
-            'nama_lengkap' => 'required',
+            'name' => 'required',
 
             'id_jabatan' => 'required|exists:jabatans,id_jabatan',
 
             'id_role' => 'required|exists:roles,id_role',
 
-            'id_unit_kerja' => 'required|exists:unit_kerjas,id_unit_kerja',
+            'id_unit_kerja' => 'required|exists:unit_kerja,id',
 
             'password' => 'nullable|confirmed|min:6',
         ]);
 
         $data = [
-
             'NIK' => $request->NIK,
-
-            'nama_lengkap' => $request->nama_lengkap,
-
-            'id_jabatan' => $request->id_jabatan,
-
-            'id_role' => $request->id_role,
-
-            'id_unit_kerja' => $request->id_unit_kerja,
+            'name' => $request->name,
         ];
+        
+        $user->roles()->sync([$request->id_role]);
+        $user->jabatans()->sync([$request->id_jabatan]);
+        $user->unitKerjas()->sync([$request->id_unit_kerja]);
 
         if ($request->filled('password')) {
 

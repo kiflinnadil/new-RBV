@@ -106,7 +106,7 @@
                         <p class="text-xs text-gray-400 mb-0.5">Pengirim</p>
                     <p class="font-semibold text-gray-700">
 
-                        {{ $surat->pembuat->nama_lengkap ?? '-' }}
+                        {{ $surat->pembuat->name ?? '-' }}
 
                         <span class="text-gray-400 font-normal text-xs">
 
@@ -159,7 +159,7 @@
                         <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                         </svg>
-                        {{ $tag->user->nama_lengkap ?? '-' }}
+                        {{ $tag->user->name ?? '-' }}
                         @php
                             $namaJabatan = \DB::table('jabatans')
                                 ->where('id_jabatan', $tag->user->id_jabatan)
@@ -275,7 +275,7 @@
                     @foreach($unitsTerkait as $u)
                     <label
                         data-kategori="{{ strtolower($u->kategori_unit ?? '') }}"
-                        data-nama="{{ strtolower($u->nama_lengkap ?? '') }} {{ strtolower($u->unit_kerja ?? '') }} {{ strtolower($u->kategori_unit ?? '') }}"
+                        data-nama="{{ strtolower($u->name ?? '') }} {{ strtolower($u->unit_kerja ?? '') }} {{ strtolower($u->kategori_unit ?? '') }}"
                         class="unit-item flex items-center gap-2.5 p-2 rounded-lg hover:bg-blue-100 cursor-pointer transition">
                         <input
                             type="checkbox"
@@ -286,7 +286,7 @@
                         <div class="flex-1">
                             <div class="flex items-center gap-2 flex-wrap">
                                 <p class="text-xs font-semibold text-gray-700">
-                                    {{ $u->nama_lengkap }}
+                                    {{ $u->name }}
                                 </p>
                                 @if($u->kategori_unit)
                                 <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-blue-100 text-blue-700">
@@ -582,12 +582,12 @@
                             <p class="text-xs font-bold text-gray-700">
                                {{ ucfirst($p->role_approver) }}: 
                                 @if($p->user)
-                                    {{ $p->user->nama_lengkap }}
+                                    {{ $p->user->name }}
                                 @else
                                     @php
                                         $namaApprover = \DB::table('users')
                                             ->where('id_user', $p->user_id)
-                                            ->value('nama_lengkap');
+                                            ->value('name');
                                     @endphp
                                     {{ $namaApprover ?? '-' }}
                                 @endif
@@ -627,7 +627,7 @@
                         </div>
                         <div class="pt-0.5">
                             <p class="text-xs font-bold text-gray-700">{{ $track->aksi }}</p>
-                            <p class="text-[10px] text-gray-400">{{ $track->user->nama_lengkap ?? '-' }}</p>
+                            <p class="text-[10px] text-gray-400">{{ $track->user->name ?? '-' }}</p>
                             <p class="text-[10px] text-gray-400">{{ \Carbon\Carbon::parse($track->created_at)->format('d/m/Y H:i') }}</p>
                             @if($track->keterangan)
                             <p class="text-xs text-gray-500 mt-1 bg-gray-50 rounded-lg px-2 py-1">{{ $track->keterangan }}</p>

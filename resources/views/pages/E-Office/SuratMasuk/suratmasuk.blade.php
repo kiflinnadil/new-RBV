@@ -238,7 +238,7 @@
                             <td class="px-4 py-5">
                                 <div>
                                     <p class="text-xs font-semibold text-gray-700">{{ $surat->pembuat->unitKerjaRelation->nama_unit ?? '-' }}</p>
-                                    <p class="text-[10px] text-gray-400 mt-0.5">{{ $surat->pembuat->nama_lengkap ?? '' }}</p>
+                                    <p class="text-[10px] text-gray-400 mt-0.5">{{ $surat->pembuat->name ?? '' }}</p>
                                 </div>
                             </td>
 

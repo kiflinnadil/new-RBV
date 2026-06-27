@@ -278,7 +278,7 @@
 
                             <div>
                                 <p class="text-xs font-semibold text-gray-700 group-hover:text-[#2B3A8C]">
-                                    {{ $u->nama_lengkap }}
+                                    {{ $u->name }}
                                 </p>
 
                                 <p class="text-[10px] text-gray-400">

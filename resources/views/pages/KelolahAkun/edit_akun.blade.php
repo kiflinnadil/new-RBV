@@ -97,8 +97,8 @@
                         </label>
 
                         <input type="text"
-                            name="nama_lengkap"
-                            value="{{ old('nama_lengkap', $user->nama_lengkap) }}"
+                            name="name"
+                            value="{{ old('name', $user->name) }}"
                             class="w-full bg-[#F3F4F6] rounded-xl py-3 px-5
                             focus:outline-none focus:ring-2 focus:ring-[#2B3A8C]">
                     </div>

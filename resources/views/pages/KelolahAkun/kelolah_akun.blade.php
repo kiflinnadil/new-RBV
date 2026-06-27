@@ -137,11 +137,11 @@
                                 <div class="flex items-center gap-3">
                                     <div class="w-8 h-8 rounded-full bg-[#2B3A8C] flex items-center justify-center flex-shrink-0">
                                         <span class="text-white text-xs font-bold">
-                                            {{ strtoupper(substr($akun->nama_lengkap, 0, 1)) }}
+                                            {{ strtoupper(substr($akun->name, 0, 1)) }}
                                         </span>
                                     </div>
                                     <div>
-                                        <p class="font-semibold text-gray-700">{{ $akun->nama_lengkap }}</p>
+                                        <p class="font-semibold text-gray-700">{{ $akun->name }}</p>
                                         @if($akun->id_user === auth()->user()->id_user)
                                         <span class="text-[10px] text-[#2B3A8C] font-semibold">— Akun kamu</span>
                                         @endif
@@ -183,7 +183,7 @@
                                     </a>
 
                                     @if($akun->id_user !== auth()->user()->id_user)
-                                    <button @click="openDeleteModal({{ $akun->id_user }}, '{{ addslashes($akun->nama_lengkap) }}')"
+                                    <button @click="openDeleteModal({{ $akun->id_user }}, '{{ addslashes($akun->name) }}')"
                                         class="p-2 sm:p-2 bg-red-600 text-white rounded-lg shadow hover:scale-110 transition flex items-center justify-center min-w-[32px] min-h-[32px]">
                                         <img src="{{ asset('images/Delete.svg') }}" class="w-4 h-4 object-contain" alt="Hapus">
                                     </button>

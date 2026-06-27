@@ -175,7 +175,7 @@
 
                     <p class="font-semibold text-gray-700">
 
-                        {{ $surat->pembuat->nama_lengkap ?? '-' }}
+                        {{ $surat->pembuat->name ?? '-' }}
 
                         <span class="text-gray-400 font-normal text-xs">
 
@@ -352,7 +352,7 @@
                                 <div>
 
                                     <p class="text-xs font-semibold text-gray-700 group-hover:text-[#2B3A8C]">
-                                        {{ $u->nama_lengkap }}
+                                        {{ $u->name }}
                                     </p>
 
                                     <p class="text-[10px] text-gray-400">
@@ -621,9 +621,9 @@
                             <p class="text-xs font-bold text-gray-700">
                                 {{ ucfirst($p->role_approver) }}:
                                 @if($p->user)
-                                    {{ $p->user->nama_lengkap }}
+                                    {{ $p->user->name }}
                                 @else
-                                    @php $namaApprover = \DB::table('users')->where('id_user', $p->user_id)->value('nama_lengkap'); @endphp
+                                    @php $namaApprover = \DB::table('users')->where('id_user', $p->user_id)->value('name'); @endphp
                                     {{ $namaApprover ?? '-' }}
                                 @endif
                             </p>
@@ -662,7 +662,7 @@
                         </div>
                         <div class="pt-0.5">
                             <p class="text-xs font-bold text-gray-700">{{ $track->aksi }}</p>
-                            <p class="text-[10px] text-gray-400">{{ $track->user->nama_lengkap ?? '-' }}</p>
+                            <p class="text-[10px] text-gray-400">{{ $track->user->name ?? '-' }}</p>
                             <p class="text-[10px] text-gray-400">{{ \Carbon\Carbon::parse($track->created_at)->format('d/m/Y H:i') }}</p>
                             @if($track->keterangan)
                             <p class="text-xs text-gray-500 mt-1 bg-gray-50 rounded-lg px-2 py-1">{{ $track->keterangan }}</p>

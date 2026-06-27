@@ -22,7 +22,7 @@ class AkunApiController extends Controller
     {
         $request->validate([
             'NIK' => 'required|unique:users,NIK',
-            'nama_lengkap' => 'required',
+            'name' => 'required',
             'jabatan' => 'required',
             'unit_kerja' => 'required',
             'role' => 'required|in:admin,sekretaris,karyawan',
@@ -31,7 +31,7 @@ class AkunApiController extends Controller
 
         $user = User::create([
             'NIK' => $request->NIK,
-            'nama_lengkap' => $request->nama_lengkap,
+            'name' => $request->name,
             'jabatan' => $request->jabatan,
             'unit_kerja' => $request->unit_kerja,
             'role' => $request->role,

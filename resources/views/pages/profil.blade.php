@@ -15,7 +15,7 @@
 
                 <div>
                     <label class="block text-gray-500 text-sm mb-1 ml-1">Nama</label>
-                    <input type="text" value="{{ auth()->user()->nama_lengkap }}" disabled
+                    <input type="text" value="{{ auth()->user()->name }}" disabled
                     class="w-full bg-[#F3F4F6] border-none rounded-xl py-3 px-5 text-gray-600 outline-none">
                 </div>
 

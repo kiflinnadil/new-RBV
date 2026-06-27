@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
+use Juniyasyos\IamClient\Events\IamAuthenticated;
+use App\Listeners\IamAuthenticatedListener;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Event::listen(
+            IamAuthenticated::class,
+            IamAuthenticatedListener::class
+        );
     }
 }
