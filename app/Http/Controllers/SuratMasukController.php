@@ -20,7 +20,7 @@ class SuratMasukController extends Controller
     {
         $user = Auth::user();
         $query = SuratMasuk::with([
-            'pembuat.unitKerjaRelation',
+            'pembuat.unitKerjas',
         ]);
 
         // FILTER BERDASARKAN ROLE
@@ -66,7 +66,7 @@ class SuratMasukController extends Controller
 
         if ($request->unit) {
             $query->whereHas('pembuat', function ($q) use ($request) {
-                $q->whereHas('unitKerjaRelation', function ($q2) use ($request) {
+                $q->whereHas('unitKerjas', function ($q2) use ($request) {
                     $q2->where('nama_unit', $request->unit);
                 });
             });
@@ -103,7 +103,7 @@ class SuratMasukController extends Controller
 
     public function create()
     {
-        $usersTag = User::whereIn('id_jabatan', [1, 2])->get();
+        $usersTag = User::whereHas('jabatans', function ($q) { $q->whereIn('jabatans.id_jabatan', [1, 2]); })->get();
 
         return view(
             'pages.E-Office.SuratMasuk.suratmasuk_create',
@@ -131,7 +131,7 @@ class SuratMasukController extends Controller
             ->where('dibaca', false)
             ->update(['dibaca' => true]);
 
-        $usersTag = User::whereIn('id_jabatan', [1, 2])->get();
+        $usersTag = User::whereHas('jabatans', function ($q) { $q->whereIn('jabatans.id_jabatan', [1, 2]); })->get();
 
         return view(
             'pages.E-Office.SuratMasuk.suratmasuk_edit',
@@ -198,7 +198,7 @@ class SuratMasukController extends Controller
             $jabatanApproval = 'kabag';
         }
 
-        $unitsTerkait = User::where('id_jabatan', 3)->get();
+        $unitsTerkait = User::whereHas('jabatans', function ($q) { $q->where('jabatans.id_jabatan', 3); })->get();
 
         return view(
             'pages.E-Office.SuratMasuk.suratmasuk_show',
@@ -282,7 +282,7 @@ class SuratMasukController extends Controller
 
         // SURAT INTERNAL / UNIT -> KE SEKRETARIS
         if ($status == 'menunggu_sekretaris') {
-            $sekretaris = User::where('id_jabatan', 4)->pluck('id_user')->toArray();
+            $sekretaris = User::whereHas('jabatans', function ($q) { $q->where('jabatans.id_jabatan', 4); })->pluck('id_user')->toArray();
 
             Notifikasi::kirimKe(
                 $sekretaris,
@@ -605,7 +605,7 @@ class SuratMasukController extends Controller
                 'surat_id'   => $surat->id,
                 'surat_type' => SuratMasuk::class,
             ])->whereHas('user', function ($q) {
-                $q->where('id_jabatan', 3);
+                $q->whereHas('jabatans', function ($q2) { $q2->where('jabatans.id_jabatan', 3); });
             })->delete();
 
             foreach ($request->tag_units ?? [] as $unitId) {
@@ -642,7 +642,7 @@ class SuratMasukController extends Controller
             }
 
             // Notif ke sekretaris
-            $sekretaris = User::where('id_jabatan', 4)->pluck('id_user')->toArray();
+            $sekretaris = User::whereHas('jabatans', function ($q) { $q->where('jabatans.id_jabatan', 4); })->pluck('id_user')->toArray();
 
             Notifikasi::kirimKe(
                 $sekretaris,
@@ -684,7 +684,7 @@ class SuratMasukController extends Controller
             );
 
             // Notif ke sekretaris
-            $sekretaris = User::where('id_jabatan', 4)->pluck('id_user')->toArray();
+            $sekretaris = User::whereHas('jabatans', function ($q) { $q->where('jabatans.id_jabatan', 4); })->pluck('id_user')->toArray();
 
             Notifikasi::whereIn('id_user', $sekretaris)
                 ->where('url', '/eoffice/surat-masuk/' . $surat->id)
@@ -704,7 +704,7 @@ class SuratMasukController extends Controller
                 'surat_id'   => $surat->id,
                 'surat_type' => SuratMasuk::class,
             ])->whereHas('user', function ($q) {
-                $q->where('id_jabatan', 3);
+                $q->whereHas('jabatans', function ($q2) { $q2->where('jabatans.id_jabatan', 3); });
             })->pluck('user_id')->toArray();
 
             if (!empty($unitIds)) {
@@ -779,7 +779,7 @@ class SuratMasukController extends Controller
         );
 
         // Notif ke sekretaris
-        $sekretaris = User::where('id_jabatan', 4)->pluck('id_user')->toArray();
+        $sekretaris = User::whereHas('jabatans', function ($q) { $q->where('jabatans.id_jabatan', 4); })->pluck('id_user')->toArray();
 
         Notifikasi::whereIn('id_user', $sekretaris)
             ->where('url', '/eoffice/surat-masuk/' . $surat->id)
@@ -799,7 +799,7 @@ class SuratMasukController extends Controller
             'surat_id'   => $surat->id,
             'surat_type' => SuratMasuk::class,
         ])->whereHas('user', function ($q) {
-            $q->where('id_jabatan', 3);
+            $q->whereHas('jabatans', function ($q2) { $q2->where('jabatans.id_jabatan', 3); });
         })->pluck('user_id')->toArray();
 
         if (!empty($unitIds)) {
@@ -864,7 +864,7 @@ class SuratMasukController extends Controller
         );
 
         // NOTIF KE SEKRETARIS
-        $sekretaris = User::where('id_jabatan', 4)
+        $sekretaris = User::whereHas('jabatans', function ($q) { $q->where('jabatans.id_jabatan', 4); })
             ->pluck('id_user')
             ->reject(function ($id) use ($surat) {
                 return $id == $surat->dibuat_oleh;
@@ -888,7 +888,7 @@ class SuratMasukController extends Controller
             'surat_id'   => $surat->id,
             'surat_type' => SuratMasuk::class,
         ])->whereHas('user', function ($q) {
-            $q->where('id_jabatan', 3);
+            $q->whereHas('jabatans', function ($q2) { $q2->where('jabatans.id_jabatan', 3); });
         })
         ->pluck('user_id')
         ->unique()

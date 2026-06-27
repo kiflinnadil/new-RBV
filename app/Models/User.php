@@ -16,11 +16,10 @@ class User extends Authenticatable implements JWTSubject
     public $incrementing = true;
     protected $keyType = 'int';
     protected $fillable = [
+        'iam_id',
         'NIK',
-        'nama_lengkap',
-        'id_jabatan',
-        'id_role',
-        'id_unit_kerja',
+        'name',
+        'status',
         'password',
     ];
 
@@ -46,34 +45,49 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
-    public function roleRelation()
+    public function roles()
     {
-        return $this->belongsTo(Role::class, 'id_role');
+        return $this->belongsToMany(Role::class, 'role_user', 'id_user', 'id_role');
     }
 
     public function getRoleAttribute()
     {
-        return $this->roleRelation?->nama_role;
+        return $this->roles->first()?->nama_role;
     }
 
-    public function unitKerjaRelation()
+    public function unitKerjas()
     {
-        return $this->belongsTo(UnitKerja::class, 'id_unit_kerja');
+        return $this->belongsToMany(UnitKerja::class, 'user_unit_kerja', 'user_id', 'unit_kerja_id');
     }
 
     public function getUnitKerjaAttribute()
     {
-        return $this->unitKerjaRelation?->nama_unit;
+        return $this->unitKerjas->first()?->unit_name;
     }
 
-    public function jabatanRelation()
+    public function jabatans()
     {
-        return $this->belongsTo(Jabatan::class, 'id_jabatan');
+        return $this->belongsToMany(Jabatan::class, 'jabatan_user', 'id_user', 'id_jabatan');
     }
 
     public function getJabatanAttribute()
     {
-        return $this->jabatanRelation?->nama_jabatan;
+        return $this->jabatans->first()?->nama_jabatan;
+    }
+
+    public function getIdRoleAttribute()
+    {
+        return $this->roles->first()?->id_role;
+    }
+
+    public function getIdJabatanAttribute()
+    {
+        return $this->jabatans->first()?->id_jabatan;
+    }
+
+    public function getIdUnitKerjaAttribute()
+    {
+        return $this->unitKerjas->first()?->id;
     }
 
     public function favorites()
