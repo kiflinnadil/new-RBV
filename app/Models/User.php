@@ -57,7 +57,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function unitKerjas()
     {
-        return $this->belongsToMany(UnitKerja::class, 'user_unit_kerja', 'user_id', 'unit_kerja_id');
+        return $this->belongsToMany(UnitKerja::class, 'user_unit_kerja', 'user_id', 'unit_kerja_id', 'iam_id');
     }
 
     public function getUnitKerjaAttribute()
