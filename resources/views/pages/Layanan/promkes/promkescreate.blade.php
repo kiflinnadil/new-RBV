@@ -60,7 +60,7 @@
                         @enderror
                     </div>
 
-                    <div>
+                    {{-- <div>
                         <label class="block font-montserrat text-gray-400 text-xs sm:text-sm mb-1.5 sm:mb-2 ml-1">
                             Link
                         </label>
@@ -76,7 +76,7 @@
                         @error('link')
                             <p class="text-red-500 text-xs mt-1 ml-1">{{ $message }}</p>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     <div>
                         <label class="block font-montserrat text-gray-400 text-xs sm:text-sm mb-1.5 sm:mb-2 ml-1">
