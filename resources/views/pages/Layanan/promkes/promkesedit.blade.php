@@ -85,7 +85,7 @@
                             <span id="fileTextPromkesEdit" class="text-gray-400 text-sm italic truncate">
                                 {{ $promkes->file ? basename($promkes->file) : 'Biarkan kosong jika tidak diganti' }}
                             </span>
-                            <input type="file" name="file" id="filePromkesEdit" class="hidden" accept=".pdf">
+                            <input type="file" name="file" id="filePromkesEdit" class="hidden">
                         </label>
                         @error('file')
                             <p class="text-red-500 text-xs mt-1 ml-1">{{ $message }}</p>
